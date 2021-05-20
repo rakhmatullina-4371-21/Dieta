@@ -1,0 +1,46 @@
+﻿
+.bg-style-green {
+    background-color: #3B6664;
+}
+
+.bg-style-grey {
+    background-color: #FCF6F5;
+}
+
+.text-style-grey {
+     color: #FCF6F5;
+}
+.text-style-green {
+    color: #FCF6F5;
+}
+a.navbar-brand {
+    white-space: normal;
+    text-align: center;
+    word-break: break-all;
+}
+
+/* Provide sufficient contrast against white background */
+a {
+    color: #FCF6F5;  
+}
+a:hover {
+    color: #ffffff;
+}
+.btn-style {
+    /*color: #fff;
+    background-color: #0d6efd;
+    border-color: #0d6efd;*/
+    text-decoration: none;
+    text-align: center;
+    font-weight: bold;
+    color: #123d3d;
+    background: #ffffff;
+}
+.center {
+    margin: 25px;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    margin-right: -50%;
+    transform: translate(-50%, -50%)
+}

@@ -1,0 +1,19 @@
+﻿
+
+@{
+    Layout = "_Layout";
+    ViewData["Title"] = "Вход";
+}
+<div class="row flex-lg-row-reverse align-items-center g-5 py-5">
+    <div class="col-10 col-sm-8 col-lg-6">
+        <img src="~/image/start_pat.jpg" class="d-block mx-lg-auto img-fluid" loading="lazy">
+    </div>
+    <div class="col-lg-6" style="text-align: center;">
+        <h1 class="display-5 fw-bold lh-1 mb-3">Здравствуйте, <br /> апронправпрпорлорпав </h1>
+        <p class="lead">Спасибо, что выбрали наш сервис! </p>
+        <div class="d-grid gap-2 d-md-flex justify-content-md-start" style="text-align: center; left: 50%;">
+            <button type="button" class="btn btn-style w-100">  <a class="nav-link text-dark" asp-controller="PatientStart" asp-action="CardPatient" asp-route-id=""> Моя карта</a></button>
+            <button type="button" class="btn btn-style w-100" style="text-align:center">Трекер питания</button>
+        </div>
+    </div>
+</div>
