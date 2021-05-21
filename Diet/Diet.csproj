@@ -5,10 +5,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Folder Include="Areas\Admin\Contollers\" />
-    <Folder Include="Areas\Admin\Views\" />
     <Folder Include="Models\ViewComponets\" />
-    <Folder Include="Views\Shared\Новая папка\" />
     <Folder Include="wwwroot\images\" />
     <Folder Include="wwwroot\js\" />
     <Folder Include="Domains\" />

@@ -43,7 +43,7 @@ namespace Diet
 
                 endpoints.MapControllerRoute(
                     name: "default",
-                    pattern: "{controller=Home}/{action=Start}/{id?}");
+                    pattern: "{area=Start}/{controller=Home}/{action=Start}/{id?}");
             });
         }
     }

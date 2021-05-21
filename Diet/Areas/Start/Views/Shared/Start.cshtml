@@ -1,7 +1,7 @@
 ﻿<link rel="stylesheet" href="~/css/StyleSheet.css" />
 
 @{
-    Layout = "_Layout";
+    Layout = "~/Areas/_Layout.cshtml";
     ViewData["Title"] = "Вход";
 }
 <div class="container col-xl-10  col-xxl-8 px-4 py-5">
@@ -23,9 +23,8 @@
                     <input type="password" class="form-control" id="floatingPassword" placeholder="Password">
                     <label for="floatingPassword">Пароль</label>
                 </div>
-                <button class="w-100 btn btn-lg btn-style"  asp-area="Patient"  asp-controller="Home" asp-action="Menu" type ="submit">Войти</button>
+                <button class="w-100 btn btn-lg btn-style" asp-area="Patient" asp-controller="Home" asp-action="Menu" type="submit">Войти</button>
             </form>
         </div>
     </div>
 </div>
-

@@ -4,20 +4,16 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 
-namespace Diet.Areas.Patient.Controllers
+namespace Diet.Areas.Admin.Contollers
 {
     public class HomeController : Controller
     {
-        [Area("Patient")]
+        [Area("Admin")]
         public IActionResult Menu()
         {
             return View();
         }
-        public IActionResult Card()
-        {
-            return View();
-        }
-        public IActionResult Diary()
+        public IActionResult Menu()
         {
             return View();
         }

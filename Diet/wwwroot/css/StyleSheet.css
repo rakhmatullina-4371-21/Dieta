@@ -24,12 +24,9 @@ a {
     color: #FCF6F5;  
 }
 a:hover {
-    color: #ffffff;
-}
+        color: #FCF6F5;
+    }
 .btn-style {
-    /*color: #fff;
-    background-color: #0d6efd;
-    border-color: #0d6efd;*/
     text-decoration: none;
     text-align: center;
     font-weight: bold;
@@ -43,4 +40,16 @@ a:hover {
     left: 50%;
     margin-right: -50%;
     transform: translate(-50%, -50%)
+}
+
+
+
+.img-fluid {
+    max-width: 90%;
+    height: auto;
+}
+
+a.link-style {
+    color: black;
+    text-decoration: none;
 }
