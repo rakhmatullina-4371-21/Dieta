@@ -38,7 +38,7 @@ namespace Diet
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllerRoute(
-                    name: "Patient_area",
+                    name: "MyArea",
                  pattern: "{area:exists}/{controller=Home}/{action=Start}/{id?}");
 
                 endpoints.MapControllerRoute(

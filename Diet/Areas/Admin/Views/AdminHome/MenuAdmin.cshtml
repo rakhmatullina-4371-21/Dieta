@@ -1,0 +1,30 @@
+﻿@using Diet.Areas.Admin
+
+@{
+    Layout = "~/Areas/_Layout.cshtml";
+    ViewData["Title"] = "Меню";
+}
+
+<link href="~/css/StyleSheet.css " rel="stylesheet" />
+<div>
+    @await Html.PartialAsync("~/Areas/Start/Views/Shared/Header.cshtml")
+</div>
+
+<form>
+    <div class="row flex-lg-row-reverse g-5 py-5">
+        <div class="col-10 col-sm-8 col-lg-6">
+            <img src="~/images/1.png" class="d-block mx-lg-auto img-fluid" loading="lazy">
+        </div>
+        <div class="col-lg-6 align-items-center text-center" style="vertical-align:central">
+            <h1 class="display-5 fw-bold lh-1 mb-3 text-style-grey">Здравствуйте, <br /></h1>
+            <p class="lead text-style-grey">Спасибо, что выбрали наш сервис! </p>
+            <div class="d-grid  gap-2 d-md-flex justify-content-md-start m-5">
+                <button class="btn btn-lg btn-style w-75 m-1" asp-controller="AdminHome" asp-action="Pat"> Пациенты </button>
+                <button type="submit" class="btn btn-lg btn-style w-75 m-1" asp-area="Admin" asp-controller="Home" asp-action="PatientSelect">Трекер питания</button>
+            </div>
+        </div>
+    </div>
+
+</form>
+
+

@@ -6,14 +6,14 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace Diet.Areas.Admin.Contollers
 {
-    public class HomeController : Controller
+    public class AdminHomeController : Controller
     {
         [Area("Admin")]
-        public IActionResult Menu()
+        public IActionResult MenuAdmin()
         {
             return View();
         }
-        public IActionResult PatientSelect()
+        public IActionResult Pat()
         {
             return View();
         }
