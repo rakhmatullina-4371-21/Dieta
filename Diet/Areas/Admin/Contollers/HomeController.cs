@@ -13,7 +13,7 @@ namespace Diet.Areas.Admin.Contollers
         {
             return View();
         }
-        public IActionResult Menu()
+        public IActionResult PatientSelect()
         {
             return View();
         }
