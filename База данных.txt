@@ -1,0 +1,1595 @@
+CREATE DATABASE DietAppDB;
+
+CREATE TABLE POSITIONS
+(
+	id_position SERIAL PRIMARY KEY,
+	position TEXT NOT NULL
+);
+
+INSERT INTO POSITIONS(position)
+VALUES ('Администратор');
+
+INSERT INTO POSITIONS(position)
+VALUES ('Диетолог');
+
+INSERT INTO POSITIONS(position)
+VALUES ('Лаборант');
+
+
+
+
+CREATE TABLE EMPLOYEE
+(
+	id_employee SERIAL PRIMARY KEY,
+	surname TEXT NOT NULL,
+	name TEXT NOT NULL,
+	lastname TEXT,
+        login text UNIQUE NOT NULL,
+        password TEXT NOT NULL,
+	id_position INT REFERENCES POSITIONS(id_position),
+        phone TEXT
+);
+INSERT INTO EMPLOYEE(surname,name,login,password, id_position)
+VALUES ('Юсупов','Рамис','admin@mail.com','gnzLDuqKcGxMNKFokfhOew==',1);
+
+INSERT INTO EMPLOYEE(surname,name,lastname,login,password, id_position,phone)   
+VALUES ('Иванова','Алиса','Владимировна','diet@mail.com','Ac/NT2uHcP6/tAy5BnFYIg==',2, 89393242345); 
+
+INSERT INTO EMPLOYEE(surname,name,lastname,login,password, id_position,phone)
+VALUES ('Гиниатуллин','Марат','Айратович','diet1@mail.com','Ac/NT2uHcP6/tAy5BnFYIg==',2, 89653454567);
+
+INSERT INTO EMPLOYEE(surname,name,lastname,login,password, id_position)
+VALUES ('Сметанина','София','Викторовна','sof@mail.com','2mlgSStiWdH3i63hK7nZDg==',2);
+
+INSERT INTO EMPLOYEE(surname,name,lastname,login,password, id_position)
+VALUES ('Шукшин','Леонид','Федорович','lab@mail.com','gnzLDuqKcGxMNKFokfhOew==',3);
+
+
+
+CREATE TYPE gender AS ENUM ('Мужской', 'ok', 'Женский');
+CREATE TABLE  PATIENT
+(
+	id_patient SERIAL PRIMARY KEY,
+	surname TEXT NOT NULL,
+	name TEXT NOT NULL,
+	lastname TEXT,
+	login text UNIQUE NOT NULL,
+	password TEXT,
+    gender gender,
+    date_of_birth DATE
+);
+
+INSERT INTO PATIENT(surname,name,lastname,login,password, gender, date_of_birth)   
+VALUES ('Рябинин','Сергей','Александрович','pat@mail.com','Ac/NT2uHcP6/tAy5BnFYIg==','Мужской', '1976-07-23'); 
+
+INSERT INTO PATIENT(surname,name,login,password, gender, date_of_birth)   
+VALUES ('Кукушкин','Федор','pat2@mail.com','Ac/NT2uHcP6/tAy5BnFYIg==','Мужской', '1956-12-03');
+
+INSERT INTO PATIENT(surname,name,lastname,login,password, gender, date_of_birth)   
+VALUES ('Панова','Мария','Алексеевна','pat3@mail.com','Ac/NT2uHcP6/tAy5BnFYIg==','Женский', '1999-08-24'); 
+
+INSERT INTO PATIENT(surname,name,lastname,login,password, gender, date_of_birth)   
+VALUES ('Дружинина','Дарья','Даниловна','pat4@mail.com','gnzLDuqKcGxMNKFokfhOew==','Женский', '1999-08-24'); 
+
+
+CREATE TABLE  ACTIVITY_LEVELS
+(
+	id_activity_levels SERIAL PRIMARY KEY,
+	activity_levels TEXT NOT NULL,
+	value NUMERIC NOT NULL,
+    description TEXT NOT NULL
+);
+
+
+INSERT INTO  ACTIVITY_LEVELS(activity_levels, value, description)   
+VALUES ('Минимальный','1.2','Отсутствие физической нагрузки (сидячей образ жизни)'); 
+
+INSERT INTO  ACTIVITY_LEVELS(activity_levels,value, description)   
+VALUES ('Слабый уровень','1.375','Тренировки 1-3 раза в неделю'); 
+
+INSERT INTO  ACTIVITY_LEVELS(activity_levels,value,description)   
+VALUES ('Умеренный','1.55', 'Тренировки 4-5 раз в неделю'); 
+
+INSERT INTO  ACTIVITY_LEVELS(activity_levels,value, description)   
+VALUES ('Высокий','1.7','Интенсивные тренировки каждый день или по два раза в день'); 
+
+
+
+CREATE TABLE  INDICATORS
+(
+        id_indicator SERIAL PRIMARY KEY,
+	name_indicator TEXT UNIQUE  NOT NULL,
+        laboratory BOOLEAN DEFAULT TRUE,
+        min TEXT,
+        max TEXT
+);
+ 
+
+INSERT INTO INDICATORS(name_indicator, min,max)   
+VALUES ('Глюкоза крови (Натощак)','3,3','5,5');
+
+INSERT INTO INDICATORS(name_indicator, min,max)   
+VALUES ('Инсулин','3','25');
+
+INSERT INTO INDICATORS(name_indicator, min,max)   
+VALUES ('Гликированный гемоглобин HbA1c', '4,27','6,07');
+
+INSERT INTO INDICATORS(name_indicator, min,max)   
+VALUES ('Фруктозамин', '205','285');
+
+INSERT INTO INDICATORS(name_indicator, min,max)   
+VALUES ('Артериальное давление', '110/70','130/85'); 
+
+INSERT INTO INDICATORS(name_indicator, min,max)   
+VALUES ('Гастрин 17', '1','10'); 
+
+INSERT INTO INDICATORS(name_indicator, min,max)   
+VALUES ('Пепсиноген I', '30','165'); 
+
+INSERT INTO INDICATORS(name_indicator, min,max)   
+VALUES ('Антитела (Ig G)', '0','29,9'); 
+
+INSERT INTO INDICATORS(name_indicator, min,max)   
+VALUES ('Лейкоциты', '4','9'); 
+
+INSERT INTO INDICATORS(name_indicator, min,max)   
+VALUES ('Лимфоциты', '19','37'); 
+
+INSERT INTO INDICATORS(name_indicator, min,max)   
+VALUES ('Альфа-амилаза', '28','100'); 
+
+
+INSERT INTO INDICATORS(name_indicator, min,max)   
+VALUES ('Липаза', '0','190'); 
+
+INSERT INTO INDICATORS(name_indicator, laboratory)   
+VALUES ('Вес', 'false'); 
+
+INSERT INTO INDICATORS(name_indicator, laboratory)   
+VALUES ('Рост', 'false'); 
+
+
+
+
+CREATE TABLE DIAGNOSES
+(
+         id_diagnosis SERIAL PRIMARY KEY,
+         name_diagnosis TEXT UNIQUE  NOT NULL
+);
+
+
+INSERT INTO DIAGNOSES(name_diagnosis)   
+VALUES ('Сахарный диабет'); 
+
+INSERT INTO DIAGNOSES(name_diagnosis)   
+VALUES ('Артериальная гипертензия'); 
+
+INSERT INTO DIAGNOSES(name_diagnosis)   
+VALUES ('Язвенная болезнь желудка');
+
+INSERT INTO DIAGNOSES(name_diagnosis)   
+VALUES ('Гастрит');
+
+INSERT INTO DIAGNOSES(name_diagnosis)   
+VALUES ('Расстройство кишечника');
+
+INSERT INTO DIAGNOSES(name_diagnosis)   
+VALUES ('Хронический холецистит');
+
+INSERT INTO DIAGNOSES(name_diagnosis)   
+VALUES ('Дислипидемия');
+
+INSERT INTO DIAGNOSES(name_diagnosis)   
+VALUES ('Непереносимость лактозы');
+
+INSERT INTO DIAGNOSES(name_diagnosis)   
+VALUES ('Аллергия на цитрусовые');
+
+INSERT INTO DIAGNOSES(name_diagnosis)   
+VALUES ('Непереносимость продуктов животного происхождения');
+
+INSERT INTO DIAGNOSES(name_diagnosis)   
+VALUES ('Ожирение');
+
+INSERT INTO DIAGNOSES(name_diagnosis)   
+VALUES ('Аллергия на яйца');
+
+INSERT INTO DIAGNOSES(name_diagnosis)   
+VALUES ('Аллергия на морепродукты');
+
+INSERT INTO DIAGNOSES(name_diagnosis)   
+VALUES ('Непереносимость глютена');
+
+
+CREATE TABLE PRODUCTS
+(
+         id_product SERIAL PRIMARY KEY,
+         product TEXT UNIQUE NOT NULL
+);
+
+
+
+INSERT INTO PRODUCTS(product)   
+VALUES ('Курица');
+
+INSERT INTO PRODUCTS(product)   
+VALUES ('Кролик');
+
+INSERT INTO PRODUCTS(product)   
+VALUES ('Телятина');
+
+INSERT INTO PRODUCTS(product)   
+VALUES ('Щука');
+
+INSERT INTO PRODUCTS(product)   
+VALUES ('Судак');
+
+INSERT INTO PRODUCTS(product)   
+VALUES ('Треска');
+
+INSERT INTO PRODUCTS(product)   
+VALUES ('Перепелиное яйцо');
+
+INSERT INTO PRODUCTS(product)   
+VALUES ('Куриное яйцо');
+
+INSERT INTO PRODUCTS(product)   
+VALUES ('Молоко');
+
+INSERT INTO PRODUCTS(product)   
+VALUES ('Сметана');
+
+INSERT INTO PRODUCTS(product)   
+VALUES ('Сыр');
+
+INSERT INTO PRODUCTS(product )   
+VALUES ('Творог');
+
+INSERT INTO PRODUCTS(product)   
+VALUES ('Кукурузная лепешка');
+
+INSERT INTO PRODUCTS(product)   
+VALUES ('Цельнозерновой хлеб');
+
+INSERT INTO PRODUCTS(product)   
+VALUES ('Растительное масло');
+
+INSERT INTO PRODUCTS(product)   
+VALUES ('Цветная капуста');
+
+INSERT INTO PRODUCTS(product)   
+VALUES ('Гречневая крупа');
+
+INSERT INTO PRODUCTS(product)   
+VALUES ('Кукурузная крупа');
+
+INSERT INTO PRODUCTS(product)   
+VALUES ('Перловая крупа');
+
+INSERT INTO PRODUCTS(product)   
+VALUES ('Бурый рис');
+
+INSERT INTO PRODUCTS(product)   
+VALUES ('Киноа');
+
+INSERT INTO PRODUCTS(product)   
+VALUES ('Тыква');
+
+INSERT INTO PRODUCTS(product)   
+VALUES ('Яблоко');
+
+INSERT INTO PRODUCTS(product)   
+VALUES ('Персик');
+
+INSERT INTO PRODUCTS(product)   
+VALUES ('Апельсин');
+
+INSERT INTO PRODUCTS(product)   
+VALUES ('Мандарин');
+
+INSERT INTO PRODUCTS(product)   
+VALUES ('Клубника');
+
+INSERT INTO PRODUCTS(product)   
+VALUES ('Малина');
+
+INSERT INTO PRODUCTS(product)   
+VALUES ('Смородина');
+
+INSERT INTO PRODUCTS(product)   
+VALUES ('Вишня');
+
+INSERT INTO PRODUCTS(product)   
+VALUES ('Черешня');
+
+INSERT INTO PRODUCTS(product)   
+VALUES ('Шпинат');
+
+INSERT INTO PRODUCTS(product)   
+VALUES ('Кабачок');
+
+INSERT INTO PRODUCTS(product)   
+VALUES ('Редис');
+
+INSERT INTO PRODUCTS(product)   
+VALUES ('Огурец');
+
+INSERT INTO PRODUCTS(product)   
+VALUES ('Помидор');
+
+INSERT INTO PRODUCTS(product)   
+VALUES ('Компот');
+
+INSERT INTO PRODUCTS(product)   
+VALUES ('Морс');
+
+INSERT INTO PRODUCTS(product)   
+VALUES ('Кисель');
+
+INSERT INTO PRODUCTS(product)   
+VALUES ('Чай');
+
+INSERT INTO PRODUCTS(product)   
+VALUES ('Макароны');
+
+INSERT INTO PRODUCTS(product)   
+VALUES ('Виноград');
+
+INSERT INTO PRODUCTS(product)   
+VALUES ('Рис');
+
+INSERT INTO PRODUCTS(product)   
+VALUES ('Манная крупа');
+
+INSERT INTO PRODUCTS(product)   
+VALUES ('Авокадо');
+
+INSERT INTO PRODUCTS(product)   
+VALUES ('Банан');
+
+INSERT INTO PRODUCTS(product)   
+VALUES ('Ананас');
+
+INSERT INTO PRODUCTS(product)   
+VALUES ('Картофель');
+
+INSERT INTO PRODUCTS(product)   
+VALUES ('Капуста');
+
+INSERT INTO PRODUCTS(product)   
+VALUES ('Овсяная крупа');
+
+INSERT INTO PRODUCTS(product)   
+VALUES ('Кефир');
+
+INSERT INTO PRODUCTS(product)   
+VALUES ('Пшенная крупа');
+
+INSERT INTO PRODUCTS(product)   
+VALUES ('Кальмары');
+
+INSERT INTO PRODUCTS(product)   
+VALUES ('Сахар');
+
+INSERT INTO PRODUCTS(product)   
+VALUES ('Грибы');
+
+INSERT INTO PRODUCTS(product)   
+VALUES ('Изюм');
+
+INSERT INTO PRODUCTS(product)   
+VALUES ('Сливки');
+
+INSERT INTO PRODUCTS(product)   
+VALUES ('Говядина');
+
+INSERT INTO PRODUCTS(product)   
+VALUES ('Свинина');
+
+
+
+CREATE TABLE DIAGNOSES_DISHES
+(      
+         id_diagnosis INT REFERENCES DIAGNOSES(id_diagnosis),
+         id_product INT REFERENCES PRODUCTS(id_product),
+         allowed BOOLEAN DEFAULT TRUE
+);
+
+
+INSERT INTO DIAGNOSES_DISHES(id_diagnosis,id_product)   
+VALUES ('1','1');
+
+INSERT INTO DIAGNOSES_DISHES(id_diagnosis,id_product)   
+VALUES ('1','2');
+
+INSERT INTO DIAGNOSES_DISHES(id_diagnosis,id_product)   
+VALUES ('1','3');
+
+INSERT INTO DIAGNOSES_DISHES(id_diagnosis,id_product)   
+VALUES ('1','4');
+
+INSERT INTO DIAGNOSES_DISHES(id_diagnosis,id_product)   
+VALUES ('1','5');
+
+INSERT INTO DIAGNOSES_DISHES(id_diagnosis,id_product)   
+VALUES ('1','6');
+
+INSERT INTO DIAGNOSES_DISHES(id_diagnosis,id_product)   
+VALUES ('1','7');
+
+INSERT INTO DIAGNOSES_DISHES(id_diagnosis,id_product)   
+VALUES ('1','8');
+
+INSERT INTO DIAGNOSES_DISHES(id_diagnosis,id_product)   
+VALUES ('1','9');
+
+INSERT INTO DIAGNOSES_DISHES(id_diagnosis,id_product)   
+VALUES ('1','10');
+
+INSERT INTO DIAGNOSES_DISHES(id_diagnosis,id_product)   
+VALUES ('1','11');
+
+INSERT INTO DIAGNOSES_DISHES(id_diagnosis,id_product)   
+VALUES ('1','12');
+
+INSERT INTO DIAGNOSES_DISHES(id_diagnosis,id_product)   
+VALUES ('1','13');
+
+INSERT INTO DIAGNOSES_DISHES(id_diagnosis,id_product)   
+VALUES ('1','14');
+
+INSERT INTO DIAGNOSES_DISHES(id_diagnosis,id_product)   
+VALUES ('1','15');
+
+INSERT INTO DIAGNOSES_DISHES(id_diagnosis,id_product)   
+VALUES ('1','16');
+
+INSERT INTO DIAGNOSES_DISHES(id_diagnosis,id_product)   
+VALUES ('1','17');
+
+INSERT INTO DIAGNOSES_DISHES(id_diagnosis,id_product)   
+VALUES ('1','18');
+
+INSERT INTO DIAGNOSES_DISHES(id_diagnosis,id_product)   
+VALUES ('1','19');
+
+INSERT INTO DIAGNOSES_DISHES(id_diagnosis,id_product)   
+VALUES ('1','20');
+
+INSERT INTO DIAGNOSES_DISHES(id_diagnosis,id_product)   
+VALUES ('1','21');
+
+INSERT INTO DIAGNOSES_DISHES(id_diagnosis,id_product)   
+VALUES ('1','23');
+
+INSERT INTO DIAGNOSES_DISHES(id_diagnosis,id_product)   
+VALUES ('1','23');
+
+INSERT INTO DIAGNOSES_DISHES(id_diagnosis,id_product)   
+VALUES ('1','24');
+
+INSERT INTO DIAGNOSES_DISHES(id_diagnosis,id_product)   
+VALUES ('1','25');
+
+INSERT INTO DIAGNOSES_DISHES(id_diagnosis,id_product)   
+VALUES ('1','26');
+
+INSERT INTO DIAGNOSES_DISHES(id_diagnosis,id_product)   
+VALUES ('1','27');
+
+INSERT INTO DIAGNOSES_DISHES(id_diagnosis,id_product)   
+VALUES ('1','28');
+
+INSERT INTO DIAGNOSES_DISHES(id_diagnosis,id_product)   
+VALUES ('1','29');
+
+INSERT INTO DIAGNOSES_DISHES(id_diagnosis,id_product)   
+VALUES ('1','30');
+
+INSERT INTO DIAGNOSES_DISHES(id_diagnosis,id_product)   
+VALUES ('1','31');
+
+INSERT INTO DIAGNOSES_DISHES(id_diagnosis,id_product)   
+VALUES ('1','32');
+
+INSERT INTO DIAGNOSES_DISHES(id_diagnosis,id_product)   
+VALUES ('1','33');
+
+INSERT INTO DIAGNOSES_DISHES(id_diagnosis,id_product)   
+VALUES ('1','34');
+
+INSERT INTO DIAGNOSES_DISHES(id_diagnosis,id_product)   
+VALUES ('1','35');
+
+INSERT INTO DIAGNOSES_DISHES(id_diagnosis,id_product)   
+VALUES ('1','36');
+
+INSERT INTO DIAGNOSES_DISHES(id_diagnosis,id_product)   
+VALUES ('1','37');
+
+INSERT INTO DIAGNOSES_DISHES(id_diagnosis,id_product)   
+VALUES ('1','38');
+
+INSERT INTO DIAGNOSES_DISHES(id_diagnosis,id_product)   
+VALUES ('1','39');
+
+INSERT INTO DIAGNOSES_DISHES(id_diagnosis,id_product)   
+VALUES ('1','40');
+
+INSERT INTO DIAGNOSES_DISHES(id_diagnosis,id_product,allowed )   
+VALUES ('1','41', false );
+
+INSERT INTO DIAGNOSES_DISHES(id_diagnosis,id_product,allowed )   
+VALUES ('1','42', false );
+
+INSERT INTO DIAGNOSES_DISHES(id_diagnosis,id_product,allowed )   
+VALUES ('1','43', false );
+
+INSERT INTO DIAGNOSES_DISHES(id_diagnosis,id_product,allowed )   
+VALUES ('1','44', false );
+
+INSERT INTO DIAGNOSES_DISHES(id_diagnosis,id_product,allowed )   
+VALUES ('1','58', false );
+
+INSERT INTO DIAGNOSES_DISHES(id_diagnosis,id_product,allowed )   
+VALUES ('1','59', false );
+
+INSERT INTO DIAGNOSES_DISHES(id_diagnosis,id_product,allowed )   
+VALUES ('1','57', false );
+
+INSERT INTO DIAGNOSES_DISHES(id_diagnosis,id_product,allowed )   
+VALUES ('1','55', false );
+
+INSERT INTO DIAGNOSES_DISHES(id_diagnosis,id_product)   
+VALUES ('2','2');
+
+INSERT INTO DIAGNOSES_DISHES(id_diagnosis,id_product)   
+VALUES ('2','23');
+
+INSERT INTO DIAGNOSES_DISHES(id_diagnosis,id_product)   
+VALUES ('2','24');
+
+INSERT INTO DIAGNOSES_DISHES(id_diagnosis,id_product)   
+VALUES ('2','25');
+
+INSERT INTO DIAGNOSES_DISHES(id_diagnosis,id_product)   
+VALUES ('2','26');
+
+INSERT INTO DIAGNOSES_DISHES(id_diagnosis,id_product)   
+VALUES ('2','27');
+
+INSERT INTO DIAGNOSES_DISHES(id_diagnosis,id_product)   
+VALUES ('2','28');
+
+INSERT INTO DIAGNOSES_DISHES(id_diagnosis,id_product)   
+VALUES ('2','29');
+
+INSERT INTO DIAGNOSES_DISHES(id_diagnosis,id_product)   
+VALUES ('2','30');
+
+INSERT INTO DIAGNOSES_DISHES(id_diagnosis,id_product)   
+VALUES ('2','31');
+
+INSERT INTO DIAGNOSES_DISHES(id_diagnosis,id_product)   
+VALUES ('2','32');
+
+INSERT INTO DIAGNOSES_DISHES(id_diagnosis,id_product)   
+VALUES ('2','33');
+
+INSERT INTO DIAGNOSES_DISHES(id_diagnosis,id_product)   
+VALUES ('2','34');
+
+INSERT INTO DIAGNOSES_DISHES(id_diagnosis,id_product)   
+VALUES ('2','35');
+
+INSERT INTO DIAGNOSES_DISHES(id_diagnosis,id_product)   
+VALUES ('2','36');
+
+INSERT INTO DIAGNOSES_DISHES(id_diagnosis,id_product)   
+VALUES ('2','42');
+
+INSERT INTO DIAGNOSES_DISHES(id_diagnosis,id_product)   
+VALUES ('2','45');
+
+INSERT INTO DIAGNOSES_DISHES(id_diagnosis,id_product)   
+VALUES ('2','46');
+
+INSERT INTO DIAGNOSES_DISHES(id_diagnosis,id_product)   
+VALUES ('2','47');
+
+INSERT INTO DIAGNOSES_DISHES(id_diagnosis,id_product)   
+VALUES ('2','48');
+
+INSERT INTO DIAGNOSES_DISHES(id_diagnosis,id_product)   
+VALUES ('2','49');
+
+INSERT INTO DIAGNOSES_DISHES(id_diagnosis,id_product)   
+VALUES ('2','17');
+
+INSERT INTO DIAGNOSES_DISHES(id_diagnosis,id_product)   
+VALUES ('2','51');
+
+INSERT INTO DIAGNOSES_DISHES(id_diagnosis,id_product)   
+VALUES ('2','52');
+
+INSERT INTO DIAGNOSES_DISHES(id_diagnosis,id_product)   
+VALUES ('2','43');
+
+INSERT INTO DIAGNOSES_DISHES(id_diagnosis,id_product)   
+VALUES ('2','44');
+
+INSERT INTO DIAGNOSES_DISHES(id_diagnosis,id_product)   
+VALUES ('2','4');
+
+INSERT INTO DIAGNOSES_DISHES(id_diagnosis,id_product)   
+VALUES ('2','2');
+
+INSERT INTO DIAGNOSES_DISHES(id_diagnosis,id_product)   
+VALUES ('2','53');
+
+
+INSERT INTO DIAGNOSES_DISHES(id_diagnosis,id_product)   
+VALUES ('2','14');
+
+INSERT INTO DIAGNOSES_DISHES(id_diagnosis,id_product)   
+VALUES ('3','9');
+
+INSERT INTO DIAGNOSES_DISHES(id_diagnosis,id_product)   
+VALUES ('3','10');
+
+INSERT INTO DIAGNOSES_DISHES(id_diagnosis,id_product)   
+VALUES ('3','11');
+
+INSERT INTO DIAGNOSES_DISHES(id_diagnosis,id_product)   
+VALUES ('3','12');
+
+INSERT INTO DIAGNOSES_DISHES(id_diagnosis,id_product)   
+VALUES ('3','9');
+
+INSERT INTO DIAGNOSES_DISHES(id_diagnosis,id_product)   
+VALUES ('3','47');
+
+INSERT INTO DIAGNOSES_DISHES(id_diagnosis,id_product)   
+VALUES ('3','33');
+
+INSERT INTO DIAGNOSES_DISHES(id_diagnosis,id_product)   
+VALUES ('3','36');
+
+INSERT INTO DIAGNOSES_DISHES(id_diagnosis,id_product)   
+VALUES ('3','36');
+
+INSERT INTO DIAGNOSES_DISHES(id_diagnosis,id_product)   
+VALUES ('3','3');
+
+INSERT INTO DIAGNOSES_DISHES(id_diagnosis,id_product)   
+VALUES ('3','36');
+
+INSERT INTO DIAGNOSES_DISHES(id_diagnosis,id_product)   
+VALUES ('3','23');
+
+INSERT INTO DIAGNOSES_DISHES(id_diagnosis,id_product)   
+VALUES ('3','24');
+
+INSERT INTO DIAGNOSES_DISHES(id_diagnosis,id_product)   
+VALUES ('3','27');
+
+INSERT INTO DIAGNOSES_DISHES(id_diagnosis,id_product)   
+VALUES ('3','28');
+
+INSERT INTO DIAGNOSES_DISHES(id_diagnosis,id_product)   
+VALUES ('3','30');
+
+INSERT INTO DIAGNOSES_DISHES(id_diagnosis,id_product)   
+VALUES ('3','37');
+
+INSERT INTO DIAGNOSES_DISHES(id_diagnosis,id_product)   
+VALUES ('3','38');
+
+INSERT INTO DIAGNOSES_DISHES(id_diagnosis,id_product)   
+VALUES ('3','42');
+
+INSERT INTO DIAGNOSES_DISHES(id_diagnosis,id_product)   
+VALUES ('3','7');
+
+INSERT INTO DIAGNOSES_DISHES(id_diagnosis,id_product)   
+VALUES ('3','8');
+
+INSERT INTO DIAGNOSES_DISHES(id_diagnosis,id_product)   
+VALUES ('3','1');
+
+INSERT INTO DIAGNOSES_DISHES(id_diagnosis,id_product)   
+VALUES ('3','2');
+
+INSERT INTO DIAGNOSES_DISHES(id_diagnosis,id_product)   
+VALUES ('3','3');
+
+INSERT INTO DIAGNOSES_DISHES(id_diagnosis,id_product)   
+VALUES ('3','4');
+
+INSERT INTO DIAGNOSES_DISHES(id_diagnosis,id_product)   
+VALUES ('3','5');
+
+INSERT INTO DIAGNOSES_DISHES(id_diagnosis,id_product)   
+VALUES ('3','17');
+
+INSERT INTO DIAGNOSES_DISHES(id_diagnosis,id_product)   
+VALUES ('3','5');
+
+INSERT INTO DIAGNOSES_DISHES(id_diagnosis,id_product)   
+VALUES ('3','49');
+
+INSERT INTO DIAGNOSES_DISHES(id_diagnosis,id_product,allowed )   
+VALUES ('3','41', false );
+
+INSERT INTO DIAGNOSES_DISHES(id_diagnosis,id_product,allowed )   
+VALUES ('3','14', false );
+
+INSERT INTO DIAGNOSES_DISHES(id_diagnosis,id_product,allowed )   
+VALUES ('3','18', false );
+
+INSERT INTO DIAGNOSES_DISHES(id_diagnosis,id_product)   
+VALUES ('4','41');
+
+INSERT INTO DIAGNOSES_DISHES(id_diagnosis,id_product)   
+VALUES ('4','9');
+
+INSERT INTO DIAGNOSES_DISHES(id_diagnosis,id_product)   
+VALUES ('4','10');
+
+INSERT INTO DIAGNOSES_DISHES(id_diagnosis,id_product)   
+VALUES ('4','11');
+
+INSERT INTO DIAGNOSES_DISHES(id_diagnosis,id_product)   
+VALUES ('4','12');
+
+INSERT INTO DIAGNOSES_DISHES(id_diagnosis,id_product)   
+VALUES ('4','1');
+
+INSERT INTO DIAGNOSES_DISHES(id_diagnosis,id_product)   
+VALUES ('4','2');
+
+INSERT INTO DIAGNOSES_DISHES(id_diagnosis,id_product)   
+VALUES ('4','3');
+
+INSERT INTO DIAGNOSES_DISHES(id_diagnosis,id_product)   
+VALUES ('4','4');
+
+INSERT INTO DIAGNOSES_DISHES(id_diagnosis,id_product)   
+VALUES ('4','5');
+
+INSERT INTO DIAGNOSES_DISHES(id_diagnosis,id_product)   
+VALUES ('4','6');
+
+INSERT INTO DIAGNOSES_DISHES(id_diagnosis,id_product)   
+VALUES ('4','7');
+
+INSERT INTO DIAGNOSES_DISHES(id_diagnosis,id_product)   
+VALUES ('4','8');
+
+INSERT INTO DIAGNOSES_DISHES(id_diagnosis,id_product)   
+VALUES ('4','6');
+
+INSERT INTO DIAGNOSES_DISHES(id_diagnosis,id_product)   
+VALUES ('4','14');
+
+INSERT INTO DIAGNOSES_DISHES(id_diagnosis,id_product)   
+VALUES ('4','15');
+
+INSERT INTO DIAGNOSES_DISHES(id_diagnosis,id_product)   
+VALUES ('4','16');
+
+INSERT INTO DIAGNOSES_DISHES(id_diagnosis,id_product)   
+VALUES ('4','17');
+
+INSERT INTO DIAGNOSES_DISHES(id_diagnosis,id_product)   
+VALUES ('4','18');
+
+INSERT INTO DIAGNOSES_DISHES(id_diagnosis,id_product)   
+VALUES ('4','19');
+
+INSERT INTO DIAGNOSES_DISHES(id_diagnosis,id_product)   
+VALUES ('4','20');
+
+INSERT INTO DIAGNOSES_DISHES(id_diagnosis,id_product)   
+VALUES ('4','21');
+
+INSERT INTO DIAGNOSES_DISHES(id_diagnosis,id_product)   
+VALUES ('4','24');
+
+INSERT INTO DIAGNOSES_DISHES(id_diagnosis,id_product)   
+VALUES ('4','32');
+
+INSERT INTO DIAGNOSES_DISHES(id_diagnosis,id_product)   
+VALUES ('4','33');
+
+INSERT INTO DIAGNOSES_DISHES(id_diagnosis,id_product)   
+VALUES ('4','37');
+
+INSERT INTO DIAGNOSES_DISHES(id_diagnosis,id_product)   
+VALUES ('4','38');
+
+INSERT INTO DIAGNOSES_DISHES(id_diagnosis,id_product)   
+VALUES ('4','43');
+
+INSERT INTO DIAGNOSES_DISHES(id_diagnosis,id_product)   
+VALUES ('4','45');
+
+INSERT INTO DIAGNOSES_DISHES(id_diagnosis,id_product)   
+VALUES ('4','49');
+
+INSERT INTO DIAGNOSES_DISHES(id_diagnosis,id_product)   
+VALUES ('4','51');
+
+
+INSERT INTO DIAGNOSES_DISHES(id_diagnosis,id_product,allowed )   
+VALUES ('4','48', false );
+
+
+INSERT INTO DIAGNOSES_DISHES(id_diagnosis,id_product,allowed )   
+VALUES ('4','41', false );
+
+
+INSERT INTO DIAGNOSES_DISHES(id_diagnosis,id_product,allowed )   
+VALUES ('4','41', false );
+
+
+INSERT INTO DIAGNOSES_DISHES(id_diagnosis,id_product,allowed )   
+VALUES ('4','25', false );
+
+
+INSERT INTO DIAGNOSES_DISHES(id_diagnosis,id_product,allowed )   
+VALUES ('5','11', false );
+
+
+INSERT INTO DIAGNOSES_DISHES(id_diagnosis,id_product,allowed )   
+VALUES ('5','48', false );
+
+INSERT INTO DIAGNOSES_DISHES(id_diagnosis,id_product,allowed )   
+VALUES ('5','25', false );
+
+INSERT INTO DIAGNOSES_DISHES(id_diagnosis,id_product,allowed )   
+VALUES ('5','26', false );
+
+INSERT INTO DIAGNOSES_DISHES(id_diagnosis,id_product)   
+VALUES ('5','51');
+
+INSERT INTO DIAGNOSES_DISHES(id_diagnosis,id_product)   
+VALUES ('5','1');
+
+INSERT INTO DIAGNOSES_DISHES(id_diagnosis,id_product)   
+VALUES ('5','2');
+
+INSERT INTO DIAGNOSES_DISHES(id_diagnosis,id_product)   
+VALUES ('5','3');
+
+INSERT INTO DIAGNOSES_DISHES(id_diagnosis,id_product)   
+VALUES ('5','9');
+
+INSERT INTO DIAGNOSES_DISHES(id_diagnosis,id_product)   
+VALUES ('5','10');
+
+INSERT INTO DIAGNOSES_DISHES(id_diagnosis,id_product)   
+VALUES ('5','12');
+
+INSERT INTO DIAGNOSES_DISHES(id_diagnosis,id_product)   
+VALUES ('5','17');
+
+INSERT INTO DIAGNOSES_DISHES(id_diagnosis,id_product)   
+VALUES ('5','18');
+
+INSERT INTO DIAGNOSES_DISHES(id_diagnosis,id_product)   
+VALUES ('5','20');
+
+INSERT INTO DIAGNOSES_DISHES(id_diagnosis,id_product)   
+VALUES ('5','21');
+
+INSERT INTO DIAGNOSES_DISHES(id_diagnosis,id_product)   
+VALUES ('5','37');
+
+INSERT INTO DIAGNOSES_DISHES(id_diagnosis,id_product)   
+VALUES ('5','39');
+
+INSERT INTO DIAGNOSES_DISHES(id_diagnosis,id_product)   
+VALUES ('5','51');
+
+INSERT INTO DIAGNOSES_DISHES(id_diagnosis,id_product)   
+VALUES ('6','1');
+
+INSERT INTO DIAGNOSES_DISHES(id_diagnosis,id_product)   
+VALUES ('6','2');
+
+
+INSERT INTO DIAGNOSES_DISHES(id_diagnosis,id_product)   
+VALUES ('6','3');
+
+INSERT INTO DIAGNOSES_DISHES(id_diagnosis,id_product)   
+VALUES ('6','4');
+
+INSERT INTO DIAGNOSES_DISHES(id_diagnosis,id_product)   
+VALUES ('6','5');
+
+INSERT INTO DIAGNOSES_DISHES(id_diagnosis,id_product)   
+VALUES ('6','9');
+
+INSERT INTO DIAGNOSES_DISHES(id_diagnosis,id_product)   
+VALUES ('6','10');
+
+INSERT INTO DIAGNOSES_DISHES(id_diagnosis,id_product)   
+VALUES ('6','11');
+
+INSERT INTO DIAGNOSES_DISHES(id_diagnosis,id_product)   
+VALUES ('6','12');
+
+INSERT INTO DIAGNOSES_DISHES(id_diagnosis,id_product)   
+VALUES ('6','13');
+
+INSERT INTO DIAGNOSES_DISHES(id_diagnosis,id_product)   
+VALUES ('6','17');
+
+INSERT INTO DIAGNOSES_DISHES(id_diagnosis,id_product)   
+VALUES ('6','18');
+
+INSERT INTO DIAGNOSES_DISHES(id_diagnosis,id_product)   
+VALUES ('6','20');
+
+INSERT INTO DIAGNOSES_DISHES(id_diagnosis,id_product)   
+VALUES ('6','21');
+
+INSERT INTO DIAGNOSES_DISHES(id_diagnosis,id_product)   
+VALUES ('6','24');
+
+INSERT INTO DIAGNOSES_DISHES(id_diagnosis,id_product)   
+VALUES ('6','32');
+
+INSERT INTO DIAGNOSES_DISHES(id_diagnosis,id_product)   
+VALUES ('6','33');
+
+INSERT INTO DIAGNOSES_DISHES(id_diagnosis,id_product)   
+VALUES ('6','37');
+
+INSERT INTO DIAGNOSES_DISHES(id_diagnosis,id_product)   
+VALUES ('6','38');
+
+INSERT INTO DIAGNOSES_DISHES(id_diagnosis,id_product)   
+VALUES ('6','39');
+
+INSERT INTO DIAGNOSES_DISHES(id_diagnosis,id_product)   
+VALUES ('6','40');
+
+INSERT INTO DIAGNOSES_DISHES(id_diagnosis,id_product)   
+VALUES ('6','43');
+
+INSERT INTO DIAGNOSES_DISHES(id_diagnosis,id_product)   
+VALUES ('6','45');
+
+INSERT INTO DIAGNOSES_DISHES(id_diagnosis,id_product)   
+VALUES ('6','49');
+
+INSERT INTO DIAGNOSES_DISHES(id_diagnosis,id_product)   
+VALUES ('6','49');
+
+INSERT INTO DIAGNOSES_DISHES(id_diagnosis,id_product)   
+VALUES ('7','14');
+
+INSERT INTO DIAGNOSES_DISHES(id_diagnosis,id_product)   
+VALUES ('7','41');
+
+INSERT INTO DIAGNOSES_DISHES(id_diagnosis,id_product)   
+VALUES ('7','1');
+
+INSERT INTO DIAGNOSES_DISHES(id_diagnosis,id_product)   
+VALUES ('7','2');
+
+INSERT INTO DIAGNOSES_DISHES(id_diagnosis,id_product)   
+VALUES ('7','3');
+
+INSERT INTO DIAGNOSES_DISHES(id_diagnosis,id_product)   
+VALUES ('7','9');
+
+INSERT INTO DIAGNOSES_DISHES(id_diagnosis,id_product)   
+VALUES ('7','10');
+
+INSERT INTO DIAGNOSES_DISHES(id_diagnosis,id_product)   
+VALUES ('7','11');
+
+INSERT INTO DIAGNOSES_DISHES(id_diagnosis,id_product)   
+VALUES ('7','12');
+
+INSERT INTO DIAGNOSES_DISHES(id_diagnosis,id_product)   
+VALUES ('7','13');
+
+INSERT INTO DIAGNOSES_DISHES(id_diagnosis,id_product)   
+VALUES ('7','15');
+
+INSERT INTO DIAGNOSES_DISHES(id_diagnosis,id_product)   
+VALUES ('7','16');
+
+INSERT INTO DIAGNOSES_DISHES(id_diagnosis,id_product)   
+VALUES ('7','17');
+
+INSERT INTO DIAGNOSES_DISHES(id_diagnosis,id_product)   
+VALUES ('7','18');
+
+INSERT INTO DIAGNOSES_DISHES(id_diagnosis,id_product)   
+VALUES ('7','19');
+
+INSERT INTO DIAGNOSES_DISHES(id_diagnosis,id_product)   
+VALUES ('7','20');
+
+INSERT INTO DIAGNOSES_DISHES(id_diagnosis,id_product)   
+VALUES ('7','21');
+
+INSERT INTO DIAGNOSES_DISHES(id_diagnosis,id_product)   
+VALUES ('7','22');
+
+INSERT INTO DIAGNOSES_DISHES(id_diagnosis,id_product)   
+VALUES ('7','23');
+
+INSERT INTO DIAGNOSES_DISHES(id_diagnosis,id_product)   
+VALUES ('7','24');
+
+INSERT INTO DIAGNOSES_DISHES(id_diagnosis,id_product)   
+VALUES ('7','27');
+
+
+INSERT INTO DIAGNOSES_DISHES(id_diagnosis,id_product)   
+VALUES ('7','28');
+
+
+INSERT INTO DIAGNOSES_DISHES(id_diagnosis,id_product)   
+VALUES ('7','29');
+
+
+INSERT INTO DIAGNOSES_DISHES(id_diagnosis,id_product)   
+VALUES ('7','30');
+
+
+INSERT INTO DIAGNOSES_DISHES(id_diagnosis,id_product)   
+VALUES ('7','31');
+
+
+INSERT INTO DIAGNOSES_DISHES(id_diagnosis,id_product)   
+VALUES ('7','32');
+
+
+INSERT INTO DIAGNOSES_DISHES(id_diagnosis,id_product)   
+VALUES ('7','33');
+
+
+INSERT INTO DIAGNOSES_DISHES(id_diagnosis,id_product)   
+VALUES ('7','35');
+
+
+INSERT INTO DIAGNOSES_DISHES(id_diagnosis,id_product)   
+VALUES ('7','36');
+
+
+INSERT INTO DIAGNOSES_DISHES(id_diagnosis,id_product)   
+VALUES ('7','37');
+
+
+INSERT INTO DIAGNOSES_DISHES(id_diagnosis,id_product)   
+VALUES ('7','38');
+
+INSERT INTO DIAGNOSES_DISHES(id_diagnosis,id_product)   
+VALUES ('7','39');
+
+INSERT INTO DIAGNOSES_DISHES(id_diagnosis,id_product)   
+VALUES ('7','40');
+
+INSERT INTO DIAGNOSES_DISHES(id_diagnosis,id_product)   
+VALUES ('7','41');
+
+INSERT INTO DIAGNOSES_DISHES(id_diagnosis,id_product)   
+VALUES ('7','46');
+
+INSERT INTO DIAGNOSES_DISHES(id_diagnosis,id_product)   
+VALUES ('7','49');
+
+INSERT INTO DIAGNOSES_DISHES(id_diagnosis,id_product)   
+VALUES ('7','50');
+
+INSERT INTO DIAGNOSES_DISHES(id_diagnosis,id_product)   
+VALUES ('7','51');
+
+INSERT INTO DIAGNOSES_DISHES(id_diagnosis,id_product)   
+VALUES ('7','52');
+
+INSERT INTO DIAGNOSES_DISHES(id_diagnosis,id_product,allowed )   
+VALUES ('8','9', false );
+
+INSERT INTO DIAGNOSES_DISHES(id_diagnosis,id_product,allowed )   
+VALUES ('8','10', false );
+
+INSERT INTO DIAGNOSES_DISHES(id_diagnosis,id_product,allowed )   
+VALUES ('8','11', false );
+
+INSERT INTO DIAGNOSES_DISHES(id_diagnosis,id_product,allowed )   
+VALUES ('8','57', false );
+
+INSERT INTO DIAGNOSES_DISHES(id_diagnosis,id_product,allowed )   
+VALUES ('9','25', false );
+
+INSERT INTO DIAGNOSES_DISHES(id_diagnosis,id_product,allowed )   
+VALUES ('9','26', false );
+
+INSERT INTO DIAGNOSES_DISHES(id_diagnosis,id_product,allowed )   
+VALUES ('10','57', false );
+
+INSERT INTO DIAGNOSES_DISHES(id_diagnosis,id_product,allowed )   
+VALUES ('10','1', false );
+
+INSERT INTO DIAGNOSES_DISHES(id_diagnosis,id_product,allowed )   
+VALUES ('10','2', false );
+
+INSERT INTO DIAGNOSES_DISHES(id_diagnosis,id_product,allowed )   
+VALUES ('10','3', false );
+
+INSERT INTO DIAGNOSES_DISHES(id_diagnosis,id_product,allowed )   
+VALUES ('10','4', false );
+
+INSERT INTO DIAGNOSES_DISHES(id_diagnosis,id_product,allowed )   
+VALUES ('10','5', false );
+
+INSERT INTO DIAGNOSES_DISHES(id_diagnosis,id_product,allowed )   
+VALUES ('10','6', false );
+
+INSERT INTO DIAGNOSES_DISHES(id_diagnosis,id_product,allowed )   
+VALUES ('10','7', false );
+
+INSERT INTO DIAGNOSES_DISHES(id_diagnosis,id_product,allowed )   
+VALUES ('10','8', false );
+
+INSERT INTO DIAGNOSES_DISHES(id_diagnosis,id_product,allowed )   
+VALUES ('10','9', false );
+
+INSERT INTO DIAGNOSES_DISHES(id_diagnosis,id_product,allowed )   
+VALUES ('10','10', false );
+
+INSERT INTO DIAGNOSES_DISHES(id_diagnosis,id_product,allowed )   
+VALUES ('10','11', false );
+
+INSERT INTO DIAGNOSES_DISHES(id_diagnosis,id_product,allowed )   
+VALUES ('10','12', false );
+
+INSERT INTO DIAGNOSES_DISHES(id_diagnosis,id_product,allowed )   
+VALUES ('10','14', false );
+
+INSERT INTO DIAGNOSES_DISHES(id_diagnosis,id_product,allowed )   
+VALUES ('10','41', false );
+
+
+INSERT INTO DIAGNOSES_DISHES(id_diagnosis,id_product,allowed )   
+VALUES ('10','51', false );
+
+
+INSERT INTO DIAGNOSES_DISHES(id_diagnosis,id_product,allowed )   
+VALUES ('10','52', false );
+
+
+INSERT INTO DIAGNOSES_DISHES(id_diagnosis,id_product,allowed )   
+VALUES ('10','57', false );
+
+
+INSERT INTO DIAGNOSES_DISHES(id_diagnosis,id_product,allowed )   
+VALUES ('11','11', false );
+
+INSERT INTO DIAGNOSES_DISHES(id_diagnosis,id_product,allowed )   
+VALUES ('11','10', false );
+
+INSERT INTO DIAGNOSES_DISHES(id_diagnosis,id_product,allowed )   
+VALUES ('11','43', false );
+
+INSERT INTO DIAGNOSES_DISHES(id_diagnosis,id_product,allowed )   
+VALUES ('11','44', false );
+
+INSERT INTO DIAGNOSES_DISHES(id_diagnosis,id_product,allowed )   
+VALUES ('11','54', false );
+
+INSERT INTO DIAGNOSES_DISHES(id_diagnosis,id_product,allowed )   
+VALUES ('11','57', false );
+
+INSERT INTO DIAGNOSES_DISHES(id_diagnosis,id_product,allowed )   
+VALUES ('11','55', false );
+
+INSERT INTO DIAGNOSES_DISHES(id_diagnosis,id_product,allowed )   
+VALUES ('11','57', false );
+
+INSERT INTO DIAGNOSES_DISHES(id_diagnosis,id_product,allowed )   
+VALUES ('11','59', false );
+
+INSERT INTO DIAGNOSES_DISHES(id_diagnosis,id_product,allowed )   
+VALUES ('11','58', false );
+
+INSERT INTO DIAGNOSES_DISHES(id_diagnosis,id_product,allowed )   
+VALUES ('12','4', false );
+
+INSERT INTO DIAGNOSES_DISHES(id_diagnosis,id_product,allowed )   
+VALUES ('12','5', false );
+
+INSERT INTO DIAGNOSES_DISHES(id_diagnosis,id_product,allowed )   
+VALUES ('12','53', false );
+
+INSERT INTO DIAGNOSES_DISHES(id_diagnosis,id_product,allowed )   
+VALUES ('12','8', false );
+
+INSERT INTO DIAGNOSES_DISHES(id_diagnosis,id_product,allowed )   
+VALUES ('13','13', false );
+
+INSERT INTO DIAGNOSES_DISHES(id_diagnosis,id_product,allowed )   
+VALUES ('13','14', false );
+
+INSERT INTO DIAGNOSES_DISHES(id_diagnosis,id_product,allowed )   
+VALUES ('13','17', false );
+
+INSERT INTO DIAGNOSES_DISHES(id_diagnosis,id_product,allowed )   
+VALUES ('13','18', false );
+
+INSERT INTO DIAGNOSES_DISHES(id_diagnosis,id_product,allowed )   
+VALUES ('13','19', false );
+
+INSERT INTO DIAGNOSES_DISHES(id_diagnosis,id_product,allowed )   
+VALUES ('13','20', false );
+
+INSERT INTO DIAGNOSES_DISHES(id_diagnosis,id_product,allowed )   
+VALUES ('13','21', false );
+
+INSERT INTO DIAGNOSES_DISHES(id_diagnosis,id_product,allowed )   
+VALUES ('13','41', false );
+
+INSERT INTO DIAGNOSES_DISHES(id_diagnosis,id_product,allowed )   
+VALUES ('13','43', false );
+
+INSERT INTO DIAGNOSES_DISHES(id_diagnosis,id_product,allowed )   
+VALUES ('13','44', false );
+
+INSERT INTO DIAGNOSES_DISHES(id_diagnosis,id_product,allowed )   
+VALUES ('13','21', false );
+
+INSERT INTO DIAGNOSES_DISHES(id_diagnosis,id_product,allowed )   
+VALUES ('13','41', false );
+
+INSERT INTO DIAGNOSES_DISHES(id_diagnosis,id_product,allowed )   
+VALUES ('13','43', false );
+
+INSERT INTO DIAGNOSES_DISHES(id_diagnosis,id_product,allowed )   
+VALUES ('13','44', false );
+
+INSERT INTO DIAGNOSES_DISHES(id_diagnosis,id_product,allowed )   
+VALUES ('13','50', false );
+
+INSERT INTO DIAGNOSES_DISHES(id_diagnosis,id_product,allowed )   
+VALUES ('13','51', false );
+
+
+
+
+
+
+CREATE TABLE DISHES
+(
+             id_dish  SERIAL PRIMARY KEY,    
+             dish  TEXT UNIQUE NOT NULL,  
+             calories NUMERIC NOT NULL,
+             protein NUMERIC NOT NULL,
+             fats NUMERIC NOT NULL,
+             carbohydrates NUMERIC NOT NULL
+);
+
+
+INSERT INTO DISHES(dish,calories,protein,fats,carbohydrates)   
+VALUES ('Куриное филе в сметанном соусе','105','16','3.5','0.9' );
+
+INSERT INTO DISHES(dish,calories,protein,fats,carbohydrates)   
+VALUES ('Суп из кролика с картошкой','34','2','0.88','3.9' );
+
+INSERT INTO DISHES(dish,calories,protein,fats,carbohydrates)   
+VALUES ('Гуляш из телятины','135','13','9','2' );
+
+INSERT INTO DISHES(dish,calories,protein,fats,carbohydrates)   
+VALUES ('Котлеты из щуки','88','12','2','7' ); 
+
+INSERT INTO DISHES(dish,calories,protein,fats,carbohydrates)   
+VALUES ('Судак припущенный','89','19','1','3' ); 
+
+INSERT INTO DISHES(dish,calories,protein,fats,carbohydrates)   
+VALUES ('Филе трески','66','10','1.2','3.1' ); 
+
+INSERT INTO DISHES(dish,calories,protein,fats,carbohydrates)   
+VALUES ('Омлет из перепелинных яиц','83','3','3','3.4' ); 
+
+INSERT INTO DISHES(dish,calories,protein,fats,carbohydrates)   
+VALUES ('Вареные яйца','155','13','11','1' ); 
+
+INSERT INTO DISHES(dish,calories,protein,fats,carbohydrates)   
+VALUES ('Молоко','54','3','2.5','4.8' ); 
+
+INSERT INTO DISHES(dish,calories,protein,fats,carbohydrates)   
+VALUES ('Сыр','364','23.2','29','2' ); 
+
+INSERT INTO DISHES(dish,calories,protein,fats,carbohydrates)   
+VALUES ('Творог нежирный','110','22','0.6','3.3' ); 
+
+INSERT INTO DISHES(dish,calories,protein,fats,carbohydrates)   
+VALUES ('Кукурузная лепешка','170','4','1.5','34' ); 
+
+INSERT INTO DISHES(dish,calories,protein,fats,carbohydrates)   
+VALUES ('Цельнозерновой хлеб','228','8','3','38' ); 
+
+
+INSERT INTO DISHES(dish,calories,protein,fats,carbohydrates)   
+VALUES ('Котлеты из цветной капусты','107','3','8','8' ); 
+
+INSERT INTO DISHES(dish,calories,protein,fats,carbohydrates)   
+VALUES ('Гречка с говядиной ','139','10','7','9' ); 
+
+INSERT INTO DISHES(dish,calories,protein,fats,carbohydrates)   
+VALUES ('Перловка со свининой ','126','6','5','13' ); 
+
+INSERT INTO DISHES(dish,calories,protein,fats,carbohydrates)   
+VALUES ('Куриный суп с бурым рисом ','36','2','1.5','3.2' ); 
+
+INSERT INTO DISHES(dish,calories,protein,fats,carbohydrates)   
+VALUES ('Киноа с кабачком и шпинатом','84','4','2','11' );
+
+INSERT INTO DISHES(dish,calories,protein,fats,carbohydrates)   
+VALUES ('Яблоко','47','0.4','0.4','9.8' );
+
+INSERT INTO DISHES(dish,calories,protein,fats,carbohydrates)   
+VALUES ('Яблочный сок','46','0.1','0.1','11' );
+
+INSERT INTO DISHES(dish,calories,protein,fats,carbohydrates)   
+VALUES ('Персик','39','0.3','0.9','10' );
+
+INSERT INTO DISHES(dish,calories,protein,fats,carbohydrates)   
+VALUES ('Апельсин','45','0.4','0.7','9' );
+
+INSERT INTO DISHES(dish,calories,protein,fats,carbohydrates)   
+VALUES ('Клубника','20','0.2','0.8','10' );
+
+INSERT INTO DISHES(dish,calories,protein,fats,carbohydrates)   
+VALUES ('Малина','31','0.5','0.1','8' );
+
+INSERT INTO DISHES(dish,calories,protein,fats,carbohydrates)   
+VALUES ('Сок со смородиной и вишней','80','3','9','10' );
+
+INSERT INTO DISHES(dish,calories,protein,fats,carbohydrates)   
+VALUES ('Огурец','5','0.1','0','0.1' );
+
+INSERT INTO DISHES(dish,calories,protein,fats,carbohydrates)   
+VALUES ('Компот','80','3','9','10' );
+
+
+INSERT INTO DISHES(dish,calories,protein,fats,carbohydrates)   
+VALUES ('Морс с клюквой','34','2','0.9','8' );
+
+INSERT INTO DISHES(dish,calories,protein,fats,carbohydrates)   
+VALUES ('Кисель','34','2','0.9','8' );
+
+INSERT INTO DISHES(dish,calories,protein,fats,carbohydrates)   
+VALUES ('Зеленый чай','4','0.2','0.2','0.1' );
+
+INSERT INTO DISHES(dish,calories,protein,fats,carbohydrates)   
+VALUES ('Рис с авокадо','45','6.5','9.2','10.1' );
+
+INSERT INTO DISHES(dish,calories,protein,fats,carbohydrates)   
+VALUES ('Салат с ананасом и бананом','158','15','12','20' );
+
+
+INSERT INTO DISHES(dish,calories,protein,fats,carbohydrates)   
+VALUES ('Кефир','5','0.3','0.9','1.1' );
+
+INSERT INTO DISHES(dish,calories,protein,fats,carbohydrates)   
+VALUES ('Сливки','15','5','9','7' );
+
+
+
+
+
+CREATE TABLE DISHES_PRODUCT
+(
+
+             id_dish INT REFERENCES DISHES(id_dish),
+             id_product INT REFERENCES PRODUCTS(id_product)
+);
+
+
+INSERT INTO DISHES_PRODUCT(id_dish,id_product)   
+VALUES ('1','1');
+
+INSERT INTO DISHES_PRODUCT(id_dish,id_product)   
+VALUES ('1','55');
+
+INSERT INTO DISHES_PRODUCT(id_dish,id_product)   
+VALUES ('1','15');
+
+INSERT INTO DISHES_PRODUCT(id_dish,id_product)   
+VALUES ('2','2');
+
+INSERT INTO DISHES_PRODUCT(id_dish,id_product)   
+VALUES ('2','48');
+
+INSERT INTO DISHES_PRODUCT(id_dish,id_product)   
+VALUES ('2','50');
+
+INSERT INTO DISHES_PRODUCT(id_dish,id_product)   
+VALUES ('3','3');
+
+INSERT INTO DISHES_PRODUCT(id_dish,id_product)   
+VALUES ('3','10');
+
+INSERT INTO DISHES_PRODUCT(id_dish,id_product)   
+VALUES ('4','4');
+
+INSERT INTO DISHES_PRODUCT(id_dish,id_product)   
+VALUES ('4','8');
+
+INSERT INTO DISHES_PRODUCT(id_dish,id_product)   
+VALUES ('4','50');
+
+INSERT INTO DISHES_PRODUCT(id_dish,id_product)   
+VALUES ('5','5');
+
+INSERT INTO DISHES_PRODUCT(id_dish,id_product)   
+VALUES ('6','6');
+
+INSERT INTO DISHES_PRODUCT(id_dish,id_product)   
+VALUES ('7','7');
+
+INSERT INTO DISHES_PRODUCT(id_dish,id_product)   
+VALUES ('7','36');
+
+INSERT INTO DISHES_PRODUCT(id_dish,id_product)   
+VALUES ('8','8');
+
+INSERT INTO DISHES_PRODUCT(id_dish,id_product)   
+VALUES ('9','9');
+
+INSERT INTO DISHES_PRODUCT(id_dish,id_product)   
+VALUES ('10','11');
+
+INSERT INTO DISHES_PRODUCT(id_dish,id_product)   
+VALUES ('11','12');
+
+
+INSERT INTO DISHES_PRODUCT(id_dish,id_product)   
+VALUES ('12','13');
+
+INSERT INTO DISHES_PRODUCT(id_dish,id_product)   
+VALUES ('13','14');
+
+INSERT INTO DISHES_PRODUCT(id_dish,id_product)   
+VALUES ('14','16');
+
+INSERT INTO DISHES_PRODUCT(id_dish,id_product)   
+VALUES ('15','17');
+
+INSERT INTO DISHES_PRODUCT(id_dish,id_product)   
+VALUES ('15','58');
+
+INSERT INTO DISHES_PRODUCT(id_dish,id_product)   
+VALUES ('16','59');
+
+INSERT INTO DISHES_PRODUCT(id_dish,id_product)   
+VALUES ('16','19');
+
+INSERT INTO DISHES_PRODUCT(id_dish,id_product)   
+VALUES ('17','20');
+
+INSERT INTO DISHES_PRODUCT(id_dish,id_product)   
+VALUES ('17','1');
+
+INSERT INTO DISHES_PRODUCT(id_dish,id_product)   
+VALUES ('18','21');
+
+INSERT INTO DISHES_PRODUCT(id_dish,id_product)   
+VALUES ('18','32');
+
+INSERT INTO DISHES_PRODUCT(id_dish,id_product)   
+VALUES ('18','33');
+
+
+INSERT INTO DISHES_PRODUCT(id_dish,id_product)   
+VALUES ('19','23');
+
+INSERT INTO DISHES_PRODUCT(id_dish,id_product)   
+VALUES ('20','23');
+
+INSERT INTO DISHES_PRODUCT(id_dish,id_product)   
+VALUES ('21','24');
+
+INSERT INTO DISHES_PRODUCT(id_dish,id_product)   
+VALUES ('22','25');
+
+INSERT INTO DISHES_PRODUCT(id_dish,id_product)   
+VALUES ('23','26');
+
+INSERT INTO DISHES_PRODUCT(id_dish,id_product)   
+VALUES ('24','27');
+
+INSERT INTO DISHES_PRODUCT(id_dish,id_product)   
+VALUES ('25','28');
+
+INSERT INTO DISHES_PRODUCT(id_dish,id_product)   
+VALUES ('25','29');
+
+INSERT INTO DISHES_PRODUCT(id_dish,id_product)   
+VALUES ('26','35');
+
+INSERT INTO DISHES_PRODUCT(id_dish,id_product)   
+VALUES ('27','37');
+
+INSERT INTO DISHES_PRODUCT(id_dish,id_product)   
+VALUES ('28','38');
+
+INSERT INTO DISHES_PRODUCT(id_dish,id_product)   
+VALUES ('29','39');
+
+INSERT INTO DISHES_PRODUCT(id_dish,id_product)   
+VALUES ('30','40');
+
+INSERT INTO DISHES_PRODUCT(id_dish,id_product)   
+VALUES ('31','43');
+
+INSERT INTO DISHES_PRODUCT(id_dish,id_product)   
+VALUES ('31','45');
+
+INSERT INTO DISHES_PRODUCT(id_dish,id_product)   
+VALUES ('32','46');
+
+INSERT INTO DISHES_PRODUCT(id_dish,id_product)   
+VALUES ('32','47');
+
+INSERT INTO DISHES_PRODUCT(id_dish,id_product)   
+VALUES ('33','51');
+
+
+INSERT INTO DISHES_PRODUCT(id_dish,id_product)   
+VALUES ('34','57');
+
+
+CREATE TABLE PATIENT_CARDS
+(
+         id_card SERIAL PRIMARY KEY,
+         id_patient INT REFERENCES PATIENT(id_patient),
+         id_employee INT REFERENCES EMPLOYEE(id_employee),
+         daily_calories NUMERIC,
+         daily_protein NUMERIC,
+         daily_fats NUMERIC,
+         daily_carbohydrates NUMERIC,
+         start_diet DATE,
+         finish_diet DATE,
+         id_activity_levels INT REFERENCES ACTIVITY_LEVELS (id_activity_levels)
+);
+
+
+CREATE TABLE MEALS
+(
+
+         id_meals SERIAL PRIMARY KEY,
+         date DATE NOT NULL, 
+         id_card INT REFERENCES PATIENT_CARDS (id_card),
+         dish TEXT NOT NULL,
+         calories NUMERIC,
+         protein NUMERIC,
+         fats NUMERIC,
+         carbohydrates NUMERIC
+);
+
+
+CREATE TABLE PATIENT_DIAGNOSES
+(
+         id_card INT REFERENCES PATIENT_CARDS (id_card),
+         id_diagnosis INT REFERENCES DIAGNOSES (id_diagnosis)
+);
+
+
+CREATE TABLE  PATIENT_INDICATORS
+(
+
+         id_card INT REFERENCES PATIENT_CARDS (id_card),          
+         id_indicator INT REFERENCES INDICATORS (id_indicator),            
+         value_indicator  TEXT NOT NULL,
+         result BOOLEAN DEFAULT FALSE,          
+         date_indicator DATE NOT NULL
+);
