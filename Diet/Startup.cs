@@ -1,12 +1,13 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.HttpsPolicy;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.EntityFrameworkCore;
+using Diet.Models;
+using System.Configuration;
 
 namespace Diet
 {
@@ -15,8 +16,15 @@ namespace Diet
 
         public void ConfigureServices(IServiceCollection services)
         {
+            //string connection = Configuration.GetConnectionString("DefaultConnection");
+            services.AddDbContext<DietDBContext>(options => options.UseNpgsql("Host=localhost;Port=5432;Database=DietDB;Username=postgres;Password=12345"));
             services.AddControllersWithViews();
-
+            services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
+               .AddCookie(options => //CookieAuthenticationOptions
+               {
+                   options.LoginPath = new Microsoft.AspNetCore.Http.PathString("/Account/Login");
+               });
+            services.AddControllersWithViews();
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
@@ -37,13 +45,13 @@ namespace Diet
             app.UseAuthentication();
             app.UseEndpoints(endpoints =>
             {
-                endpoints.MapControllerRoute(
-                    name: "Admin",
-                 pattern: "{area=Admin}/{controller=HomeAdmin}/{action=MenuAdmin}/{id?}");
+                //endpoints.MapControllerRoute(
+                //    name: "Admin",
+                // pattern: "{area=Admin}/{controller=HomeAdmin}/{action=MenuAdmin}/{id?}");
 
                 endpoints.MapControllerRoute(
                     name: "default",
-                    pattern: "{area=Start}/{controller=Home}/{action=Start}/{id?}");
+                    pattern: "{controller=Account}/{action=Login}/{id?}");
             });
         }
     }

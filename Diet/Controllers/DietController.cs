@@ -3,12 +3,12 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
+using Diet.Models.ViewModels;
 
-namespace Diet.Areas.Start.Contollers
+namespace Diet.Controllers
 {
-    public class HomeController : Controller
+    public class DietController : Controller
     {
-        [Area("Start")]
         public IActionResult Start()
         {
             return View();
