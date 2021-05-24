@@ -30,7 +30,7 @@ namespace Diet
             var list = db.Patients.Select(p => p).ToList();
             return View(list);
         }
-        public async Task<IActionResult> OnePatient(int? id)
+        public async Task<IActionResult> OnePatient(int id)
         {
            Patient patient = await db.Patients.FirstOrDefaultAsync(p => p.IdPatient==id);
             return View(patient);

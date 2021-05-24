@@ -42,8 +42,7 @@ namespace Diet.Models
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            modelBuilder.HasPostgresEnum(null, "gender", new[] { "Мужской", "ok", "Женский" })
-                .HasAnnotation("Relational:Collation", "Russian_Russia.1251");
+           
 
             modelBuilder.Entity<ActivityLevel>(entity =>
             {
@@ -153,6 +152,8 @@ namespace Diet.Models
                     .HasConstraintName("dishes_product_id_product_fkey");
             });
 
+
+
             modelBuilder.Entity<Employee>(entity =>
             {
                 entity.HasKey(e => e.IdEmployee)
@@ -250,7 +251,8 @@ namespace Diet.Models
                     .HasForeignKey(d => d.IdCard)
                     .HasConstraintName("meals_id_card_fkey");
             });
-
+            var g = modelBuilder.HasPostgresEnum(null, "gender", new[] { "Мужской", "ok", "Женский" })
+.HasAnnotation("Relational:Collation", "Russian_Russia.1251");
             modelBuilder.Entity<Patient>(entity =>
             {
                 entity.HasKey(e => e.IdPatient)
@@ -260,6 +262,9 @@ namespace Diet.Models
 
                 entity.HasIndex(e => e.Login, "patient_login_key")
                     .IsUnique();
+
+
+                entity.Property(e => e.Gender).HasColumnName("gender");
 
                 entity.Property(e => e.IdPatient).HasColumnName("id_patient");
 

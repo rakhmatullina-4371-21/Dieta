@@ -18,6 +18,7 @@ namespace Diet.Models
         public string Lastname { get; set; }
         public string Login { get; set; }
         public string Password { get; set; }
+        public string Gender { get; set; }
         public DateTime? DateOfBirth { get; set; }
 
         public virtual ICollection<PatientCard> PatientCards { get; set; }
