@@ -1,0 +1,27 @@
+﻿@using Diet.Controllers
+
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    ViewData["Title"] = "Список пациентов";
+}
+
+<link href="~/css/StyleSheet.css " rel="stylesheet" />
+
+<div>
+    @await Html.PartialAsync("~/Views/Shared/Header.cshtml")
+</div>
+@*<form class="container px-4 py-5" asp-controller="AdminHome" asp-action="">
+    <h2 class="pb-2 border-bottom text-style-grey">Список пациентов </h2>
+    <select class="form-select form-select-lg mb-3" aria-label=".form-select-lg example" name="sel">
+        <option>Open this select menu</option>
+        @{ for (int i = 0; i < Model.Count; i++)
+            {
+                <option value="i">@Model[i].Surname @Model[i].Name  @Model[i].Lastname</option>
+            }
+        }
+
+    </select>
+        <button class="btn btn-lg btn-style w-75 m-1" > Перейти </button>
+
+</form>*@
+

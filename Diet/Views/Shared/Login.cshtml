@@ -7,6 +7,7 @@
     Layout = "_Layout";
     ViewData["Title"] = "Вход";
 }
+
 <div class="container col-xl-10  col-xxl-8 px-4 py-5">
     <div class="row align-items-center g-lg-5 py-5">
         <div class="col-lg-7 text-center text-lg-start">
@@ -14,11 +15,11 @@
             <p class="text-style-grey">В Сервис,созданный для индивидуального подбора меню на целый день, основываясь на простоте и вкусовых качествах блюда. Программа сама проводит расчет нужных калорий на основе метрики, а уже потом разбивает приемы пищи на весь день, при этом сами блюда всегда будут разными для более удобной адаптации к новому режиму питания.</p>
         </div>
         <div class="col-md-10 mx-auto col-lg-5">
-            <div>
-                <p class="h-100" style="font-size: 50px; text-align:center">Вход</p>
-            </div>
-            <form class="p-4 p-md-5 border rounded-3 bg-style-grey" asp-controller="Account " asp-action="Login" asp-anti-forgery="true">
 
+            <form class="p-4 p-md-5 border rounded-3 bg-style-grey" asp-controller="Account " asp-action="Login" asp-route-returnUrl="@ViewBag.returnUrl">
+                <div>
+                    <p class="h-100" style="font-size: 50px; text-align:center">Вход</p>
+                </div>
                 <div class="form-floating mb-3">
                     <label for="floatingInput" asp-for="Email"><font style="text-align:center">Адрес электронной почты</font></label>
                     <input type="email" class="form-control" id="floatingInput" placeholder="name@example.com" asp-for="Email">

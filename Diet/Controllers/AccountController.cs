@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Diet.Models;
+using Diet.Areas;
 
 namespace Diet.Controllers
 {
@@ -25,42 +26,43 @@ namespace Diet.Controllers
         }
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Login(LoginModel model)
-        { 
-            
-                 string password = PasswordHash.GetHash(model.Password);                                                        //Шифрование введенного пароля
-              
-                Patient patient = await db.Patients.FirstOrDefaultAsync(u => u.Login == model.Email && u.Password == password);
-                if (patient != null)
-                {
-                    await Authenticate(patient.IdPatient); // аутентификация
-                    return RedirectToAction("MenuPatient", "PatientStart", patient.IdPatient);
-                }
-                else
-                {
-                     Employee emp = await db.Employees.FirstOrDefaultAsync(u => u.Login == model.Email && u.Password == password);
-                     if (emp != null)
-                     {
-                       
-                         await Authenticate(emp.IdEmployee); // аутентификация
-                        if (await db.Employees.FirstOrDefaultAsync(p => p.IdPosition == db.Positions.FirstOrDefault(o => o.Position1 == "Администратор").IdPosition) != null)
+        public async Task<IActionResult> Login(LoginModel model, string returnUrl)
+        {
+                    string  password = PasswordHash.GetHash(model.Password);    //Шифрование введенного пароля
+                    Patient patient = await db.Patients.FirstOrDefaultAsync(u => u.Login == model.Email && u.Password == password);
+                    if (patient != null)
+                    {
+                        await Authenticate(patient.Login); // аутентификация
+                          return Redirect(returnUrl ?? "/");
+                       //return RedirectToAction("MenuPatient", "PatientStart", patient.IdPatient);
+                    }
+                    else
+                    {
+                       Employee emp = await db.Employees.FirstOrDefaultAsync(u => u.Login == model.Email && u.Password == password);
+                        if (emp != null)
                         {
-                           return RedirectToAction("MenuAdmin", "AdminHome", emp.IdEmployee);
-                        }
 
-                     }
-                     ModelState.AddModelError("", "Некорректные логин и(или) пароль");
-                }
+                            await Authenticate(model.Email); // аутентификация
+                            if (await db.Employees.FirstOrDefaultAsync(p => p.IdPosition ==db.Positions.FirstOrDefault(o => o.Position1 == "Администратор").IdPosition) != null)
+                            {
+                                 //return RedirectToPage("Ident", "AdminHome", emp);
+                                await Authenticate(emp.IdEmployee.ToString()); // аутентификация
+                                return Redirect(returnUrl ?? "AdminHome/MenuAdmin/id?="+emp.IdEmployee);
+                            }
+
+                        }
+                        ModelState.AddModelError("", "Некорректные логин и(или) пароль");
+                    }
 
             return View(model);
         }
 
-        private async Task Authenticate(int? ID)
+        private async Task Authenticate(string user)
         {
             // создаем один claim
             var claims = new List<Claim>
             {
-                new Claim(ClaimsIdentity.DefaultNameClaimType, ID.ToString())
+                new Claim(ClaimsIdentity.DefaultNameClaimType,user)
             };
             // создаем объект ClaimsIdentity
             ClaimsIdentity id = new ClaimsIdentity(claims, "ApplicationCookie", ClaimsIdentity.DefaultNameClaimType, ClaimsIdentity.DefaultRoleClaimType);

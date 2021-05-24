@@ -24,7 +24,9 @@ namespace Diet
                {
                    options.LoginPath = new Microsoft.AspNetCore.Http.PathString("/Account/Login");
                });
+            services.AddRazorPages();
             services.AddControllersWithViews();
+            services.AddMvc(options => options.EnableEndpointRouting = false);
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
@@ -43,15 +45,23 @@ namespace Diet
             app.UseRouting();
             app.UseAuthorization();
             app.UseAuthentication();
-            app.UseEndpoints(endpoints =>
-            {
-                //endpoints.MapControllerRoute(
-                //    name: "Admin",
-                // pattern: "{area=Admin}/{controller=HomeAdmin}/{action=MenuAdmin}/{id?}");
+            //app.UseEndpoints(endpoints =>
+            //{
+            //    //endpoints.MapControllerRoute(
+            //    //    name: "Admin",
+            //    // pattern: "{area=Admin}/{controller=HomeAdmin}/{action=MenuAdmin}/{id?}");
 
-                endpoints.MapControllerRoute(
+            //    endpoints.MapControllerRoute(
+            //        name: "default",
+            //        pattern: "{controller=Account}/{action=Login}/{id?}");
+            //});
+            
+            app.UseMvc(routes =>
+            {
+                //    routes.MapRoute("areaRoute", "{area:exists}/{controller}/{action}/{id?}");
+                routes.MapRoute(
                     name: "default",
-                    pattern: "{controller=Account}/{action=Login}/{id?}");
+                    template: "{controller=Account}/{action=Login}/{id?}");
             });
         }
     }

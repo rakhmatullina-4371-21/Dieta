@@ -1,5 +1,7 @@
-﻿using System;
+﻿using Microsoft.EntityFrameworkCore;
+using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 
 #nullable disable
 
@@ -7,6 +9,13 @@ namespace Diet.Models
 {
     public partial class Employee
     {
+        DietDBContext db = new DietDBContext();
+        Employee employee;
+        public  async Task<Employee> ReturnEmp(string id) 
+        {
+            employee = await db.Employees.FirstOrDefaultAsync(u => u.IdEmployee == int.Parse(id));
+            return employee;
+        }
         public Employee()
         {
             PatientCards = new HashSet<PatientCard>();

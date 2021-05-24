@@ -6,7 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace Diet.Areas.Patient.Controllers
 {
-    public class HomeController : Controller
+    public class PatientHomeController : Controller
     {
         [Area("Patient")]
         public IActionResult MenuPatient()

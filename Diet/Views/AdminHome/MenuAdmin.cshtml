@@ -1,0 +1,46 @@
+﻿@using Diet.Controllers
+
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    ViewData["Title"] = "Меню";
+}
+
+<link href="~/css/StyleSheet.css " rel="stylesheet" />
+<script src="~/js/"></script>
+<div>
+    @await Html.PartialAsync("~/Views/Shared/Header.cshtml")
+</div>
+<form class="container px-4 py-5">
+    <h2 class="pb-2 border-bottom text-style-grey"> Здравствуйте,  @Model.Name  @Model.Surname !</h2>
+    <div class="row g-4 py-5 row-cols-1 row-cols-lg-3">
+        <div class="col d-flex align-items-start text-style-grey">
+            <div>
+                <div class="m-3 p-2 text-center">
+                    <h2>Пациенты</h2>
+                    <p>Просматривайте, изменяйте и добавляйте новых пациентов! </p>
+                </div>
+                <button class="btn btn-lg btn-style w-75 m-1" asp-controller="AdminHome" asp-action="PatSelect"> Перейти </button>
+            </div>
+        </div>
+        <div class="col d-flex align-items-start text-style-grey">
+            <div>
+                <div class="m-3 p-2 text-center">
+                    <h2>Сотрудники</h2>
+                    <p>Просматривайте, изменяйте и добавляйте новых сотрудников! </p>
+                </div>
+                <button class="btn btn-lg btn-style w-75 m-1" asp-controller="AdminHome" asp-action="Pat"> Перейти </button>
+            </div>
+        </div>
+        <div class="col d-flex align-items-start text-style-grey">
+            <div>
+                <div class="m-3 p-2 text-center">
+                    <h2>Блюда и продукты</h2>
+                    <p>Просматривайте, изменяйте и добавляйте новые блюда! </p>
+                </div>
+                <button class="btn btn-lg btn-style w-75 m-1" asp-controller="AdminHome" asp-action="Pat"> Перейти </button>
+            </div>
+        </div>
+    </div>
+</form>
+
+

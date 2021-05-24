@@ -1,0 +1,67 @@
+﻿@model IEnumerable<Diet.Models.Patient>
+
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    ViewData["Title"] = "Список пациентов";
+}
+
+<link href="~/css/StyleSheet.css " rel="stylesheet" />
+<div>
+    @await Html.PartialAsync("~/Views/Shared/Header.cshtml")
+</div>
+
+
+
+<form>
+    <h1 class="text-style-grey">PatSelect</h1>
+    <div class="m-5 p-5">
+        <table class="table text-style-grey">
+            <thead>
+                <tr>
+                    <th>
+                        Фамилия
+                    </th>
+                    <th>
+                        Имя
+                    </th>
+                    <th>
+                        Отчество
+                    </th>
+                    <th>
+                        Email
+                    </th>
+                    <th>
+                        Подробнее
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+                { 
+                    <tr>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Surname)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Name)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Lastname)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Login)
+                        </td>
+                        <td>
+                            <button class="btn btn-lg btn-style w-25 m-1" asp-controller="AdminHome" asp-action="OnePatient" asp-route-id="item.idPatient" style="color:black"> Подробнее </button>
+                        </td>
+
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</form>
+
+
+
+
