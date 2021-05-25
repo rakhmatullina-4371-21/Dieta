@@ -27,16 +27,15 @@ CREATE TABLE EMPLOYEE
         login text UNIQUE NOT NULL,
         password TEXT NOT NULL,
 	id_position INT REFERENCES POSITIONS(id_position),
-        phone TEXT
 );
 INSERT INTO EMPLOYEE(surname,name,login,password, id_position)
 VALUES ('Юсупов','Рамис','admin@mail.com','gnzLDuqKcGxMNKFokfhOew==',1);
 
-INSERT INTO EMPLOYEE(surname,name,lastname,login,password, id_position,phone)   
-VALUES ('Иванова','Алиса','Владимировна','diet@mail.com','Ac/NT2uHcP6/tAy5BnFYIg==',2, 89393242345); 
+INSERT INTO EMPLOYEE(surname,name,lastname,login,password, id_position)   
+VALUES ('Иванова','Алиса','Владимировна','diet@mail.com','Ac/NT2uHcP6/tAy5BnFYIg==',2); 
 
-INSERT INTO EMPLOYEE(surname,name,lastname,login,password, id_position,phone)
-VALUES ('Гиниатуллин','Марат','Айратович','diet1@mail.com','Ac/NT2uHcP6/tAy5BnFYIg==',2, 89653454567);
+INSERT INTO EMPLOYEE(surname,name,lastname,login,password, id_position)
+VALUES ('Гиниатуллин','Марат','Айратович','diet1@mail.com','Ac/NT2uHcP6/tAy5BnFYIg==',2);
 
 INSERT INTO EMPLOYEE(surname,name,lastname,login,password, id_position)
 VALUES ('Сметанина','София','Викторовна','sof@mail.com','2mlgSStiWdH3i63hK7nZDg==',2);

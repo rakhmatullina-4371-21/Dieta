@@ -182,8 +182,6 @@ namespace Diet.Models
                     .IsRequired()
                     .HasColumnName("password");
 
-                entity.Property(e => e.Phone).HasColumnName("phone");
-
                 entity.Property(e => e.Surname)
                     .IsRequired()
                     .HasColumnName("surname");

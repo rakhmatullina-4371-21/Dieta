@@ -18,15 +18,18 @@ namespace Diet
         public async Task<IActionResult> MenuAdmin(string returnUrl)
         {
             employee = new Employee();
-
             var id =  HttpContext.User.Identity.Name;
             employee = await employee.ReturnEmp(id);
             return View(employee);
         }
         public IActionResult PatSelect()
         {
-            var list = db.Patients.Select(p => p.IdPatient).ToList();
-            return View(list);
+            return View(Patient.SelectPatients());
+        }
+
+        public IActionResult EmpSelect()
+        {
+            return View(Employee.SelectEmployees());
         }
 
 
@@ -55,6 +58,15 @@ namespace Diet
             patient = await db.Patients.FirstOrDefaultAsync(p => p.IdPatient == patient.IdPatient);
             return View();
         }
+
+
+        public IActionResult EmpSelect()
+        {
+            return View(Patient.SelectPatients());
+        }
+
+
+
 
     }
 }

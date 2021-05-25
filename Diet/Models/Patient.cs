@@ -81,9 +81,9 @@ namespace Diet.Models
             db.SaveChanges();
         }
 
-        public static List<Patient> SelectPatients()
+        public static  List<Patient> SelectPatients()
         {
-            return db.Patients.Select(p => new Patient { IdPatient = p.IdPatient, Surname = p.Surname, Name = p.Name, Lastname = p.Lastname, Login = p.Login, Password = p.Password, DateOfBirth = p.DateOfBirth }).OrderBy(p=>p.Surname).ToList();
+            return  db.Patients.Select(p =>p).ToList();
         }
     }
 }

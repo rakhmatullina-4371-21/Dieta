@@ -12,28 +12,34 @@
 <div class="col-md-7 col-lg-8 center">
     <form class="needs-validation" asp-action="OnePatient">
 
-        <h1 class="mb-2 text-style-grey"> Аккаунт пациентна</h1>
+
         <div asp-validation-summary="ModelOnly" class="text-danger"></div>
         <div class="form-group">
+            <h1 class="mb-2 text-style-grey"> Аккаунт пациентна</h1>
             <label asp-for="IdPatient" class="control-label" style="visibility: hidden;"> </label>
             <input asp-for="IdPatient" class="form-control" type="hidden" />
             <span asp-validation-for="IdPatient" class="text-danger"></span>
         </div>
         <div class="row g-3">
-            <div class="form-group col-md-4 text-style-grey">
+            <div class="form-group col-sm-6 text-style-grey">
                 <label asp-for="Surname" class="control-label"> Фамилия </label>
                 <input asp-for="Surname" class="form-control" />
                 <span asp-validation-for="Surname" class="text-danger"></span>
             </div>
-            <div class="form-group col-md-4 text-style-grey">
+            <div class="form-group col-sm-6 text-style-grey">
                 <label asp-for="Name" class="control-label"> Имя </label>
                 <input asp-for="Name" class="form-control" />
                 <span asp-validation-for="Name" class="text-danger"></span>
             </div>
-            <div class="form-group col-md-4 text-style-grey">
+            <div class="form-group col-sm-6 text-style-grey">
                 <label asp-for="Lastname" class="control-label"> Отчество </label>
                 <input asp-for="Lastname" class="form-control" />
                 <span asp-validation-for="Lastname" class="text-danger"></span>
+            </div>
+            <div class="form-group  col-sm-6 text-style-green">
+                <label asp-for="DateOfBirth" class="control-label"> Дата рождения </label>
+                <input asp-for="DateOfBirth" class="form-control" />
+                <span asp-validation-for="DateOfBirth" class="text-danger"></span>
             </div>
             <div class="form-group  col-sm-6 text-style-grey">
                 <label asp-for="Login" class="control-label"> Логин </label>
@@ -45,19 +51,22 @@
                 <input asp-for="Password" class="form-control" type="password" value="@Model.Password" />
                 <span asp-validation-for="Password" class="text-danger"></span>
             </div>
-            <div class="form-group  col-sm-6 text-style-grey">
-                <label asp-for="Woman" class="control-label"> Пол </label>
-                <input asp-for="Woman" class="form-control" />
-                <span asp-validation-for="Woman" class="text-danger"></span>
+
+            <div class="col-12 m-2">
+                <div class="form-check text-style-grey">
+                    <label asp-for="Woman" class="control-label">   @Html.RadioButtonFor(m => m.Woman, true) Женский </label>
+                </div>
+                <div class="form-check text-style-grey">
+                    <label asp-for="Woman" class="control-label">  @Html.RadioButtonFor(m => m.Woman, false) Мужской </label>
+                    
+                </div>
             </div>
-            <div class="form-group  col-sm-6 text-style-green">
-                <label asp-for="DateOfBirth" class="control-label"> Дата рождения </label>
-                <input asp-for="DateOfBirth" class="form-control" />
-                <span asp-validation-for="DateOfBirth" class="text-danger"></span>
+
+            <div class="col-12" style="text-align:center" >
+                <button class="btn btn-lg btn-style w-50 m-1" asp-controller="AdminHome" asp-action="OnePatient" style="color:black;">Сохранить </button>
             </div>
         </div>
 
-        <button class="btn btn-lg btn-style w-50 m-1" asp-controller="AdminHome" asp-action="OnePatient" style="color:black;">Сохранить </button>
 
     </form>
 </div>
