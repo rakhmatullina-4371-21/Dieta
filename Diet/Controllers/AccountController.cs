@@ -10,6 +10,7 @@ using Microsoft.EntityFrameworkCore;
 using Diet.Models;
 using Diet.Areas;
 
+
 namespace Diet.Controllers
 {
     public class AccountController : Controller
@@ -28,6 +29,7 @@ namespace Diet.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Login(LoginModel model, string returnUrl)
         {
+
                     string  password = PasswordHash.GetHash(model.Password);    //Шифрование введенного пароля
                     Patient patient = await db.Patients.FirstOrDefaultAsync(u => u.Login == model.Email && u.Password == password);
                     if (patient != null)

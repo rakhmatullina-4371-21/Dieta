@@ -9,8 +9,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Diet
 {
-    //[Area("Admin")]
-    //[Route("[Admin]/[AdminHome]/[Actions]/{page:int?}")]
+
     [Authorize]
     public class AdminHomeController : Controller
     {
@@ -18,7 +17,6 @@ namespace Diet
         Employee employee;
         public async Task<IActionResult> MenuAdmin(string returnUrl)
         {
-            //    string ID = Request.QueryString["recordID"];
             employee = new Employee();
 
             var id =  HttpContext.User.Identity.Name;
@@ -27,13 +25,36 @@ namespace Diet
         }
         public IActionResult PatSelect()
         {
-            var list = db.Patients.Select(p => p).ToList();
+            var list = db.Patients.Select(p => p.IdPatient).ToList();
             return View(list);
         }
+
+
+        [HttpGet]
         public async Task<IActionResult> OnePatient(int id)
         {
-           Patient patient = await db.Patients.FirstOrDefaultAsync(p => p.IdPatient==id);
+            Patient patient = await Patient.SelectPatient(id);
+            if (patient==null) { patient = new Patient(); patient.IdPatient = await Patient.MaxIdPatient(); }
             return View(patient);
         }
+        [HttpPost]
+        public async Task<IActionResult> OnePatient(Patient patient)
+        {
+            if (ModelState.IsValid)
+            {
+
+                await  patient.SavePatient(patient);
+                return Redirect("~/AdminHome/PatSelect");
+            }
+            return View(patient);
+        }
+
+        public async Task<IActionResult> AddPatient(Patient patient)
+        {
+
+            patient = await db.Patients.FirstOrDefaultAsync(p => p.IdPatient == patient.IdPatient);
+            return View();
+        }
+
     }
 }

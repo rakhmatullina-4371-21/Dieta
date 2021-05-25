@@ -1,5 +1,4 @@
 ﻿@model Diet.Models.Patient
-
 @{
     Layout = "~/Views/Shared/_Layout.cshtml";
     ViewData["Title"] = "Список пациентов";
@@ -10,59 +9,55 @@
     @await Html.PartialAsync("~/Views/Shared/Header.cshtml")
 </div>
 
-<div class="col-md-7 col-lg-8">
-    <h4 class="mb-3">Billing address</h4>
-    <form class="needs-validation" novalidate="">
+<div class="col-md-7 col-lg-8 center">
+    <form class="needs-validation" asp-action="OnePatient">
+
+        <h1 class="mb-2 text-style-grey"> Аккаунт пациентна</h1>
+        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+        <div class="form-group">
+            <label asp-for="IdPatient" class="control-label" style="visibility: hidden;"> </label>
+            <input asp-for="IdPatient" class="form-control" type="hidden" />
+            <span asp-validation-for="IdPatient" class="text-danger"></span>
+        </div>
         <div class="row g-3">
-            <div class="col-sm-6">
-                <label for="firstName" class="form-label">Фамилия</label>
-                <input type="text" class="form-control" id="firstName" placeholder="@Model.Surname" value="" required="">
-                <div class="invalid-feedback">
-                    Valid first name is required.
-                </div>
+            <div class="form-group col-md-4 text-style-grey">
+                <label asp-for="Surname" class="control-label"> Фамилия </label>
+                <input asp-for="Surname" class="form-control" />
+                <span asp-validation-for="Surname" class="text-danger"></span>
             </div>
+            <div class="form-group col-md-4 text-style-grey">
+                <label asp-for="Name" class="control-label"> Имя </label>
+                <input asp-for="Name" class="form-control" />
+                <span asp-validation-for="Name" class="text-danger"></span>
+            </div>
+            <div class="form-group col-md-4 text-style-grey">
+                <label asp-for="Lastname" class="control-label"> Отчество </label>
+                <input asp-for="Lastname" class="form-control" />
+                <span asp-validation-for="Lastname" class="text-danger"></span>
+            </div>
+            <div class="form-group  col-sm-6 text-style-grey">
+                <label asp-for="Login" class="control-label"> Логин </label>
+                <input asp-for="Login" class="form-control" placeholder="name@example.com" />
+                <span asp-validation-for="Login" class="text-danger"></span>
+            </div>
+            <div class="form-group  col-sm-6 text-style-grey">
+                <label asp-for="Password" class="control-label"> Пароль </label>
+                <input asp-for="Password" class="form-control" type="password" value="@Model.Password" />
+                <span asp-validation-for="Password" class="text-danger"></span>
+            </div>
+            <div class="form-group  col-sm-6 text-style-grey">
+                <label asp-for="Woman" class="control-label"> Пол </label>
+                <input asp-for="Woman" class="form-control" />
+                <span asp-validation-for="Woman" class="text-danger"></span>
+            </div>
+            <div class="form-group  col-sm-6 text-style-green">
+                <label asp-for="DateOfBirth" class="control-label"> Дата рождения </label>
+                <input asp-for="DateOfBirth" class="form-control" />
+                <span asp-validation-for="DateOfBirth" class="text-danger"></span>
+            </div>
+        </div>
 
-            <div class="col-sm-6">
-                <label for="lastName" class="form-label">Имя</label>
-                <input type="text" class="form-control" id="lastName" placeholder="@Model.Name" value="" required="">
-                <div class="invalid-feedback">
-                    Valid last name is required.
-                </div>
-            </div>
-            <div class="col-sm-6">
-                <label for="lastName" class="form-label">Имя</label>
-                <input type="text" class="form-control" id="lastName" placeholder="@Model.Lastname" value="" required="">
-                <div class="invalid-feedback">
-                    Valid last name is required.
-                </div>
-            </div>
-            <div class="col-12">
-                <label for="email" class="form-label">Email</label>
-                <input type="email" class="form-control" id="email" placeholder="@Model.Login">
-                <div class="invalid-feedback">
-                    Please enter a valid email address for shipping updates.
-                </div>
-            </div>
+        <button class="btn btn-lg btn-style w-50 m-1" asp-controller="AdminHome" asp-action="OnePatient" style="color:black;">Сохранить </button>
 
-            <div class="col-12">
-                <label for="address" class="form-label">Address</label>
-                <input type="password" class="form-control" id="floatingPassword" placeholder="Password" asp-for="Password">
-                <div class="invalid-feedback">
-                    Please enter your shipping address.
-                </div>
-            </div>
-            <div class="my-3">
-                <div class="form-check">
-                    <input id="w" name="paymentMethod" type="radio" class="form-check-input"  checked   >
-                    <label class="form-check-label" asp-for="@Model.Gender">Женский</label>
-                </div>
-                <div class="form-check">
-                    <input id="m" name="paymentMethod" type="radio" class="form-check-input" required="">
-                    <label class="form-check-label" asp-for="@Model.Gender">Мужской</label>
-                </div>
-            </div>
-        <hr class="my-4">
-
-        <button class="w-100 btn btn-primary btn-lg" type="submit">Continue to checkout</button>
     </form>
 </div>

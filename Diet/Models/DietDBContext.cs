@@ -253,6 +253,8 @@ namespace Diet.Models
             });
             var g = modelBuilder.HasPostgresEnum(null, "gender", new[] { "Мужской", "ok", "Женский" })
 .HasAnnotation("Relational:Collation", "Russian_Russia.1251");
+
+
             modelBuilder.Entity<Patient>(entity =>
             {
                 entity.HasKey(e => e.IdPatient)
@@ -262,9 +264,6 @@ namespace Diet.Models
 
                 entity.HasIndex(e => e.Login, "patient_login_key")
                     .IsUnique();
-
-
-                entity.Property(e => e.Gender).HasColumnName("gender");
 
                 entity.Property(e => e.IdPatient).HasColumnName("id_patient");
 
@@ -287,6 +286,10 @@ namespace Diet.Models
                 entity.Property(e => e.Surname)
                     .IsRequired()
                     .HasColumnName("surname");
+
+                entity.Property(e => e.Woman)
+                   .HasColumnName("gender_woman")
+                   .HasDefaultValueSql("false");
             });
 
             modelBuilder.Entity<PatientCard>(entity =>

@@ -13,7 +13,7 @@
 
 
 <form>
-    <h1 class="text-style-grey">PatSelect</h1>
+    <h1 class="text-white">Список пациентов</h1>
     <div class="m-5 p-5">
         <table class="table text-style-grey">
             <thead>
@@ -31,13 +31,13 @@
                         Email
                     </th>
                     <th>
-                        Подробнее
+                        <button class="btn btn-lg btn-style w-50 m-1" asp-controller="AdminHome" asp-action="OnePatient" style="color:black; font-size:10px;"> Добавить </button>
                     </th>
                 </tr>
             </thead>
             <tbody>
                 @foreach (var item in Model)
-                { 
+                {
                     <tr>
                         <td>
                             @Html.DisplayFor(modelItem => item.Surname)
@@ -52,10 +52,11 @@
                             @Html.DisplayFor(modelItem => item.Login)
                         </td>
                         <td>
-                            <button class="btn btn-lg btn-style w-25 m-1" asp-controller="AdminHome" asp-action="OnePatient" asp-route-id="@item.IdPatient" style="color:black"> Подробнее </button>
+                            <button class="btn btn-lg btn-style w-50 m-1" asp-controller="AdminHome" asp-action="OnePatient" asp-route-id="@item.IdPatient" style="color:black; font-size:10px;"> Подробнее </button>
                         </td>
 
                     </tr>
+
                 }
             </tbody>
         </table>

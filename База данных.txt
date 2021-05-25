@@ -46,7 +46,7 @@ VALUES ('Шукшин','Леонид','Федорович','lab@mail.com','gnzLD
 
 
 
-CREATE TYPE gender AS ENUM ('Мужской', 'ok', 'Женский');
+
 CREATE TABLE  PATIENT
 (
 	id_patient SERIAL PRIMARY KEY,
@@ -55,21 +55,21 @@ CREATE TABLE  PATIENT
 	lastname TEXT,
 	login text UNIQUE NOT NULL,
 	password TEXT,
-    gender gender,
-    date_of_birth DATE
+        gender_woman boolean default false,
+        date_of_birth DATE
 );
 
-INSERT INTO PATIENT(surname,name,lastname,login,password, gender, date_of_birth)   
-VALUES ('Рябинин','Сергей','Александрович','pat@mail.com','Ac/NT2uHcP6/tAy5BnFYIg==','Мужской', '1976-07-23'); 
+INSERT INTO PATIENT(surname,name,lastname,login,password, date_of_birth)   
+VALUES ('Рябинин','Сергей','Александрович','pat@mail.com','Ac/NT2uHcP6/tAy5BnFYIg==','1976-07-23'); 
 
 INSERT INTO PATIENT(surname,name,login,password, gender, date_of_birth)   
-VALUES ('Кукушкин','Федор','pat2@mail.com','Ac/NT2uHcP6/tAy5BnFYIg==','Мужской', '1956-12-03');
+VALUES ('Кукушкин','Федор','pat2@mail.com','Ac/NT2uHcP6/tAy5BnFYIg==', '1956-12-03');
 
-INSERT INTO PATIENT(surname,name,lastname,login,password, gender, date_of_birth)   
-VALUES ('Панова','Мария','Алексеевна','pat3@mail.com','Ac/NT2uHcP6/tAy5BnFYIg==','Женский', '1999-08-24'); 
+INSERT INTO PATIENT(surname,name,lastname,login,password,date_of_birth,gender_woman )   
+VALUES ('Панова','Мария','Алексеевна','pat3@mail.com','Ac/NT2uHcP6/tAy5BnFYIg==', '1999-08-24', true); 
 
-INSERT INTO PATIENT(surname,name,lastname,login,password, gender, date_of_birth)   
-VALUES ('Дружинина','Дарья','Даниловна','pat4@mail.com','gnzLDuqKcGxMNKFokfhOew==','Женский', '1999-08-24'); 
+INSERT INTO PATIENT(surname,name,lastname,login,password, date_of_birth, gender_woman )   
+VALUES ('Дружинина','Дарья','Даниловна','pat4@mail.com','gnzLDuqKcGxMNKFokfhOew==', '1999-08-24',true); 
 
 
 CREATE TABLE  ACTIVITY_LEVELS
