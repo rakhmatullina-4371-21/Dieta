@@ -4,65 +4,8 @@
 @{
     Layout = "~/Views/Shared/_Layout.cshtml";
     ViewData["Title"] = "Список пациентов";
-}
-
+} 
 <link href="~/css/StyleSheet.css " rel="stylesheet" />
-
-@*<h4>Employee</h4>
-    <hr />
-    <div class="row">
-        <div class="col-md-4">
-            <form asp-action="OneEmployee">
-                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-                <div class="form-group">
-                    <label asp-for="IdEmployee" class="control-label"></label>
-                    <input asp-for="IdEmployee" class="form-control" />
-                    <span asp-validation-for="IdEmployee" class="text-danger"></span>
-                </div>
-                <div class="form-group">
-                    <label asp-for="Surname" class="control-label"></label>
-                    <input asp-for="Surname" class="form-control" />
-                    <span asp-validation-for="Surname" class="text-danger"></span>
-                </div>
-                <div class="form-group">
-                    <label asp-for="Name" class="control-label"></label>
-                    <input asp-for="Name" class="form-control" />
-                    <span asp-validation-for="Name" class="text-danger"></span>
-                </div>
-                <div class="form-group">
-                    <label asp-for="Lastname" class="control-label"></label>
-                    <input asp-for="Lastname" class="form-control" />
-                    <span asp-validation-for="Lastname" class="text-danger"></span>
-                </div>
-                <div class="form-group">
-                    <label asp-for="Login" class="control-label"></label>
-                    <input asp-for="Login" class="form-control" />
-                    <span asp-validation-for="Login" class="text-danger"></span>
-                </div>
-                <div class="form-group">
-                    <label asp-for="Password" class="control-label"></label>
-                    <input asp-for="Password" class="form-control" />
-                    <span asp-validation-for="Password" class="text-danger"></span>
-                </div>
-                <div class="form-group">
-                    <label asp-for="IdPosition" class="control-label"></label>
-                    <input asp-for="IdPosition" class="form-control" />
-                    <span asp-validation-for="IdPosition" class="text-danger"></span>
-                </div>
-                <div class="form-group">
-                    <input type="submit" value="Create" class="btn btn-primary" />
-                </div>
-            </form>
-        </div>
-    </div>
-
-    <div>
-        <a asp-action="Index">Back to List</a>
-    </div>*@
-
-
-
-
 <div>
     @await Html.PartialAsync("~/Views/Shared/Header.cshtml")
 </div>
@@ -124,25 +67,3 @@
 
 
     </form>
-
-
-
-
-@*</div>
-
-<form asp-action="Create" asp-controller="Admin" asp-antiforgery="true" asp-route-idPosit="">
-    <div>
-        <div>
-            <label asp-for="Name"></label>
-            <input type="text" asp-for="Name" />
-        </div>
-        <div>
-            <label asp-for="Surname"></label>
-            <input asp-for="Surname" />
-        </div>
-        <div>
-            <label asp-for="IdPosition"></label>
-            <select asp-for="IdPosition" asp-items="(IEnumerable<SelectListItem>)@ViewData["position"]"></select>
-        </div>
-     </div>
-</form >*@

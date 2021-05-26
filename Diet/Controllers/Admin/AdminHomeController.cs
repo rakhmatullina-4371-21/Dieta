@@ -33,6 +33,14 @@ namespace Diet
             return View(Employee.SelectEmployees(HttpContext.User.Identity.Name));
         }
 
+        public IActionResult DishSelect()
+        {
+            return View(Dish.SelectDishes());
+        }
+
+
+
+
 
         [HttpGet]
         public async Task<IActionResult> OnePatient(int id)
@@ -89,7 +97,24 @@ namespace Diet
 
 
 
+        [HttpGet]
+        public async Task<IActionResult> OneDish(int id)
+        {
+            Dish dish = await Dish.SelectDish(id);
+            if (dish == null) { dish = new Dish(); dish.IdDish = await Dish.MaxIdDish(); }
+            return View(dish);
+        }
+        [HttpPost]
+        public async Task<IActionResult> OneDish(Dish dish)
+        {
+            if (ModelState.IsValid)
+            {
 
+                await dish.SaveDish(dish);
+                return Redirect("~/AdminHome/DishSelect");
+            }
+            return View(dish);
+        }
 
     }
 }
