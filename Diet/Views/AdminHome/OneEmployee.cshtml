@@ -1,0 +1,148 @@
+﻿@model Diet.Models.Employee
+@using Diet.Models;
+
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    ViewData["Title"] = "Список пациентов";
+}
+
+<link href="~/css/StyleSheet.css " rel="stylesheet" />
+
+@*<h4>Employee</h4>
+    <hr />
+    <div class="row">
+        <div class="col-md-4">
+            <form asp-action="OneEmployee">
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                <div class="form-group">
+                    <label asp-for="IdEmployee" class="control-label"></label>
+                    <input asp-for="IdEmployee" class="form-control" />
+                    <span asp-validation-for="IdEmployee" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="Surname" class="control-label"></label>
+                    <input asp-for="Surname" class="form-control" />
+                    <span asp-validation-for="Surname" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="Name" class="control-label"></label>
+                    <input asp-for="Name" class="form-control" />
+                    <span asp-validation-for="Name" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="Lastname" class="control-label"></label>
+                    <input asp-for="Lastname" class="form-control" />
+                    <span asp-validation-for="Lastname" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="Login" class="control-label"></label>
+                    <input asp-for="Login" class="form-control" />
+                    <span asp-validation-for="Login" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="Password" class="control-label"></label>
+                    <input asp-for="Password" class="form-control" />
+                    <span asp-validation-for="Password" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="IdPosition" class="control-label"></label>
+                    <input asp-for="IdPosition" class="form-control" />
+                    <span asp-validation-for="IdPosition" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <input type="submit" value="Create" class="btn btn-primary" />
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <div>
+        <a asp-action="Index">Back to List</a>
+    </div>*@
+
+
+
+
+<div>
+    @await Html.PartialAsync("~/Views/Shared/Header.cshtml")
+</div>
+
+<div class="col-md-7 col-lg-8 center">
+    <form class="needs-validation" name="mainForm" asp-action="OneEmployee">
+
+        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+        <div class="form-group">
+            <h1 class="mb-2 text-style-grey"> Аккаунт пациентна</h1>
+            <label asp-for="IdEmployee" class="control-label" style="visibility: hidden;"> </label>
+            <input asp-for="IdEmployee" class="form-control" type="hidden" />
+            <span asp-validation-for="IdEmployee" class="text-danger"></span>
+        </div>
+        <div class="row g-3">
+            <div class="form-group col-sm-6 text-style-grey">
+                <label asp-for="Surname" class="control-label"> Фамилия </label>
+                <input asp-for="Surname" class="form-control" />
+                <span asp-validation-for="Surname" class="text-danger"></span>
+            </div>
+            <div class="form-group col-sm-6 text-style-grey">
+                <label asp-for="Name" class="control-label"> Имя </label>
+                <input asp-for="Name" class="form-control" />
+                <span asp-validation-for="Name" class="text-danger"></span>
+            </div>
+            <div class="form-group col-sm-6 text-style-grey">
+                <label asp-for="Lastname" class="control-label"> Отчество </label>
+                <input asp-for="Lastname" class="form-control" />
+                <span asp-validation-for="Lastname" class="text-danger"></span>
+            </div>
+            <div class="form-group  col-sm-6 text-style-grey">
+                <label asp-for="Login" class="control-label"> Логин </label>
+                <input asp-for="Login" class="form-control" placeholder="name@example.com" />
+                <span asp-validation-for="Login" class="text-danger"></span>
+            </div>
+            <div class="form-group  col-sm-6 text-style-grey">
+                <label asp-for="Password" class="control-label"> Пароль </label>
+                <input asp-for="Password" class="form-control" type="password" value="@Model.Password" />
+                <span asp-validation-for="Password" class="text-danger"></span>
+            </div>
+            <div class="form-group  col-sm-6 text-style-grey" id="select">
+                <div>
+                    <label asp-for="IdPosition"> Должности</label>
+                    <select class="form-select" asp-for="IdPosition" asp-items="(IEnumerable<SelectListItem>)@ViewData["position"]" ></select>
+                </div>
+            </div>
+
+            <script>
+                function selected() {
+                    var p = mainForm.form - select;
+                    @Model.IdPosition = p.selectedIndex;
+                }
+            </script>
+
+            <div class="col-12" style="text-align:center">
+                <button class="btn btn-lg btn-style w-50 m-1" asp-controller="AdminHome" asp-action="OneEmployee" style="color:black;">Сохранить </button>
+            </div>
+        </div>
+
+
+    </form>
+
+
+
+
+@*</div>
+
+<form asp-action="Create" asp-controller="Admin" asp-antiforgery="true" asp-route-idPosit="">
+    <div>
+        <div>
+            <label asp-for="Name"></label>
+            <input type="text" asp-for="Name" />
+        </div>
+        <div>
+            <label asp-for="Surname"></label>
+            <input asp-for="Surname" />
+        </div>
+        <div>
+            <label asp-for="IdPosition"></label>
+            <select asp-for="IdPosition" asp-items="(IEnumerable<SelectListItem>)@ViewData["position"]"></select>
+        </div>
+     </div>
+</form >*@

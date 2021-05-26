@@ -1,84 +1,5 @@
 ﻿@model IEnumerable<Diet.Models.Employee>
-
-@{
-    ViewData["Title"] = "EmpSelect";
-    Layout = "~/Views/Shared/_Layout.cshtml";
-}
-
-<h1>EmpSelect</h1>
-
-<p>
-    <a asp-action="Create">Create New</a>
-</p>
-<table class="table">
-    <thead>
-        <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.IdEmployee)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Surname)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Name)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Lastname)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Login)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Password)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.IdPosition)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Phone)
-            </th>
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach (var item in Model)
-        {
-            <tr>
-                <td>
-                    @Html.DisplayFor(modelItem => item.IdEmployee)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Surname)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Name)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Lastname)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Login)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Password)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.IdPosition)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Phone)
-                </td>
-                <td>
-                    @Html.ActionLink("Edit", "Edit", new { /* id=item.PrimaryKey */ }) |
-                    @Html.ActionLink("Details", "Details", new { /* id=item.PrimaryKey */ }) |
-                    @Html.ActionLink("Delete", "Delete", new { /* id=item.PrimaryKey */ })
-                </td>
-            </tr>
-        }
-    </tbody>
-</table>
-
-
+@using Diet.Models
 
 @{
     Layout = "~/Views/Shared/_Layout.cshtml";
@@ -89,7 +10,6 @@
 <div>
     @await Html.PartialAsync("~/Views/Shared/Header.cshtml")
 </div>
-
 
 
 <form>
@@ -129,10 +49,10 @@
                             @Html.DisplayFor(modelItem => item.Lastname)
                         </td>
                         <td>
-                            @Html.DisplayFor(modelItem => item.Login)
+                            @Employee.PositionEmp(item.IdPosition)
                         </td>
                         <td>
-                            <button class="btn btn-lg btn-style w-50 m-1" asp-controller="AdminHome" asp-action="OnePatient" asp-route-id="@item.IdPatient" style="color:black; font-size:10px;"> Подробнее </button>
+                            <button class="btn btn-lg btn-style w-50 m-1" asp-controller="AdminHome" asp-action="OneEmployee" asp-route-id="@item.IdEmployee" style="color:black; font-size:10px;"> Подробнее </button>
                         </td>
 
                     </tr>
@@ -142,4 +62,5 @@
         </table>
     </div>
 </form>
+
 

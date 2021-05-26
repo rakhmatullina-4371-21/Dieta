@@ -1,6 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -19,11 +20,22 @@ namespace Diet.Models
         }
 
         public int IdEmployee { get; set; }
+
+        [RegularExpression(@"^[А-Я]+[а-яА]*$"), Required(ErrorMessage = "Некорректные данные"), StringLength(15)]
         public string Surname { get; set; }
+
+        [RegularExpression(@"^[А-Я]+[а-яА]*$"), Required(ErrorMessage = "Некорректные данные"), StringLength(15)]
         public string Name { get; set; }
+
+        [RegularExpression(@"^[А-Я]+[а-яА]*$"), StringLength(15)]
         public string Lastname { get; set; }
+
+        [Required(ErrorMessage = "Не указан Email")]
         public string Login { get; set; }
+
+        [Required(ErrorMessage = "Не указан пароль")]
         public string Password { get; set; }
+        [Required(ErrorMessage = "Выберите должность")]
         public int? IdPosition { get; set; }
 
         public virtual Position IdPositionNavigation { get; set; }
@@ -46,20 +58,22 @@ namespace Diet.Models
             int ID = await DB.Employees.MaxAsync(p => p.IdEmployee) + 1;
             return ID;
         }
-        public async Task SavePatient(Employee employee)
+        public async Task SaveEmployee(Employee employee)
         {
             Employee empl = await db.Employees.FirstOrDefaultAsync(p => p.IdEmployee == employee.IdEmployee);
             Employee newEmp = new Employee();
             newEmp.IdEmployee = employee.IdEmployee;
-            newEmp.Surname = empl.Surname;
+            newEmp.Surname = employee.Surname;
             newEmp.Name = employee.Name;
             newEmp.Lastname = employee.Lastname;
             newEmp.IdPosition = employee.IdPosition;
-            if (empl.Password == null)
+            newEmp.Login = employee.Login;
+
+            if (empl == null)
             {
-                empl.Password = PasswordHash.GetHash(employee.Password);
+                newEmp.Password = PasswordHash.GetHash(employee.Password);
             }
-            else empl.Password = employee.Password;
+            else newEmp.Password = employee.Password;
             if (empl == null)
             {
                 await db.Employees.AddRangeAsync(newEmp);
@@ -67,9 +81,21 @@ namespace Diet.Models
             db.SaveChanges();
         }
 
-        public static List<Employee> SelectEmployees()
+        public static List<Employee> SelectEmployees(string id)
         {
-            return DB.Employees.Select(p => p).ToList();
+            return DB.Employees.Where(p=>p.IdEmployee!=int.Parse(id)).Select(p=>p).ToList();
+        }
+
+
+        public static string PositionEmp(int? id)
+        {
+            return DB.Positions.First(p => p.IdPosition == id).Position1;
+        }
+
+        public static List<Position> SelectPosition()
+        {
+            return DB.Positions.Select(p => p).ToList();
         }
     }
+
 }
