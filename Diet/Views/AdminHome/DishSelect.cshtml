@@ -1,66 +1,79 @@
-﻿ @model IEnumerable<Diet.Models.Dish>
+﻿@model IEnumerable<Diet.Models.Dish>
+@using Diet.Models
 
 @{
-    ViewData["Title"] = "DishSelect";
     Layout = "~/Views/Shared/_Layout.cshtml";
+    ViewData["Title"] = "Список пациентов";
 }
 
-<h1>DishSelect</h1>
+<link href="~/css/StyleSheet.css " rel="stylesheet" />
+<div>
+    @await Html.PartialAsync("~/Views/Shared/Header.cshtml")
+</div>
 
-<p>
-    <a asp-action="Create">Create New</a>
-</p>
-<table class="table">
-    <thead>
-        <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.IdDish)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Dish1)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Calories)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Protein)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Fats)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Carbohydrates)
-            </th>
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.IdDish)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Dish1)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Calories)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Protein)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Fats)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Carbohydrates)
-            </td>
-            <td>
-                @Html.ActionLink("Edit", "Edit", new { /* id=item.PrimaryKey */ }) |
-                @Html.ActionLink("Details", "Details", new { /* id=item.PrimaryKey */ }) |
-                @Html.ActionLink("Delete", "Delete", new { /* id=item.PrimaryKey */ })
-            </td>
-        </tr>
-}
-    </tbody>
-</table>
+
+<link href="~/css/StyleSheet.css " rel="stylesheet" />
+
+@*<div class="ratio ratio-4x3 m-5 p-1">
+    <h1 class="border-bottom pb-2 mb-0 ">Список блюд</h1>
+    <div class="col-lg-7 text-center text-lg-start bg-style-grey">
+
+        @{
+            foreach (var item in Model)
+            {
+                <div class="d-flex text-muted pt-3">
+
+                    <div class="pb-3 mb-0 small lh-sm border-bottom w-100">
+                        <div class="d-flex justify-content-between">
+                            <strong class="text-gray-dark">  @Html.DisplayFor(modelItem => item.Dish1) </strong>
+                            <a class="text-black-50" asp-action="OneDish" asp-controller="AdminHome">Подробнее</a>
+                        </div>
+                    </div>
+                </div>
+
+            }
+        }
+    </div>  
+</div>*@
+
+
+<div class="container row w-100 bloc-center">
+    <div class="col-sm m-3 text-style-grey ">
+        <h1 class="border-bottom  m-2 p-1">Список блюд</h1>
+        @{
+            foreach (var item in Model)
+            {
+                <div class="d-flex text-muted pt-3">
+
+                    <div class="pb-3 mb-0 small lh-sm border-bottom w-100">
+                        <div class="d-flex justify-content-between">
+                            <strong class="text-style-grey">  @Html.DisplayFor(modelItem => item.Dish1) </strong>
+                            <a class="text-style-grey" asp-route-id="@item.IdDish" asp-action="OneDish" asp-controller="AdminHome">Подробнее</a>
+                        </div>
+                    </div>
+                </div>
+
+            }
+        }
+    </div>
+    <div class="col  m-3 p-1 text-style-grey">
+        <h1 class="border-bottom  m-2 ">Список продуктов</h1>
+
+        @{
+            foreach (var item in Product.SelectDishes())
+            {
+                <div class="d-flex text-muted pt-3">
+
+                    <div class="pb-3 mb-0 small lh-sm border-bottom w-100">
+                        <div class="d-flex justify-content-between">
+                            <strong class="text-style-grey">  @Html.DisplayFor(modelItem => item.Product1) </strong>
+                            <a class="text-style-grey" asp-route-id="@item.IdProduct" asp-action="OneProduct" asp-controller="AdminHome">Подробнее</a>
+                        </div>
+                    </div>
+                </div>
+
+            }
+        }
+    </div>
+
+    </div>

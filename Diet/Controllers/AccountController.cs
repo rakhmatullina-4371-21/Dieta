@@ -29,32 +29,35 @@ namespace Diet.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Login(LoginModel model, string returnUrl)
         {
+            if (ModelState.IsValid)
+            {
 
-                    string  password = PasswordHash.GetHash(model.Password);    //Шифрование введенного пароля
-                    Patient patient = await db.Patients.FirstOrDefaultAsync(u => u.Login == model.Email && u.Password == password);
-                    if (patient != null)
+                string password = PasswordHash.GetHash(model.Password);    //Шифрование введенного пароля
+                Patient patient = await db.Patients.FirstOrDefaultAsync(u => u.Login == model.Email && u.Password == password);
+                if (patient != null)
+                {
+                    await Authenticate(patient.Login); // аутентификация
+                    return Redirect(returnUrl ?? "/");
+                    //return RedirectToAction("MenuPatient", "PatientStart", patient.IdPatient);
+                }
+                else
+                {
+                    Employee emp = await db.Employees.FirstOrDefaultAsync(u => u.Login == model.Email && u.Password == password);
+                    if (emp != null)
                     {
-                        await Authenticate(patient.Login); // аутентификация
-                          return Redirect(returnUrl ?? "/");
-                       //return RedirectToAction("MenuPatient", "PatientStart", patient.IdPatient);
-                    }
-                    else
-                    {
-                       Employee emp = await db.Employees.FirstOrDefaultAsync(u => u.Login == model.Email && u.Password == password);
-                        if (emp != null)
+
+                        await Authenticate(model.Email); // аутентификация
+                        if (await db.Employees.FirstOrDefaultAsync(p => p.IdPosition == db.Positions.FirstOrDefault(o => o.Position1 == "Администратор").IdPosition) != null)
                         {
-
-                            await Authenticate(model.Email); // аутентификация
-                            if (await db.Employees.FirstOrDefaultAsync(p => p.IdPosition ==db.Positions.FirstOrDefault(o => o.Position1 == "Администратор").IdPosition) != null)
-                            {
-                                 //return RedirectToPage("Ident", "AdminHome", emp);
-                                await Authenticate(emp.IdEmployee.ToString()); // аутентификация
-                                return Redirect(returnUrl ?? "AdminHome/MenuAdmin/id?="+emp.IdEmployee);
-                            }
-
+                            //return RedirectToPage("Ident", "AdminHome", emp);
+                            await Authenticate(emp.IdEmployee.ToString()); // аутентификация
+                            return Redirect(returnUrl ?? "AdminHome/MenuAdmin/id?=" + emp.IdEmployee);
                         }
-                        ModelState.AddModelError("", "Некорректные логин и(или) пароль");
+
                     }
+                    ModelState.AddModelError("", "Некорректные логин и(или) пароль");
+                }
+            }
 
             return View(model);
         }
