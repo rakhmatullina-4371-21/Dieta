@@ -38,8 +38,26 @@ namespace Diet
             return View(Dish.SelectDishes());
         }
 
+        public IActionResult ProdInDish(int id)
+        {
+            return View(DishesProduct.SelectDishProd(id));
+        }
 
 
+
+
+        public IActionResult SaveProdInDish(IEnumerable<Product> product, int idDish)
+        {
+           
+            return View(Product.SelectProducts());
+        }
+ 
+        public IActionResult ProdSelect(IEnumerable<Product> product,int idDish)
+        {
+            var t = product;
+            ViewBag.id = idDish;
+            return View(Product.SelectProducts());
+        }
 
 
         [HttpGet]
@@ -100,6 +118,12 @@ namespace Diet
         [HttpGet]
         public async Task<IActionResult> OneDish(int id)
         {
+
+            ViewData["product"] = db.Products.Select(r => new SelectListItem
+            {
+                Text = r.Product1,
+                Value =r.IdProduct.ToString()
+            });
             Dish dish = await Dish.SelectDish(id);
             if (dish == null) { dish = new Dish(); dish.IdDish = await Dish.MaxIdDish(); }
             return View(dish);
@@ -109,11 +133,38 @@ namespace Diet
         {
             if (ModelState.IsValid)
             {
-
                 await dish.SaveDish(dish);
-                return Redirect("~/AdminHome/DishSelect");
+                return Redirect("~/AdminHome/ProdDish");
             }
             return View(dish);
+        }
+
+
+        [HttpGet]
+        public async Task<IActionResult> OneProduct(int id)
+        {
+
+            Product product = await Product.SelectOneProd(id);
+            if (product == null) { product = new Product(); product.IdProduct = await Product.MaxIdProd(); }
+            return View(product);
+        }
+        [HttpPost]
+        public async Task<IActionResult> OneProduct(Product product)
+        {
+            if (ModelState.IsValid)
+            {
+                await product.SaveProd(product);
+                return Redirect("~/AdminHome/");
+            }
+            return View(product);
+        }
+
+        public async Task<IActionResult> DeleteProduct(int id)
+        {
+
+            await Product.DelProd(id);
+            return Redirect("~/AdminHome/DishSelect");
+
         }
 
     }

@@ -25,7 +25,7 @@ namespace Diet.Models
         [RegularExpression(@"^[А-Я]+[а-яА]*$"), Required(ErrorMessage = "Некорректные данные"), StringLength(15)]
         public string Name { get; set; }
 
-        [RegularExpression(@"^[А-Я]+[а-яА]*$"), StringLength(15)]
+        [RegularExpression(@"^[А-Я]+[а-яА]*$", ErrorMessage = "Некорректные данные"), StringLength(15)]
         public string Lastname { get; set; }
 
         [Required(ErrorMessage = "Не указан Email")]
@@ -40,6 +40,7 @@ namespace Diet.Models
 
         [Display(Name = "DateOfBirth")]
         [DataType(DataType.Date)]
+        [Range(typeof(DateTime), "1/1/1950", "1/1/2004", ErrorMessage = "Неверная дата рождения")]
         [DisplayFormat(DataFormatString = "{0:MM/dd/yyyy}")]
         public DateTime? DateOfBirth { get; set; }
 

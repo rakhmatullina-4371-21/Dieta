@@ -1,6 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -11,10 +12,20 @@ namespace Diet.Models
     public partial class Dish
     {
         public int IdDish { get; set; }
+
+        [RegularExpression(@"^[А-Яа-я ]+$"), Required(ErrorMessage = "Некорректные данные")]
         public string Dish1 { get; set; }
+
+        [RegularExpression(@"[0-9]*\,?[0-9][0-9]", ErrorMessage = "Некорректные данные")]
         public decimal Calories { get; set; }
+
+        [RegularExpression(@"[0-9]*\,?[0-9][0-9]", ErrorMessage = "Некорректные данные")]
         public decimal Protein { get; set; }
+
+        [RegularExpression(@"[0-9]*\,?[0-9][0-9]", ErrorMessage = "Некорректные данные")]
         public decimal Fats { get; set; }
+
+        [RegularExpression(@"[0-9]*\,?[0-9][0-9]", ErrorMessage = "Некорректные данные")]
         public decimal Carbohydrates { get; set; }
 
         static DietDBContext db = new DietDBContext();

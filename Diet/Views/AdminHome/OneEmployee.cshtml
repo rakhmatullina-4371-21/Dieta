@@ -18,33 +18,33 @@
             <h1 class="mb-2 text-style-grey"> Аккаунт пациентна</h1>
             <label asp-for="IdEmployee" class="control-label" style="visibility: hidden;"> </label>
             <input asp-for="IdEmployee" class="form-control" type="hidden" />
-            <span asp-validation-for="IdEmployee" class="text-danger"></span>
+            <span asp-validation-for="IdEmployee" class="text-danger text-black-50"></span>
         </div>
         <div class="row g-3">
             <div class="form-group col-sm-6 text-style-grey">
                 <label asp-for="Surname" class="control-label"> Фамилия </label>
                 <input asp-for="Surname" class="form-control" />
-                <span asp-validation-for="Surname" class="text-danger"></span>
+                <span asp-validation-for="Surname" class="text-danger text-black-50"></span>
             </div>
             <div class="form-group col-sm-6 text-style-grey">
                 <label asp-for="Name" class="control-label"> Имя </label>
                 <input asp-for="Name" class="form-control" />
-                <span asp-validation-for="Name" class="text-danger"></span>
+                <span asp-validation-for="Name" class="text-danger text-black-50"></span>
             </div>
             <div class="form-group col-sm-6 text-style-grey">
                 <label asp-for="Lastname" class="control-label"> Отчество </label>
                 <input asp-for="Lastname" class="form-control" />
-                <span asp-validation-for="Lastname" class="text-danger"></span>
+                <span asp-validation-for="Lastname" class="text-danger text-black-50"></span>
             </div>
             <div class="form-group  col-sm-6 text-style-grey">
                 <label asp-for="Login" class="control-label"> Логин </label>
                 <input asp-for="Login" class="form-control" placeholder="name@example.com" />
-                <span asp-validation-for="Login" class="text-danger"></span>
+                <span asp-validation-for="Login" class="text-danger text-black-50"></span>
             </div>
             <div class="form-group  col-sm-6 text-style-grey">
                 <label asp-for="Password" class="control-label"> Пароль </label>
                 <input asp-for="Password" class="form-control" type="password" value="@Model.Password" />
-                <span asp-validation-for="Password" class="text-danger"></span>
+                <span asp-validation-for="Password" class="text-danger text-black-50"></span>
             </div>
             <div class="form-group  col-sm-6 text-style-grey" id="select">
                 <div>
@@ -53,13 +53,6 @@
                 </div>
             </div>
 
-            <script>
-                function selected() {
-                    var p = mainForm.form - select;
-                    @Model.IdPosition = p.selectedIndex;
-                }
-            </script>
-
             <div class="col-12" style="text-align:center">
                 <button class="btn btn-lg btn-style w-50 m-1" asp-controller="AdminHome" asp-action="OneEmployee" style="color:black;">Сохранить </button>
             </div>
@@ -67,3 +60,4 @@
 
 
     </form>
+</div>

@@ -166,3 +166,7 @@ h1 {
     margin-right: auto;
     width: 6em
 }
+
+.plus {
+    background-image: url(../images/plus.svg);
+}
