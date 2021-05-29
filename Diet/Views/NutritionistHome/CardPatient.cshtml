@@ -1,0 +1,148 @@
+﻿@model Diet.Models.PatientCard
+@using Diet.Models
+@{
+    ViewData["Title"] = "CardPatient";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h1>CardPatient</h1>
+
+<h4>PatientCard</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="CardPatient">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="IdCard" class="control-label"></label>
+                <input asp-for="IdCard" class="form-control" />
+                <span asp-validation-for="IdCard" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="IdPatient" class="control-label"></label>
+                <input asp-for="IdPatient" class="form-control" />
+                <span asp-validation-for="IdPatient" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="IdEmployee" class="control-label"></label>
+                <input asp-for="IdEmployee" class="form-control" />
+                <span asp-validation-for="IdEmployee" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="DailyCalories" class="control-label"></label>
+                <input asp-for="DailyCalories" class="form-control" />
+                <span asp-validation-for="DailyCalories" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="DailyProtein" class="control-label"></label>
+                <input asp-for="DailyProtein" class="form-control" />
+                <span asp-validation-for="DailyProtein" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="DailyFats" class="control-label"></label>
+                <input asp-for="DailyFats" class="form-control" />
+                <span asp-validation-for="DailyFats" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="DailyCarbohydrates" class="control-label"></label>
+                <input asp-for="DailyCarbohydrates" class="form-control" />
+                <span asp-validation-for="DailyCarbohydrates" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="StartDiet" class="control-label"></label>
+                <input asp-for="StartDiet" class="form-control" />
+                <span asp-validation-for="StartDiet" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="FinishDiet" class="control-label"></label>
+                <input asp-for="FinishDiet" class="form-control" />
+                <span asp-validation-for="FinishDiet" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="IdActivityLevels" class="control-label"></label>
+                <input asp-for="IdActivityLevels" class="form-control" />
+                <span asp-validation-for="IdActivityLevels" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Create" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    ViewData["Title"] = "Пациент";
+}
+
+<link href="~/css/StyleSheet.css " rel="stylesheet" />
+<div>
+    @await Html.PartialAsync("~/Views/Shared/Header.cshtml")
+</div>
+
+<div class="col-md-7 col-lg-8 center">
+    <form class="needs-validation" asp-action="OnePatient">
+
+        @{ 
+           var patient = await Patient.SelectPatient(int.Parse(Model.IdPatient.ToString()));
+        }
+        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+        <div class="form-group">
+            <h1 class="border-bottom  m-2 ">Карта пациента</h1>
+            <h2 class="border-bottom  m-2 text-style-grey  " style="text-align:left">@patient.Surname @patient.Name @patient.Lastname</h2>
+                <strong class="d-inline-block mb-2 text-success"> Дата рождения : @patient.DateOfBirth </strong>
+                <p class="mb-0">Пол: @{ if (patient.Woman == true) {<label>Женский</label>} else { <label>Мужской</label>} }</p>
+                <a href="#" class="stretched-link" mb-checked="1" data-tip="">Continue reading</a>
+        </div>
+        <div class="row g-3">
+            <div class="form-group col-sm-6 text-style-grey">
+                <label asp-for="DailyCalories" class="control-label"> Дневная норма калорий </label>
+                <input asp-for="DailyCalories" class="form-control" />
+                <span asp-validation-for="DailyCalories" class="text-danger text-black-50"></span>
+            </div>
+            <div class="form-group col-sm-6 text-style-grey">
+                <label asp-for="DailyProtein" class="control-label"> Дневная норма белка </label>
+                <input asp-for="DailyProtein" class="form-control" />
+                <span asp-validation-for="DailyProtein" class="text-danger text-black-50"></span>
+            </div>
+            <div class="form-group col-sm-6 text-style-grey">
+                <label asp-for="DailyFats" class="control-label"> Дневная норма жиров </label>
+                <input asp-for="DailyFats" class="form-control" />
+                <span asp-validation-for="DailyFats" class="text-danger text-black-50"></span>
+            </div>
+            <div class="form-group  col-sm-6 text-style-green">
+                <label asp-for="DailyCarbohydrates" class="control-label">Дневная норма углеводов</label>
+                <input asp-for="DailyCarbohydrates" class="form-control" />
+                <span asp-validation-for="DailyCarbohydrates" class="text-danger text-black-50"></span>
+            </div>
+            <div class="form-group  col-sm-6 text-style-green">
+                <label asp-for="StartDiet" class="control-label"> Начало диеты </label>
+                <input asp-for="StartDiet" class="form-control" />
+                <span asp-validation-for="StartDiet" class="text-danger text-black-50"></span>
+            </div>
+            <div class="form-group  col-sm-6 text-style-green">
+                <label asp-for="FinishDiet" class="control-label"> Конец диеты </label>
+                <input asp-for="FinishDiet" class="form-control" />
+                <span asp-validation-for="FinishDiet" class="text-danger text-black-50"></span>
+            </div>
+
+            <div class="form-group  col-sm-6 text-style-grey" id="select">
+                <div>
+                    <label asp-for="IdActivityLevels"> Уровень активности </label>
+                    <select class="form-select" asp-for="IdActivityLevels" asp-items="(IEnumerable<SelectListItem>)ActivityLevel.SelectLevelsAct()"></select>
+                </div>
+            </div>
+
+
+            <div class="col-12" style="text-align:center">
+                <button class="btn btn-lg btn-style w-50 m-1" asp-controller="AdminHome" asp-action="OnePatient" style="color:black;">Сохранить </button>
+            </div>
+        </div>
+
+
+    </form>
+</div>

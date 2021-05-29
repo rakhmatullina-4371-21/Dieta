@@ -1,0 +1,49 @@
+﻿@model IEnumerable<Diet.Models.Patient>
+@using Diet.Models
+
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    ViewData["Title"] = "Список блюд";
+}
+
+<link href="~/css/StyleSheet.css " rel="stylesheet" />
+<div>
+    @await Html.PartialAsync("~/Views/Shared/Header.cshtml")
+</div>
+
+
+<link href="~/css/StyleSheet.css " rel="stylesheet" />
+
+<div class="container row w-100 bloc-center">
+    <div class="col-12 m-3 text-style-grey">
+        <h1 class="border-bottom  m-3 p-1">Список пациентов</h1>
+        <div class="pb-3 mb-0 small lh-sm border-bottom w-100">
+            <a class="text-style-grey" asp-action="PatSelect" asp-controller="NutritionistHome"><font style="vertical-align: inherit;   display: block; text-align: right;"><font style="vertical-align: inherit;">Добавить</font></font></a>
+        </div>
+        @{
+            foreach (var item in Model)
+            {
+                <div class="d-flex text-muted pt-3">
+
+                    <div class="pb-3 mb-0 small lh-sm border-bottom w-100">
+                        <div class="d-flex justify-content-between">
+                            <strong class="text-style-grey">  @Html.DisplayFor(modelItem => item.Surname) @Html.DisplayFor(modelItem => item.Name) @Html.DisplayFor(modelItem => item.Lastname) </strong>
+                            <span class="d-block">@item.Login</span>
+                            <a class="text-style-grey" asp-route-id="@item.IdPatient" asp-action="PatSelect" asp-controller="NutritionistHome">Подробнее</a>
+                        </div>
+                    </div>
+                </div>
+
+            }
+
+
+        }
+    </div>
+
+    @{
+        if (Model.Count() == 0)
+        {
+            <strong class="text-style-grey center"> У Вас пока нет пациентов </strong>
+        }
+    }
+</div>

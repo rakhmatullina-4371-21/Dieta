@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc.Rendering;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -8,6 +9,7 @@ namespace Diet.Models.ViewModels
 {
     public class ListProductsInDishModel
     {
+        [Required(ErrorMessage = "")]
         public Dish OneDish { get; set; }
 
         public List<bool> ProductInDish { get; set; }

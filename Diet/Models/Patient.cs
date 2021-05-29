@@ -47,7 +47,11 @@ namespace Diet.Models
         public virtual ICollection<PatientCard> PatientCards { get; set; }
 
 
-
+        public static async Task<string> SelectPatient(int? id)
+        {
+            Patient patient = await db.Patients.FirstOrDefaultAsync(p => p.IdPatient == id);
+            return $"{patient.Surname} {patient.Name} {patient.Lastname}";
+        }
         public static async Task<Patient> SelectPatient(int id)
         {
             Patient patient = await db.Patients.FirstOrDefaultAsync(p => p.IdPatient == id);
@@ -86,5 +90,26 @@ namespace Diet.Models
         {
             return  db.Patients.Select(p =>p).ToList();
         }
+        public static List<Patient> SelectPatients( int id)
+        {
+            List<Patient> patients = new List<Patient>();
+            var ListPatienNutr= db.PatientCards.Where(p=>p.IdEmployee==id).Select(p => p.IdPatient).ToList();
+            foreach(var item in ListPatienNutr)
+            {
+                patients.Add(db.Patients.FirstOrDefault(p => p.IdPatient == item));
+            }
+            return patients;
+        }
+        public static List<Patient> SelectPatientCardNull()
+        {
+            List<Patient> patients = new List<Patient>();
+            var pat =  (from t in db.Patients
+                      join r in db.PatientCards on t.IdPatient equals r.IdPatient
+                      where r.Activ == false 
+                      select t).ToList();
+            return pat;
+
+        }
     }
+
 }

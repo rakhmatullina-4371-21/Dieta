@@ -45,20 +45,10 @@ namespace Diet
             app.UseRouting();
             app.UseAuthorization();
             app.UseAuthentication();
-            //app.UseEndpoints(endpoints =>
-            //{
-            //    //endpoints.MapControllerRoute(
-            //    //    name: "Admin",
-            //    // pattern: "{area=Admin}/{controller=HomeAdmin}/{action=MenuAdmin}/{id?}");
 
-            //    endpoints.MapControllerRoute(
-            //        name: "default",
-            //        pattern: "{controller=Account}/{action=Login}/{id?}");
-            //});
             
             app.UseMvc(routes =>
             {
-                //    routes.MapRoute("areaRoute", "{area:exists}/{controller}/{action}/{id?}");
                 routes.MapRoute(
                     name: "default",
                     template: "{controller=Account}/{action=Login}/{id?}");

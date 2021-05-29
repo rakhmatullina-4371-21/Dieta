@@ -1387,7 +1387,7 @@ VALUES ('Сливки','15','5','9','7' );
 
 CREATE TABLE DISHES_PRODUCT
 (
-
+             id SERIAL PRIMARY KEY,
              id_dish INT REFERENCES DISHES(id_dish),
              id_product INT REFERENCES PRODUCTS(id_product)
 );
@@ -1559,6 +1559,7 @@ CREATE TABLE PATIENT_CARDS
          start_diet DATE,
          finish_diet DATE,
          id_activity_levels INT REFERENCES ACTIVITY_LEVELS (id_activity_levels)
+         activ boolean default false ;
 );
 
 

@@ -17,7 +17,7 @@ namespace Diet
     {
         DietDBContext db = new DietDBContext();
         Employee employee;
-        public async Task<IActionResult> MenuAdmin(string returnUrl)
+        public async Task<IActionResult> MenuAdmin()
         {
             employee = new Employee();
             var id =  HttpContext.User.Identity.Name;
@@ -125,15 +125,17 @@ namespace Diet
         [HttpPost]
         public  IActionResult OneDish(ListProductsInDishModel model)
         {
+            
+
             if (ModelState.IsValid)
             {
-                 ListProductsInDishModel.SaveDish(model);
-                 Dish d = new Dish();
-                 d = model.OneDish;
-                 ListProductsInDishModel.SaveProductDish(model, d);
-
+                ListProductsInDishModel.SaveDish(model);
+                Dish d = new Dish();
+                d = model.OneDish;
+                ListProductsInDishModel.SaveProductDish(model, d);
                 return Redirect("~/AdminHome/DishSelect");
             }
+            ModelState.AddModelError("", "Некорректные данные ");
             return View(model);
         }
 

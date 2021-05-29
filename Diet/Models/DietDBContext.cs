@@ -336,6 +336,9 @@ namespace Diet.Models
                     .WithMany(p => p.PatientCards)
                     .HasForeignKey(d => d.IdPatient)
                     .HasConstraintName("patient_cards_id_patient_fkey");
+                entity.Property(e => e.Activ)
+                    .HasColumnName("activ")
+                    .HasDefaultValueSql("false");
             });
 
             modelBuilder.Entity<PatientDiagnosis>(entity =>

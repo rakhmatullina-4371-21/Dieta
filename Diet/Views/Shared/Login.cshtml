@@ -16,7 +16,7 @@
         </div>
         <div class="col-md-10 mx-auto col-lg-5">
 
-            <form class="p-4 p-md-5 border rounded-3 bg-style-grey" asp-controller="Account " asp-action="Login" asp-route-returnUrl="@ViewBag.returnUrl">
+            <form class="p-4 p-md-5 border rounded-3 bg-style-grey" asp-controller="Account " asp-action="Login" asp-route-Model="@Model">
                 <div>
                     <p class="h-100" style="font-size: 50px; text-align:center">Вход</p>
                 </div>
@@ -31,7 +31,7 @@
                     <span asp-validation-for="Password" />
                 </div>
                 <div class="validation" asp-validation-summary="ModelOnly"></div>
-                <button class="w-100 btn btn-lg btn-style" asp-controller="Account" asp-action="Login" asp-route-Model="@Model" type="submit">Войти</button>
+                <button class="w-100 btn btn-lg btn-style" asp-controller="Account" asp-action="Login"  type="submit">Войти</button>
             </form>
         </div>
     </div>

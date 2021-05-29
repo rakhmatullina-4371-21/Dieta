@@ -27,7 +27,7 @@ namespace Diet.Controllers
         }
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Login(LoginModel model, string returnUrl)
+        public async Task<IActionResult> Login(LoginModel model, string urlstr)
         {
             if (ModelState.IsValid)
             {
@@ -37,7 +37,7 @@ namespace Diet.Controllers
                 if (patient != null)
                 {
                     await Authenticate(patient.Login); // аутентификация
-                    return Redirect(returnUrl ?? "/");
+                    return Redirect("/");
                     //return RedirectToAction("MenuPatient", "PatientStart", patient.IdPatient);
                 }
                 else
@@ -47,19 +47,24 @@ namespace Diet.Controllers
                     {
 
                         await Authenticate(model.Email); // аутентификация
-                        if (await db.Employees.FirstOrDefaultAsync(p => p.IdPosition == db.Positions.FirstOrDefault(o => o.Position1 == "Администратор").IdPosition) != null)
+                        if (await db.Employees.FirstOrDefaultAsync(p => p.IdPosition ==1 && p.IdEmployee==emp.IdEmployee) != null)
                         {
                             //return RedirectToPage("Ident", "AdminHome", emp);
                             await Authenticate(emp.IdEmployee.ToString()); // аутентификация
-                            return Redirect(returnUrl ?? "AdminHome/MenuAdmin/id?=" + emp.IdEmployee);
+                            return Redirect(urlstr ?? "AdminHome/MenuAdmin/id?=" + emp.IdEmployee);
                         }
-
+                        if (await db.Employees.FirstOrDefaultAsync(p => p.IdPosition ==2 && p.IdEmployee == emp.IdEmployee) != null)
+                        {
+                            //return RedirectToPage("Ident", "AdminHome", emp);
+                            await Authenticate(emp.IdEmployee.ToString()); // аутентификация
+                            return Redirect(urlstr ?? "NutritionistHome/MenuNutritionist/id?=" + emp.IdEmployee);
+                        }
                     }
                     ModelState.AddModelError("", "Некорректные логин и(или) пароль");
                 }
-            }
 
-            return View(model);
+            }
+             return View(model);
         }
 
         private async Task Authenticate(string user)

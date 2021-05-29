@@ -20,6 +20,8 @@ namespace Diet.Models
         public decimal? DailyProtein { get; set; }
         public decimal? DailyFats { get; set; }
         public decimal? DailyCarbohydrates { get; set; }
+        public bool Activ { get; set; }
+
         public DateTime? StartDiet { get; set; }
         public DateTime? FinishDiet { get; set; }
         public int? IdActivityLevels { get; set; }
