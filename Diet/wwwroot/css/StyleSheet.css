@@ -133,7 +133,7 @@ h1 {
     background-color: #dedede;
 }
 
-&:disabled + label {
+a:disabled + label {
     opacity: 0.6;
     pointer-events: none;
 }
@@ -154,7 +154,7 @@ h1 {
     border-top: 1px solid #C7CCD160;
 }
 
-&:hover {
+a:hover {
     background-color: #D8093A !important;
     color: #ffffff;
 }
@@ -169,4 +169,9 @@ h1 {
 
 .plus {
     background-image: url(../images/plus.svg);
+}
+
+
+.scroll {
+    overflow-x: scroll; /* прокрутка по горизонтали */
 }

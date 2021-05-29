@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Diet.Models;
+using Diet.Models.ViewModels;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
@@ -114,19 +115,32 @@ namespace Diet
         }
 
 
-
-        [HttpGet]
-        public async Task<IActionResult> OneDish(int id)
+        public async Task<IActionResult> OneD(ListProductsInDishModel model)
         {
 
-            ViewData["product"] = db.Products.Select(r => new SelectListItem
-            {
-                Text = r.Product1,
-                Value =r.IdProduct.ToString()
-            });
-            Dish dish = await Dish.SelectDish(id);
-            if (dish == null) { dish = new Dish(); dish.IdDish = await Dish.MaxIdDish(); }
-            return View(dish);
+            //ViewData["product"] = db.Products.Select(r => new SelectListItem
+            //{
+            //    Text = r.Product1,
+            //    Value =r.IdProduct.ToString()
+            //});
+            ListProductsInDishModel ListProdDish = new ListProductsInDishModel();
+            //ListProdDish.OneDish = await Dish.SelectDish(id);
+            //if (ListProdDish.OneDish == null) { ListProdDish.OneDish.IdDish = await Dish.MaxIdDish(); }
+
+            return View(ListProdDish);
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> OneDish1(int id)
+        {
+
+            //ViewData["product"] = db.Products.Select(r => new SelectListItem
+            //{
+            //    Text = r.Product1,
+            //    Value =r.IdProduct.ToString()
+            //});
+            ListProductsInDishModel model =await ListProductsInDishModel.ListInProd(id);
+            return View(model);
         }
         [HttpPost]
         public async Task<IActionResult> OneDish(Dish dish)
