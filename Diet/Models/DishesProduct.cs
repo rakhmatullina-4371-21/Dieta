@@ -9,6 +9,7 @@ namespace Diet.Models
 {
     public partial class DishesProduct
     {
+        public int id { get; set; }
         public int? IdDish { get; set; }
         public int? IdProduct { get; set; }
 

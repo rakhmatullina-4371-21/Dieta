@@ -115,42 +115,26 @@ namespace Diet
         }
 
 
-        public async Task<IActionResult> OneD(ListProductsInDishModel model)
-        {
-
-            //ViewData["product"] = db.Products.Select(r => new SelectListItem
-            //{
-            //    Text = r.Product1,
-            //    Value =r.IdProduct.ToString()
-            //});
-            ListProductsInDishModel ListProdDish = new ListProductsInDishModel();
-            //ListProdDish.OneDish = await Dish.SelectDish(id);
-            //if (ListProdDish.OneDish == null) { ListProdDish.OneDish.IdDish = await Dish.MaxIdDish(); }
-
-            return View(ListProdDish);
-        }
 
         [HttpGet]
-        public async Task<IActionResult> OneDish1(int id)
+        public async Task<IActionResult> OneDish(int id)
         {
-
-            //ViewData["product"] = db.Products.Select(r => new SelectListItem
-            //{
-            //    Text = r.Product1,
-            //    Value =r.IdProduct.ToString()
-            //});
             ListProductsInDishModel model =await ListProductsInDishModel.ListInProd(id);
             return View(model);
         }
         [HttpPost]
-        public async Task<IActionResult> OneDish(Dish dish)
+        public  IActionResult OneDish(ListProductsInDishModel model)
         {
             if (ModelState.IsValid)
             {
-                await dish.SaveDish(dish);
-                return Redirect("~/AdminHome/ProdDish");
+                 ListProductsInDishModel.SaveDish(model);
+                 Dish d = new Dish();
+                 d = model.OneDish;
+                 ListProductsInDishModel.SaveProductDish(model, d);
+
+                return Redirect("~/AdminHome/DishSelect");
             }
-            return View(dish);
+            return View(model);
         }
 
 

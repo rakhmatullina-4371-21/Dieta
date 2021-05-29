@@ -53,6 +53,10 @@ namespace Diet.Models
             {
                 await db.Dishes.AddRangeAsync(newDish);
             }
+            else
+            {
+                 db.Dishes.Update(newDish);
+            }
             db.SaveChanges();
         }
 

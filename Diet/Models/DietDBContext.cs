@@ -133,7 +133,8 @@ namespace Diet.Models
 
             modelBuilder.Entity<DishesProduct>(entity =>
             {
-                entity.HasNoKey();
+                entity.HasKey(d => d.id)
+                   .HasName("id");
 
                 entity.ToTable("dishes_product");
 
