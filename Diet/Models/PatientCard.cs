@@ -67,15 +67,20 @@ namespace Diet.Models
                 else if(patientCard.IdCard==0)
                 {
                     card.IdCard = await db.PatientCards.MaxAsync(p => p.IdCard) + 1;
-                    card.Activ = true;
                 }
                 else {
                     card.IdCard = patientCard.IdCard;
                 }
+                if(!await db.PatientCards.ContainsAsync(card))
+                {
+                    card.Activ = true;
+                   await db.PatientCards.AddAsync(card);
+                } else
+                {
+                   db.PatientCards.Update(card);
+                }
 
-            db.PatientCards.Update(card);
-                
-            await db.SaveChangesAsync();
+            db.SaveChanges();
         }
 
         public static List<Patient> SelectPatientsNutr( int idEmp)
@@ -83,8 +88,13 @@ namespace Diet.Models
             var pat = (from t in db.Patients
                        join r in db.PatientCards on t.IdPatient equals r.IdPatient
                        where r.IdEmployee == idEmp
-                       select t).ToList();
+                       select t).Distinct().ToList();
             return pat;
+        }
+        public static PatientCard SelectPatientCard(int idPat, int idEmp)
+        {
+            var c = db.PatientCards.FirstOrDefault(p => p.IdPatient == idPat && p.IdEmployee == idEmp && p.Activ == true);
+            return c;
         }
     }
 }

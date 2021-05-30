@@ -12,6 +12,7 @@ namespace Diet.Models
         public int? IdCard { get; set; }
         public string Dish { get; set; }
         public decimal? Calories { get; set; }
+
         public decimal? Protein { get; set; }
         public decimal? Fats { get; set; }
         public decimal? Carbohydrates { get; set; }

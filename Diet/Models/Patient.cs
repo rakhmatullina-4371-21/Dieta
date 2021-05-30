@@ -116,6 +116,17 @@ namespace Diet.Models
             return patients.Except(pat).ToList();
 
         }
+
+        public static async Task<bool> LoginContains( string login)
+        {
+            if (await db.Patients.FirstOrDefaultAsync(p => p.Login == login) != null || await db.Employees.FirstOrDefaultAsync(p => p.Login == login) != null)
+            {
+                return  false;
+            }
+            else return true;
+        }
     }
+
+
 
 }

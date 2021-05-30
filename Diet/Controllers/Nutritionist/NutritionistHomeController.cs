@@ -3,21 +3,25 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Diet.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Diet.Controllers.Nutritionist
 {
+    [Authorize]
     public class NutritionistHomeController : Controller
     {
 
-        public IActionResult CardOnePat( int idPat)
+        public IActionResult CardOnePat( int id)
         {
-            return View(PatientCard.SelectPatientsNutr(idPat));
+            var card = PatientCard.SelectPatientCard(id, int.Parse(HttpContext.User.Identity.Name));
+            return View(card);
         }
         public IActionResult MenuNutritionist()
         { 
             var id = HttpContext.User.Identity.Name;
-            return View(PatientCard.SelectPatientsNutr(int.Parse(id)).Distinct());
+            var list = PatientCard.SelectPatientsNutr(int.Parse(id));
+            return View(list);
         }
         public IActionResult PatSelect()
         {
@@ -37,7 +41,7 @@ namespace Diet.Controllers.Nutritionist
             if (ModelState.IsValid)
             {
                 await PatientCard.SavePatCard(int.Parse(HttpContext.User.Identity.Name), card);
-                return Redirect("~/AdminHome/PatSelect");
+                return Redirect("~/NutritionistHome/MenuNutritionist");
             }
             return View();
         }
@@ -54,9 +58,13 @@ namespace Diet.Controllers.Nutritionist
         {
             if (ModelState.IsValid)
             {
-
-                await patient.SavePatient(patient);
-                return CardPatient(patient.IdPatient);
+                if (await Patient.LoginContains(patient.Login))
+                {
+                    await patient.SavePatient(patient);
+                   return Redirect("~/NutritionistHome/PatSelect");
+                }
+                else 
+                    ModelState.AddModelError("", "Такой логин уже существует");
             }
             return View(patient);
         }

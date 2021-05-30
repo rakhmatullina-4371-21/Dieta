@@ -37,8 +37,7 @@ namespace Diet.Controllers
                 if (patient != null)
                 {
                     await Authenticate(patient.Login); // аутентификация
-                    return Redirect("/");
-                    //return RedirectToAction("MenuPatient", "PatientStart", patient.IdPatient);
+                    return Redirect(urlstr ?? "PatientHome/MenuPatient/id?=" + patient.IdPatient);
                 }
                 else
                 {
@@ -49,13 +48,11 @@ namespace Diet.Controllers
                         await Authenticate(model.Email); // аутентификация
                         if (await db.Employees.FirstOrDefaultAsync(p => p.IdPosition ==1 && p.IdEmployee==emp.IdEmployee) != null)
                         {
-                            //return RedirectToPage("Ident", "AdminHome", emp);
                             await Authenticate(emp.IdEmployee.ToString()); // аутентификация
                             return Redirect(urlstr ?? "AdminHome/MenuAdmin/id?=" + emp.IdEmployee);
                         }
                         if (await db.Employees.FirstOrDefaultAsync(p => p.IdPosition ==2 && p.IdEmployee == emp.IdEmployee) != null)
                         {
-                            //return RedirectToPage("Ident", "AdminHome", emp);
                             await Authenticate(emp.IdEmployee.ToString()); // аутентификация
                             return Redirect(urlstr ?? "NutritionistHome/MenuNutritionist/id?=" + emp.IdEmployee);
                         }

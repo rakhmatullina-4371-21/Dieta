@@ -12,8 +12,6 @@ VALUES ('Администратор');
 INSERT INTO POSITIONS(position)
 VALUES ('Диетолог');
 
-INSERT INTO POSITIONS(position)
-VALUES ('Лаборант');
 
 
 
@@ -41,7 +39,7 @@ INSERT INTO EMPLOYEE(surname,name,lastname,login,password, id_position)
 VALUES ('Сметанина','София','Викторовна','sof@mail.com','2mlgSStiWdH3i63hK7nZDg==',2);
 
 INSERT INTO EMPLOYEE(surname,name,lastname,login,password, id_position)
-VALUES ('Шукшин','Леонид','Федорович','lab@mail.com','gnzLDuqKcGxMNKFokfhOew==',3);
+VALUES ('Шукшин','Леонид','Федорович','lab@mail.com','gnzLDuqKcGxMNKFokfhOew==',1);
 
 
 

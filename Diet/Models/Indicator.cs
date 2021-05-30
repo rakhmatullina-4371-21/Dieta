@@ -12,5 +12,8 @@ namespace Diet.Models
         public bool? Laboratory { get; set; }
         public string Min { get; set; }
         public string Max { get; set; }
+
+
+        
     }
 }
