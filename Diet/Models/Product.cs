@@ -42,6 +42,9 @@ namespace Diet.Models
                 if (p == null)
                 {
                     await db.Products.AddRangeAsync(newProd);
+                } else
+                {
+                    db.Products.Update(newProd);
                 }
                 db.SaveChanges();
             }

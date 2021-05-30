@@ -9,42 +9,56 @@ namespace Diet.Controllers.Nutritionist
 {
     public class NutritionistHomeController : Controller
     {
-        DietDBContext db = new DietDBContext();
-        Employee employee;
-        public async Task<IActionResult> MenuAdmin()
+
+        public IActionResult CardOnePat( int idPat)
         {
-            employee = new Employee();
-            var id = HttpContext.User.Identity.Name;
-            employee = await employee.ReturnEmp(id);
-            return View(employee);
+            return View(PatientCard.SelectPatientsNutr(idPat));
         }
-        public IActionResult MenuNutritionist() 
-        {
-            employee = new Employee();
+        public IActionResult MenuNutritionist()
+        { 
             var id = HttpContext.User.Identity.Name;
-            return View(Patient.SelectPatients(int.Parse(id)));
+            return View(PatientCard.SelectPatientsNutr(int.Parse(id)).Distinct());
         }
         public IActionResult PatSelect()
         {
-            return View(Patient.SelectPatientCardNull());
+            return View(Patient.SelectPatientCardNull(int.Parse(HttpContext.User.Identity.Name)));
         }
 
         [HttpGet]
-        public async Task<IActionResult> CardPatient(int id)
+        public IActionResult CardPatient(int id)
         {
-            Patient patient = await Patient.SelectPatient(id);
-            if (patient == null) { patient = new Patient(); patient.IdPatient = await Patient.MaxIdPatient(); }
-            return View(patient);
+            PatientCard card = new PatientCard();
+            card.IdPatient = id;
+            return  View(card);
         }
         [HttpPost]
         public async Task<IActionResult> CardPatient(PatientCard card)
         {
             if (ModelState.IsValid)
             {
-
+                await PatientCard.SavePatCard(int.Parse(HttpContext.User.Identity.Name), card);
                 return Redirect("~/AdminHome/PatSelect");
             }
             return View();
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> OnePatient(int id)
+        {
+            Patient patient = await Patient.SelectPatient(id);
+            if (patient == null) { patient = new Patient(); patient.IdPatient = await Patient.MaxIdPatient(); }
+            return View(patient);
+        }
+        [HttpPost]
+        public async Task<IActionResult> OnePatient(Patient patient)
+        {
+            if (ModelState.IsValid)
+            {
+
+                await patient.SavePatient(patient);
+                return CardPatient(patient.IdPatient);
+            }
+            return View(patient);
         }
 
     }

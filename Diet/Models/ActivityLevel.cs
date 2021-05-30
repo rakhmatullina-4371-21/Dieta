@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.AspNetCore.Mvc.Rendering;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -21,9 +22,15 @@ namespace Diet.Models
 
         public virtual ICollection<PatientCard> PatientCards { get; set; }
         static DietDBContext db = new DietDBContext();
-        public static List<ActivityLevel> SelectLevelsAct()
+
+        public static IQueryable<SelectListItem> SelectLevelsAct()
         {
-            return db.ActivityLevels.Select(p => p).ToList();
+            var r= db.ActivityLevels.Select(r => new SelectListItem
+            {
+                Text = r.ActivityLevels,
+                Value = r.IdActivityLevels.ToString()
+            });
+            return r;
         }
     }
 }

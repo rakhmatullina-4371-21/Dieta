@@ -47,12 +47,12 @@ namespace Diet.Models
         public virtual ICollection<PatientCard> PatientCards { get; set; }
 
 
-        public static async Task<string> SelectPatient(int? id)
+        public static async Task<Patient> SelectPatient(int id)
         {
             Patient patient = await db.Patients.FirstOrDefaultAsync(p => p.IdPatient == id);
-            return $"{patient.Surname} {patient.Name} {patient.Lastname}";
+            return patient;
         }
-        public static async Task<Patient> SelectPatient(int id)
+        public static async Task<Patient> SelectPatient(int? id)
         {
             Patient patient = await db.Patients.FirstOrDefaultAsync(p => p.IdPatient == id);
             return patient;
@@ -83,6 +83,10 @@ namespace Diet.Models
             {
                 await db.Patients.AddRangeAsync(pat);
             }
+            else
+            {
+                db.Patients.Update(pat);
+            }
             db.SaveChanges();
         }
 
@@ -100,14 +104,16 @@ namespace Diet.Models
             }
             return patients;
         }
-        public static List<Patient> SelectPatientCardNull()
+        public static List<Patient> SelectPatientCardNull(int idEmp)
         {
             List<Patient> patients = new List<Patient>();
+            patients = db.Patients.Select(p => p).ToList();
             var pat =  (from t in db.Patients
                       join r in db.PatientCards on t.IdPatient equals r.IdPatient
-                      where r.Activ == false 
+                      where  r.IdEmployee==idEmp
                       select t).ToList();
-            return pat;
+            
+            return patients.Except(pat).ToList();
 
         }
     }

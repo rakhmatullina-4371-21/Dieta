@@ -78,6 +78,10 @@ namespace Diet.Models
             {
                 await db.Employees.AddRangeAsync(newEmp);
             }
+            else
+            {
+                 db.Employees.Update(newEmp);
+            }
             db.SaveChanges();
         }
 

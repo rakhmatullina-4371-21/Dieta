@@ -164,7 +164,7 @@ a:hover {
 .bloc-center {
     margin-left: auto;
     margin-right: auto;
-    width: 6em
+
 }
 
 .plus {
@@ -174,4 +174,11 @@ a:hover {
 
 .scroll {
     overflow-x: scroll; /* прокрутка по горизонтали */
+}
+
+div.displayed {
+    margin-left: auto;
+    margin-right: auto;
+    width: 75%;
+
 }
