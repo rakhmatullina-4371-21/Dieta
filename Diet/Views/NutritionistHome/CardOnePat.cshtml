@@ -87,25 +87,8 @@
 
                     </div>
                 </div>
-                <div class="form-group col-12 bg-style-grey m-3 scroll" style="height:150px;">
+                <a class="text-style-grey" asp-route-id="@Model.IdCard" asp-action="IndicatorPatient" asp-controller="NutritionistHome">Создать карту</a>
 
-                    <label  class="control-label"> Список анализов </label>
-
-                    @{
-                        for (int i = 0; i < Model.listProduct.Count; i++)
-                        {
-                            var tt = Model.ProductInDish;
-                            <div class="form-check">
-                                <label asp-for="@Model.ProductInDish" class="control-label">
-                                    @Html.CheckBoxFor(m => m.ProductInDish[i],
-                                   @Model.ProductInDish[i])
-                                    @Model.listProduct[i].Product1
-                                </label>
-                            </div>
-
-                        }
-                    }
-                </div>
 
                 <div class="col-12" style="text-align:center">
                     <button class="btn btn-lg btn-style w-50 m-1" asp-controller="NutritionistHome" asp-action="CardPatient" style="color:black;"> Сохранить </button>

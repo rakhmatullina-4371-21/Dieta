@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Diet.Models;
+using Diet.Models.ViewModels;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
@@ -69,5 +70,33 @@ namespace Diet.Controllers.Nutritionist
             return View(patient);
         }
 
+        public async Task<IActionResult> IndicatorPatient(int id)
+        {
+            var list = await PatientIndicator.listPatIndicators(id);
+            ViewBag.idCard = id;
+            return View(list);
+        }
+
+
+
+
+        [HttpGet]
+        public IActionResult OneIndicatorPatient(int id, string date)
+        {
+            var list = AnalysisModel.SelectIndicatorsValue(id, date);
+            ViewBag.idCard = id;
+            return View(list);
+        }
+        [HttpPost]
+        public async Task<IActionResult> OneIndicatorPatient(List<AnalysisModel> patIndicator, int id)
+        {
+            if (ModelState.IsValid)
+            {
+                await PatientIndicator.SaveAnalysisAsync(patIndicator, id);
+                return Redirect("~/NutritionistHome/MenuNutritionist");
+            }
+            ViewBag.idCard = id;
+            return View(patIndicator);
+        }
     }
 }

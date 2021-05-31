@@ -364,9 +364,12 @@ namespace Diet.Models
 
             modelBuilder.Entity<PatientIndicator>(entity =>
             {
-                entity.HasNoKey();
+                //entity.HasNoKey();
 
-                entity.ToTable("patient_indicators");
+                entity.HasKey(e => e.id)
+                         .HasName("id");
+                entity.ToTable("patient_indicators"); 
+
 
                 entity.Property(e => e.DateIndicator)
                     .HasColumnType("date")

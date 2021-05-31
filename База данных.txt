@@ -74,7 +74,7 @@ CREATE TABLE  ACTIVITY_LEVELS
 	id_activity_levels SERIAL PRIMARY KEY,
 	activity_levels TEXT NOT NULL,
 	value NUMERIC NOT NULL,
-    description TEXT NOT NULL
+        description TEXT NOT NULL
 );
 
 
@@ -115,7 +115,10 @@ INSERT INTO INDICATORS(name_indicator, min,max)
 VALUES ('Фруктозамин', '205','285');
 
 INSERT INTO INDICATORS(name_indicator, min,max)   
-VALUES ('Артериальное давление', '110/70','130/85'); 
+VALUES ('Верхнее артериальное давление', '70','85'); 
+
+INSERT INTO INDICATORS(name_indicator, min,max)   
+VALUES ('Нижнее артериальное давление', '70','85'); 
 
 INSERT INTO INDICATORS(name_indicator, min,max)   
 VALUES ('Гастрин 17', '1','10'); 
@@ -1582,17 +1585,12 @@ CREATE TABLE PATIENT_DIAGNOSES
 );
 
 
-CREATE TABLE  PATIENT_ANALYSES
+CREATE TABLE  PATIENT_INDICATORS
 (
-         id_analyses SERIAL PRIMARY KEY,
-         id_card INT REFERENCES PATIENT_CARDS (id_card),                  
-         date_indicator DATE NOT NULL
-);
-
-CREATE TABLE  ANALYSIS_INDICATORS
-(
-         id_analyses INT REFERENCES PATIENT_ANALYSES (id_analyses),          
+         id_card_indicator SERIAL PRIMARY KEY,
+         id_card INT REFERENCES PATIENT_CARDS (id_card),         
          id_indicator INT REFERENCES INDICATORS (id_indicator),            
          value_indicator  TEXT NOT NULL,
-         result BOOLEAN DEFAULT FALSE         
+         result BOOLEAN DEFAULT FALSE    
+         date_indicator DATE NOT NULL  
 );
