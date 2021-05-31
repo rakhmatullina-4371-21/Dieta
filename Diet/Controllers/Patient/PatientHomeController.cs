@@ -12,7 +12,7 @@ namespace Diet.Areas.Patient.Controllers
     public class PatientHomeController : Controller
     {
         [Area("Patient")]
-        public IActionResult MenuPatient()
+        public IActionResult MenuPatient( int id)
         {
             return View();
         }

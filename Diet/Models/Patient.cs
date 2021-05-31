@@ -35,9 +35,6 @@ namespace Diet.Models
         public string Password { get; set; }
         public bool Woman { get; set; }
 
-
-
-
         [Display(Name = "DateOfBirth")]
         [DataType(DataType.Date)]
         [Range(typeof(DateTime), "1/1/1950", "1/1/2004", ErrorMessage = "Неверная дата рождения")]
@@ -52,16 +49,22 @@ namespace Diet.Models
             Patient patient = await db.Patients.FirstOrDefaultAsync(p => p.IdPatient == id);
             return patient;
         }
+        public static async Task<int> MaxIdPatient()
+        {
+            int ID = await db.Patients.MaxAsync(p => p.IdPatient) + 1;
+            return ID;
+        }
+
+
+
+
+
         public static async Task<Patient> SelectPatient(int? id)
         {
             Patient patient = await db.Patients.FirstOrDefaultAsync(p => p.IdPatient == id);
             return patient;
         }
-        public static async Task<int> MaxIdPatient()
-        {
-             int ID= await db.Patients.MaxAsync(p => p.IdPatient)+1;
-            return ID;
-        }
+
         public async Task SavePatient(Patient patient)
         {
             Patient patt = await db.Patients.FirstOrDefaultAsync(p => p.IdPatient == patient.IdPatient);
