@@ -16,6 +16,7 @@ namespace Diet.Controllers.Nutritionist
         public IActionResult CardOnePat( int id)
         {
             var card = PatientCard.SelectPatientCard(id, int.Parse(HttpContext.User.Identity.Name));
+            ViewData["diagnosis"] = Diagnosis.ListDiagnosis(card.IdCard);
             return View(card);
         }
         public IActionResult MenuNutritionist()
@@ -28,6 +29,22 @@ namespace Diet.Controllers.Nutritionist
         {
             return View(Patient.SelectPatientCardNull(int.Parse(HttpContext.User.Identity.Name)));
         }
+        [HttpGet]
+        public IActionResult DiagnosisPatient(int id)
+        {
+            return View(Diagnosis.ListDiagnosis(id));
+        }
+        [HttpPost]
+        public async Task<IActionResult> DiagnosisSave(PatDiagModel diagnosis)
+        {
+            if (ModelState.IsValid)
+            {
+                 Diagnosis.SavePatDiag(diagnosis);
+                return Redirect("~/NutritionistHome/MenuNutritionist");
+            }
+            return View();
+        }
+
 
         [HttpGet]
         public IActionResult CardPatient(int id)

@@ -78,7 +78,7 @@
                     </div>
                 </div>
 
-                <div class="col-12 m-2">
+                <div class="col-sm-6 m-2">
                     <div class="form-check text-style-grey">
                         <label asp-for="@Model.Activ" class="control-label">   @Html.RadioButtonFor(m => m.Activ, true) Активировать карту </label>
                     </div>
@@ -87,7 +87,9 @@
 
                     </div>
                 </div>
-                <a class="text-style-grey" asp-route-id="@Model.IdCard" asp-action="IndicatorPatient" asp-controller="NutritionistHome">Создать карту</a>
+                <div class="col-sm-6 m-2">
+                    <a class="text-style-grey" asp-route-id="@Model.IdCard" asp-action="DiagnosisPatient" asp-controller="NutritionistHome">Диагнозы</a>
+                </div>
 
 
                 <div class="col-12" style="text-align:center">

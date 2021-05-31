@@ -40,6 +40,11 @@ namespace Diet.Models
             }
         }
 
+        internal bool FirstOrDefault()
+        {
+            throw new NotImplementedException();
+        }
+
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
            
@@ -343,7 +348,9 @@ namespace Diet.Models
 
             modelBuilder.Entity<PatientDiagnosis>(entity =>
             {
-                entity.HasNoKey();
+                entity.HasKey(e => e.id)
+                         .HasName("id");
+                entity.ToTable("patient_indicators");
 
                 entity.ToTable("patient_diagnoses");
 
