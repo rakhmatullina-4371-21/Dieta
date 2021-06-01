@@ -23,13 +23,19 @@ namespace Diet
         public static PatDiagModel ListDiagnosis( int idCard)
         {
             List<bool> diagnosisPat = new List<bool>();
-             var patientDiagnosis= db.PatientDiagnoses.Where(p => p.IdCard == idCard).Select(p => p).Count();
+            var patientDiagnosis = db.PatientDiagnoses.Where(p => p.IdCard == idCard).Select(p => p).Select(p=>p).ToList();
             foreach (var item in db.Diagnoses.Select(p=>p))
             {
-
-                if(patientDiagnosis != 0)
+                if (patientDiagnosis.Count() != 0)
                 {
-                    diagnosisPat.Add(true);
+                    if(patientDiagnosis.Where(p => p.IdDiagnosis == item.IdDiagnosis).Count()!=0)
+                    {
+                        diagnosisPat.Add(true);
+                    }
+                    else
+                    {
+                        diagnosisPat.Add(false);
+                    }
                 }
                 else
                 {
@@ -66,7 +72,7 @@ namespace Diet
                     if (idCardPat != null)
                     {
                         db = new DietDBContext();
-                        db.PatientDiagnoses.Add(new PatientDiagnosis { IdCard = model.idCard, IdDiagnosis = model.idDiag[i], id = idCardPat.id });
+                        db.PatientDiagnoses.Update(new PatientDiagnosis { IdCard = model.idCard, IdDiagnosis = model.idDiag[i], id = idCardPat.id });
                         db.SaveChanges();
                     }
                     else

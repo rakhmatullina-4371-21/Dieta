@@ -35,11 +35,11 @@ namespace Diet.Controllers.Nutritionist
             return View(Diagnosis.ListDiagnosis(id));
         }
         [HttpPost]
-        public async Task<IActionResult> DiagnosisSave(PatDiagModel diagnosis)
+        public IActionResult DiagnosisSave(PatDiagModel diagnosis)
         {
             if (ModelState.IsValid)
             {
-                 Diagnosis.SavePatDiag(diagnosis);
+                  Diagnosis.SavePatDiag(diagnosis);
                 return Redirect("~/NutritionistHome/MenuNutritionist");
             }
             return View();
