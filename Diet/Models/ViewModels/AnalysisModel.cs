@@ -13,7 +13,7 @@ namespace Diet.Models.ViewModels
 
         [RegularExpression(@"[0-9]*\,?[0-9][0-9]", ErrorMessage = "Некорректные данные")]
         public decimal Value { get; set; }
-        
+        public DateTime dateIndicator { get; set; }
 
         public static List<AnalysisModel> SelectIndicatorsValue(int idCard, string date)
         {
@@ -23,8 +23,9 @@ namespace Diet.Models.ViewModels
             {
                 foreach (var i in db.Indicators.Select(p => p))
                 {
-                    analyses.Add(new AnalysisModel { IdIndicator = i.IdIndicator, NameIndicator = i.NameIndicator });
+                    analyses.Add(new AnalysisModel { IdIndicator = i.IdIndicator, NameIndicator = i.NameIndicator, dateIndicator= DateTime.Now});
                 }
+                
             }
             else 
             {
@@ -35,7 +36,7 @@ namespace Diet.Models.ViewModels
                 var indicator = db.Indicators.Select(p=>p).ToList();
                 for (int i = 0; i < indicator.Count() ; i++)
                 {
-                    analyses.Add(new AnalysisModel { IdIndicator = indicator[i].IdIndicator, Value= decimal.Parse(db.PatientIndicators.First(p=>p.id==an[i].id).ValueIndicator), NameIndicator = indicator[i].NameIndicator });
+                    analyses.Add(new AnalysisModel { IdIndicator = indicator[i].IdIndicator, Value= decimal.Parse(db.PatientIndicators.First(p=>p.id==an[i].id).ValueIndicator), NameIndicator = indicator[i].NameIndicator, dateIndicator=DateTime.Parse(date) });
                 }
             }
 

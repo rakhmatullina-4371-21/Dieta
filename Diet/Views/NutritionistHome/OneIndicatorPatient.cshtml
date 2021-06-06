@@ -26,6 +26,8 @@
                             <input asp-for="@Model[i].IdIndicator" class="form-control" type="hidden" />
                             <label asp-for="@Model[i].IdIndicator" class="control-label"> @Model[i].NameIndicator </label>
                             <input asp-for="@Model[i].Value" class="form-control" />
+                            <input asp-for="@Model[i].dateIndicator" class="form-control" type="hidden" />
+
                             <span asp-validation-for="@Model[i].Value" class="text-danger text-black-50"></span>
                         </div>
                 }

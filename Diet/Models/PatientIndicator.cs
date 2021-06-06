@@ -44,30 +44,42 @@ namespace Diet.Models
         public static async Task<int?> SaveAnalysisAsync(List<AnalysisModel> patIndicator, int id)
         {
             List<PatientIndicator> _patientIndicators = new List<PatientIndicator>();
-            int IdIndPat = 0;
             var update = new List<PatientIndicator>();
             var add = new List<PatientIndicator>();
             foreach (var item in patIndicator)
             {
                 bool result = true;
-                var ind =await db.Indicators.FirstOrDefaultAsync(p => p.IdIndicator== item.IdIndicator);
-               if((ind.Max != null && ind.Min != null) || (ind.Min!=null || ind.Min != null))
-               {
+                var ind = await db.Indicators.FirstOrDefaultAsync(p => p.IdIndicator == item.IdIndicator);
+                if ((ind.Max != null && ind.Min != null) || (ind.Min != null || ind.Min != null))
+                {
                     if (item.Value > decimal.Parse(ind.Max) || item.Value < decimal.Parse(ind.Min))
                     {
                         result = false;
                     }
-               }
+                }
 
-                PatientIndicator patientIndicator = new PatientIndicator() {IdCard = id, IdIndicator = item.IdIndicator, /*IdIndicatorNavigation = db.Indicators.FirstOrDefault(p => p.IdIndicator == item.IdIndicator),*/ ValueIndicator = item.Value.ToString(), DateIndicator = DateTime.Now, Result = result };
-                var tmp = db.PatientIndicators.FirstOrDefault(p => p.IdCard == patientIndicator.IdCard && p.IdIndicator == patientIndicator.IdIndicator && p.DateIndicator == patientIndicator.DateIndicator);
-                if (tmp == null)
+                PatientIndicator patientIndicator = new PatientIndicator() { IdCard = id, IdIndicator = item.IdIndicator, /*IdIndicatorNavigation = db.Indicators.FirstOrDefault(p => p.IdIndicator == item.IdIndicator),*/ ValueIndicator = item.Value.ToString(), DateIndicator = DateTime.Now, Result = result };
+ 
+                var tmp = db.PatientIndicators.Where(p => p.IdCard == patientIndicator.IdCard && p.DateIndicator== item.dateIndicator).ToList();
+                //foreach(var i in tmp)
+                //{
+                //    if (i.DateIndicator != patientIndicator.DateIndicator)
+                //    {
+                //        if(tmp.Remove(i)!=null)
+                //        {
+                //            tmp.Remove(i);
+                //        } else 
+                //        catch { tmp = new List<PatientIndicator>(); }
+                //    }
+                //}
+                if (tmp.Count == 0)
                 {
                     add.Add(patientIndicator);
                 }
                 else
                 {
-                    patientIndicator.id = tmp.id;
+                    
+                    //patientIndicator.id = ;
                     update.Add(patientIndicator);
                 }
             }
@@ -84,9 +96,11 @@ namespace Diet.Models
             }
             foreach (var t in update)
             {
+
                 DietDBContext DB = new DietDBContext();
+                t.id = db.PatientIndicators.FirstOrDefault(p => p.IdCard == t.IdCard && p.IdIndicator == t.IdIndicator && p.DateIndicator == t.DateIndicator).id;
                 DB.PatientIndicators.Update(t);
-                 DB.SaveChanges();
+                DB.SaveChanges();
             }
 
 

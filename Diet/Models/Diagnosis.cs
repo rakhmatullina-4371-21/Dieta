@@ -82,6 +82,7 @@ namespace Diet
                         db.SaveChanges();
                     }
                 }
+                PatientCard.SaveMenu(model.idCard);
                 
             }
            

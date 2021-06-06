@@ -13,29 +13,33 @@ namespace Diet.Controllers.Nutritionist
     public class NutritionistHomeController : Controller
     {
 
-        public IActionResult CardOnePat( int id)
+        public async Task<IActionResult> CardOnePat( int id)                              //Просмотр карты пациента
         {
-            var card = PatientCard.SelectPatientCard(id, int.Parse(HttpContext.User.Identity.Name));
-            ViewData["diagnosis"] = Diagnosis.ListDiagnosis(card.IdCard);
+            var card =await PatientCard.SelectPatientCard(id, int.Parse(HttpContext.User.Identity.Name));
             return View(card);
         }
-        public IActionResult MenuNutritionist()
+        public IActionResult MenuNutritionist()                                 //Стартовое окно диетолога
         { 
             var id = HttpContext.User.Identity.Name;
             var list = PatientCard.SelectPatientsNutr(int.Parse(id));
             return View(list);
         }
-        public IActionResult PatSelect()
+        public IActionResult PatSelect()                                           //Список пациентов
         {
             return View(Patient.SelectPatientCardNull(int.Parse(HttpContext.User.Identity.Name)));
         }
-        [HttpGet]
-        public IActionResult DiagnosisPatient(int id)
+
+        public IActionResult MenuPatient(int id)
         {
             return View(Diagnosis.ListDiagnosis(id));
         }
-        [HttpPost]
-        public IActionResult DiagnosisSave(PatDiagModel diagnosis)
+
+        public IActionResult DiagnosisPatient(int id)             //Диагнозы пациента
+        {
+            return View(Diagnosis.ListDiagnosis(id));
+        }
+
+        public IActionResult DiagnosisSave(PatDiagModel diagnosis)      //Сохранение диагнозов пациента
         {
             if (ModelState.IsValid)
             {
@@ -47,32 +51,33 @@ namespace Diet.Controllers.Nutritionist
 
 
         [HttpGet]
-        public IActionResult CardPatient(int id)
+        public IActionResult CardPatient(int id)        //Создание карты пациента
         {
             PatientCard card = new PatientCard();
             card.IdPatient = id;
             return  View(card);
         }
         [HttpPost]
-        public async Task<IActionResult> CardPatient(PatientCard card)
+        public async Task<IActionResult> CardPatient(PatientCard card)          //Сохрание карты пациента
         {
-            if (ModelState.IsValid)
+            if (ModelState.IsValid )
             {
-                await PatientCard.SavePatCard(int.Parse(HttpContext.User.Identity.Name), card);
+                
+               var idCard= await PatientCard.SavePatCard(int.Parse(HttpContext.User.Identity.Name), card);
                 return Redirect("~/NutritionistHome/MenuNutritionist");
             }
             return View();
         }
 
         [HttpGet]
-        public async Task<IActionResult> OnePatient(int id)
+        public async Task<IActionResult> OnePatient(int id)                            //Добавление нового пациента
         {
             Patient patient = await Patient.SelectPatient(id);
             if (patient == null) { patient = new Patient(); patient.IdPatient = await Patient.MaxIdPatient(); }
             return View(patient);
         }
         [HttpPost]
-        public async Task<IActionResult> OnePatient(Patient patient)
+        public async Task<IActionResult> OnePatient(Patient patient)                            //Сохраниение данных нового пациента
         {
             if (ModelState.IsValid)
             {
@@ -87,7 +92,7 @@ namespace Diet.Controllers.Nutritionist
             return View(patient);
         }
 
-        public async Task<IActionResult> IndicatorPatient(int id)
+        public async Task<IActionResult> IndicatorPatient(int id)             //Страница показателей одного пациента
         {
             var list = await PatientIndicator.listPatIndicators(id);
             ViewBag.idCard = id;
@@ -98,14 +103,14 @@ namespace Diet.Controllers.Nutritionist
 
 
         [HttpGet]
-        public IActionResult OneIndicatorPatient(int id, string date)
+        public IActionResult OneIndicatorPatient(int id, string date)     // Добавить значения показателей (анализ)
         {
             var list = AnalysisModel.SelectIndicatorsValue(id, date);
             ViewBag.idCard = id;
             return View(list);
         }
         [HttpPost]
-        public async Task<IActionResult> OneIndicatorPatient(List<AnalysisModel> patIndicator, int id)
+        public async Task<IActionResult> OneIndicatorPatient(List<AnalysisModel> patIndicator, int id)    //Сохрранение значений показателей
         {
             if (ModelState.IsValid)
             {

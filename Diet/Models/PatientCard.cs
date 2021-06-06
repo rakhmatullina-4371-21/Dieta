@@ -49,52 +49,169 @@ namespace Diet.Models
 
 
         static DietDBContext db = new DietDBContext();
-        public static async Task SavePatCard(int idEmployee, PatientCard patientCard)
+        public static async Task<int> SavePatCard(int idEmployee, PatientCard patientCard)
         {
             PatientCard card = new PatientCard();
-            var listCard = db.PatientCards.Where(p => p.IdPatient == patientCard.IdPatient && p.IdEmployee==idEmployee).Select(p=>p);
+            var listCard = db.PatientCards.Where(p => p.IdPatient == patientCard.IdPatient && p.IdEmployee == idEmployee).Select(p => p);
             var countCards = await db.PatientCards.CountAsync();
-            card.IdPatientNavigation = await db.Patients.FirstOrDefaultAsync(p => p.IdPatient == patientCard.IdPatient);
             card.IdPatient = patientCard.IdPatient;
-            card.IdEmployeeNavigation = await db.Employees.FirstOrDefaultAsync(p => p.IdEmployee == idEmployee);
             card.IdEmployee = idEmployee;
-            card.IdActivityLevelsNavigation = await db.ActivityLevels.FirstOrDefaultAsync(p => p.IdActivityLevels == 1);
+
             card.IdActivityLevels = patientCard.IdActivityLevels;
-                if(countCards == 0)
-                {
-                    card.IdCard = 1;
-                }
-                else if(patientCard.IdCard==0)
-                {
-                    card.IdCard = await db.PatientCards.MaxAsync(p => p.IdCard) + 1;
-                }
-                else {
-                    card.IdCard = patientCard.IdCard;
-                }
-                if(!await db.PatientCards.ContainsAsync(card))
-                {
-                    card.Activ = true;
-                   await db.PatientCards.AddAsync(card);
-                } else
-                {
-                   db.PatientCards.Update(card);
-                }
+            if (countCards == 0)
+            {
+                card.IdCard = 1;
+            }
+            else if (patientCard.IdCard == 0)
+            {
+                card.IdCard = await db.PatientCards.MaxAsync(p => p.IdCard) + 1;
+            }
+            else {
+                card.IdCard = patientCard.IdCard;
+            }
+            var t =  db.PatientCards.FirstOrDefault(p => p.IdEmployee == card.IdEmployee && p.IdPatient == card.IdPatient);
+
+            if (t==null)
+            {
+                card.Activ = true;
+                db = new DietDBContext();
+                 db.PatientCards.Add(card);
+                
+            } else
+            {
+                t.IdEmployee = card.IdEmployee;
+                t.IdPatient = card.IdPatient;
+                t.Meals = card.Meals;
+                t.StartDiet = card.StartDiet;
+                t.FinishDiet = card.FinishDiet;
+                t.Activ = true;
+                t.DailyCalories = card.DailyCalories;
+                t.DailyCarbohydrates = card.DailyCarbohydrates;
+                t.DailyFats = card.DailyFats;
+                t.DailyProtein = card.DailyProtein;
+                t.IdActivityLevels = card.IdActivityLevels;
+                await SaveMenu(t.IdCard);
+
+                db.PatientCards.Update(t);
+                card.IdCard = t.IdCard;
+            }
 
             db.SaveChanges();
+            return card.IdCard;
         }
+        public static async Task SaveMenu( int idCard)
+        {
+            var listDiag = db.PatientDiagnoses.Where(p => p.IdCard == idCard).Select(p => p.IdDiagnosis).ToList();
+            var listProd = new List<DiagnosesDish>();
+            var listProdAllow = new List<DiagnosesDish>();
 
+            var listDish = new List<Dish>();
+
+            foreach (var i in listDiag)
+            {
+                listProd.AddRange(db.DiagnosesDishes.Where(p => p.IdDiagnosis == i && p.Allowed==false).Select(p=>p).ToList());
+                listProdAllow.AddRange(db.DiagnosesDishes.Where(p => p.IdDiagnosis == i && p.Allowed==true).Select(p => p).ToList());
+
+            }
+
+            var list = listProdAllow.Except(listProd).Select(p=>Convert.ToInt32(p.IdProduct)).Distinct().ToList();
+            if (listProdAllow.Count == 0)
+            {
+                list.AddRange(db.Products.Select(p => p.IdProduct).ToList());
+            }
+            foreach (var i in list)
+            {
+                var prod = db.DishesProducts.Where(p => p.IdProduct == i).Select(p=>p.IdDish).Distinct().ToList();
+                foreach(var j in prod)
+                {
+                    listDish.Add(db.Dishes.FirstOrDefault(p => p.IdDish == j));
+                }
+            }
+
+        }
         public static List<Patient> SelectPatientsNutr( int idEmp)
         {
             var pat = (from t in db.Patients
                        join r in db.PatientCards on t.IdPatient equals r.IdPatient
-                       where r.IdEmployee == idEmp
+                       where r.IdEmployee == idEmp && r.Activ==true
                        select t).Distinct().ToList();
             return pat;
         }
-        public static PatientCard SelectPatientCard(int idPat, int idEmp)
+        public static async Task<PatientCard> SelectPatientCard(int idPat, int idEmp)
         {
             var c = db.PatientCards.FirstOrDefault(p => p.IdPatient == idPat && p.IdEmployee == idEmp && p.Activ == true);
+            if (c.StartDiet == null)
+            {
+                c.StartDiet = DateTime.Now;
+            }
+                c =await DailyCCPF(c);
             return c;
+        }
+
+        public static async Task<PatientCard> DailyCCPF( PatientCard card)
+        {
+            var patient = await db.Patients.FirstOrDefaultAsync(p=>p.IdPatient==card.IdPatient);
+            var activity = db.ActivityLevels.Where(p => p.IdActivityLevels == card.IdActivityLevels).Select(p => p.Value).First();
+            var dateAnalyses = db.PatientIndicators.Max(p => p.DateIndicator);
+            decimal height =Convert.ToDecimal(db.Indicators.Join(db.PatientIndicators, p => p.IdIndicator, t => t.IdIndicator, (p, t) => new { t.ValueIndicator, p.NameIndicator, t.IdCard, t.DateIndicator }).FirstOrDefault(p => p.NameIndicator == "Рост" && p.IdCard==card.IdCard && p.DateIndicator==dateAnalyses).ValueIndicator);
+            decimal weight =Convert.ToDecimal(db.Indicators.Join(db.PatientIndicators, p => p.IdIndicator, t => t.IdIndicator, (p, t) => new { t.ValueIndicator, p.NameIndicator , t.IdCard, t.DateIndicator }).FirstOrDefault(p => p.NameIndicator == "Вес" && p.IdCard == card.IdCard && p.DateIndicator == dateAnalyses).ValueIndicator);
+            var age = DateTime.Now.Year - patient.DateOfBirth.Value.Year;
+            if (DateTime.Now.DayOfYear < patient.DateOfBirth.Value.DayOfYear)
+            {
+                age--;
+            }
+            if (patient.Woman == true)
+            {
+                if(height==0 || weight == 0)
+                {
+                    if (age <= 25)
+                    {
+                        card.DailyCalories = 2100;
+                    }
+                    else if (age >= 26 && age < 50)
+                    {
+                        card.DailyCalories = 1900;
+                    }
+                    else if (age >= 50)
+                    {
+                        card.DailyCalories = 1700;
+                    }
+                }
+                else
+                {
+                    card.DailyCalories = (10 * weight) + (Convert.ToDecimal(6.25) * height) - (5 * age) - 161;
+                }
+               
+            }
+            else if (patient.Woman == false)
+            {
+                if (height == 0 || weight == 0)
+                {
+                    if (age < 30)
+                    {
+                        card.DailyCalories = 2500;
+                    }
+                    else if (age >= 31 && age < 50)
+                    {
+                        card.DailyCalories = 2300;
+                    }
+                    else if (age >= 50)
+                    {
+                        card.DailyCalories = 2000;
+                    }
+                }
+                else
+                {
+                    card.DailyCalories = (10 * weight) + (Convert.ToDecimal(6.25) * height) - (5 * age) + 5;
+                }
+                  
+            }
+            card.DailyCalories *=  activity;
+            card.DailyCarbohydrates= card.DailyCalories * Convert.ToDecimal(0.6);
+            card.DailyProtein = card.DailyCalories * Convert.ToDecimal(0.15);
+            card.DailyFats = card.DailyCalories * Convert.ToDecimal(0.25);
+
+            return card;
         }
     }
 }

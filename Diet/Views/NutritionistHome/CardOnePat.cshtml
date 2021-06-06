@@ -27,7 +27,7 @@
             <div class="col-12">
                 <h1 class="text-style-grey m-2 " style="text-align:center">Карта пациента</h1>
                 <div class="row" style="margin-top:20px; margin-bottom: 10px;">
-                    <div class="col-10">
+                    <div class="col-12 ">
                         <p class="text-style-grey font-weight-bold" style="font-size:40px;">@patient.Surname @patient.Name @patient.Lastname</p>
                         <p class="lead  text-style-grey"> Дата рождения : @DateTime.Parse(patient.DateOfBirth.ToString()).ToString("D")</p>
                         <p class="lead  fw-bold text-style-grey">
@@ -37,9 +37,12 @@
                                 { <label>Мужской</label>} }
                         </p>
                     </div>
+
                 </div>
             </div>
+
             <div class="row g-3">
+
                 <div class="form-group col-sm-6 text-style-grey">
                     <label asp-for="@Model.DailyCalories" class="control-label"> Дневная норма калорий </label>
                     <input asp-for="@Model.DailyCalories" class="form-control" />
@@ -71,6 +74,7 @@
                     <span asp-validation-for="@Model.FinishDiet" class="text-danger text-black-50"></span>
                 </div>
 
+
                 <div class="form-group  col-12 text-style-grey" id="select">
                     <div>
                         <label asp-for="@Model.IdActivityLevels"> Уровень активности </label>
@@ -87,13 +91,11 @@
 
                     </div>
                 </div>
-                <div class="col-sm-6 m-2">
-                    <a class="text-style-grey" asp-route-id="@Model.IdCard" asp-action="DiagnosisPatient" asp-controller="NutritionistHome">Диагнозы</a>
-                </div>
-
 
                 <div class="col-12" style="text-align:center">
-                    <button class="btn btn-lg btn-style w-50 m-1" asp-controller="NutritionistHome" asp-action="CardPatient" style="color:black;"> Сохранить </button>
+                    <button class="btn btn-lg btn-style w-25 m-4" asp-route-id="@Model.IdCard" asp-action="DiagnosisPatient" asp-controller="NutritionistHome" style="color:black;"> Диагнозы </button>
+                    <button class="btn btn-lg btn-style w-25 m-4" asp-route-id="@Model.IdPatient" asp-action="IndicatorPatient" asp-controller="NutritionistHome" style="color:black;"> Показатели </button>
+                    <button class="btn btn-lg btn-style w-25 m-4" asp-controller="NutritionistHome" asp-action="CardPatient" style="color:black;"> Сохранить </button>
                 </div>
                 <div class="form-group">
                     <label asp-for="@Model.IdPatient" class="control-label" style="visibility: hidden;"> </label>
@@ -101,6 +103,6 @@
                     <span asp-validation-for="@Model.IdPatient" class="text-danger text-black-50"></span>
                 </div>
             </div>
-</div>
+        </div>
     </form>
 </div>

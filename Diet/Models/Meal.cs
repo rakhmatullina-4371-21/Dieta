@@ -18,5 +18,10 @@ namespace Diet.Models
         public decimal? Carbohydrates { get; set; }
 
         public virtual PatientCard IdCardNavigation { get; set; }
+
+
+
+
+        
     }
 }
