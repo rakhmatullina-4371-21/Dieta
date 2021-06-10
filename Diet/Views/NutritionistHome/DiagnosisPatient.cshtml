@@ -11,12 +11,7 @@
 <div>
     @await Html.PartialAsync("~/Views/Shared/Header.cshtml")
 </div>
-
-
 <link href="~/css/StyleSheet.css " rel="stylesheet" />
-
-
-
 <form class="needs-validation" name="mainForm" asp-action="DiagnosisPatient">
 
     <div class="container row w-75 bloc-center">
@@ -43,7 +38,6 @@
                             </div>
                         </div>
                     </div>
-
                 }
                 <label asp-for="@Model.idCard" class="control-label" style="visibility: hidden;"> </label>
                 <input asp-for="@Model.idCard" class="form-control" type="hidden" />

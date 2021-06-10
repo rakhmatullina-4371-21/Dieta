@@ -120,5 +120,15 @@ namespace Diet.Controllers.Nutritionist
             ViewBag.idCard = id;
             return View(patIndicator);
         }
+
+
+        public async Task<IActionResult> MenuPat(int id)                            //Просмотр меню пациента
+        {
+            Patient patient = await Patient.SelectPatient(id);
+            if (patient == null) { patient = new Patient(); patient.IdPatient = await Patient.MaxIdPatient(); }
+            return View(patient);
+        }
     }
+
+    
 }

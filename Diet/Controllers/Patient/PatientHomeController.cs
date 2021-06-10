@@ -11,7 +11,6 @@ namespace Diet.Areas.Patient.Controllers
     [Authorize]
     public class PatientHomeController : Controller
     {
-        [Area("Patient")]
         public IActionResult MenuPatient( int id)
         {
             return View();

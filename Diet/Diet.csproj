@@ -5,9 +5,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Folder Include="Service\" />
     <Folder Include="wwwroot\images\" />
-    <Folder Include="Domains\" />
     <Folder Include="wwwroot\js\bootstrap\" />
   </ItemGroup>
 

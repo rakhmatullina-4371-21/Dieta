@@ -99,36 +99,7 @@ namespace Diet.Models
             db.SaveChanges();
             return card.IdCard;
         }
-        public static async Task SaveMenu( int idCard)
-        {
-            var listDiag = db.PatientDiagnoses.Where(p => p.IdCard == idCard).Select(p => p.IdDiagnosis).ToList();
-            var listProd = new List<DiagnosesDish>();
-            var listProdAllow = new List<DiagnosesDish>();
 
-            var listDish = new List<Dish>();
-
-            foreach (var i in listDiag)
-            {
-                listProd.AddRange(db.DiagnosesDishes.Where(p => p.IdDiagnosis == i && p.Allowed==false).Select(p=>p).ToList());
-                listProdAllow.AddRange(db.DiagnosesDishes.Where(p => p.IdDiagnosis == i && p.Allowed==true).Select(p => p).ToList());
-
-            }
-
-            var list = listProdAllow.Except(listProd).Select(p=>Convert.ToInt32(p.IdProduct)).Distinct().ToList();
-            if (listProdAllow.Count == 0)
-            {
-                list.AddRange(db.Products.Select(p => p.IdProduct).ToList());
-            }
-            foreach (var i in list)
-            {
-                var prod = db.DishesProducts.Where(p => p.IdProduct == i).Select(p=>p.IdDish).Distinct().ToList();
-                foreach(var j in prod)
-                {
-                    listDish.Add(db.Dishes.FirstOrDefault(p => p.IdDish == j));
-                }
-            }
-
-        }
         public static List<Patient> SelectPatientsNutr( int idEmp)
         {
             var pat = (from t in db.Patients
