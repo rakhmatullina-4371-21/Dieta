@@ -7,29 +7,72 @@ namespace Diet.Models.ViewModels
 {
     public class MenuPatientModel
     {
+        public Product prod { get; set; }
         public Dish dish { get; set; }
         public bool allowed { get; set; }
 
 
-        public static async Task<List<MenuPatientModel>> MenuPatientSelect(int idPatient,int idEmp)
+        public static async Task<List<MenuPatientModel>> ProductPatientSelect(int idPatient,int idEmp)
         {
             DietDBContext db = new DietDBContext();
             var card = await PatientCard.SelectPatientCard(idPatient, idEmp);
             var diagnPat = db.PatientDiagnoses.Where(p => p.IdCard == card.IdCard).ToList();
-            List<int?> listProd = new List<int?>();
+            List<DiagnosesDish> listProd = new List<DiagnosesDish>();
             List<MenuPatientModel> menuPatient = new List<MenuPatientModel>();
             foreach(var i in diagnPat)
             {
-                listProd.AddRange(db.DiagnosesDishes.Where(p => p.IdDiagnosis == i.IdDiagnosis).Select(p => p.IdProduct));
+                listProd.AddRange(db.DiagnosesDishes.Where(p => p.IdDiagnosis == i.IdDiagnosis && p.Allowed==false).Select(p => p));
             }
             listProd.Distinct();
-            foreach(var i in db.Dishes)
+            foreach(var t in db.Products)
             {
-                if (listProd.Join(db.DishesProducts,p=>p,t=>t.IdProduct,(p,t)=>p).Contains(i.IdDish))
+                if (listProd.FirstOrDefault(p => p.IdProduct == t.IdProduct) != null)
                 {
-                    
+                    menuPatient.Add(new MenuPatientModel {prod=t, allowed=false});
+                }
+                else
+                {
+                    menuPatient.Add(new MenuPatientModel { prod = t, allowed = true });
                 }
             }
+            return menuPatient;
+        }
+        
+        public static async Task<List<MenuPatientModel>> DishPatientSelect(List<MenuPatientModel> model)
+        {
+            DietDBContext db = new DietDBContext();
+            List<int?> listProd = new List<int?>();
+            List<MenuPatientModel> menuPatient = new List<MenuPatientModel>();
+            foreach (var i in model)
+            {
+                if (i.allowed == false)
+                {
+                    listProd.Add(i.prod.IdProduct);
+                }
+            }
+
+            foreach(var i in db.Dishes)
+            {
+                menuPatient.Add(new MenuPatientModel { dish = i });
+            }
+            foreach(var i in menuPatient)
+            {
+                var prodInDish = db.DishesProducts.Where(p => p.IdDish == i.dish.IdDish).Select(p => p).ToList();
+                foreach (var j in prodInDish)
+                {
+                    if (listProd.Contains(j.IdProduct))
+                    {
+                        i.allowed = false;
+                        break;
+                    }
+                    else
+                    {
+                        i.allowed = true;
+
+                    }
+                }
+            }
+            return menuPatient;
         }
         public static async Task SaveMenu(int idCard)
         {

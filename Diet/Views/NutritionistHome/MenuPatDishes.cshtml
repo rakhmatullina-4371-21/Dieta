@@ -1,4 +1,4 @@
-﻿@model Diet.Models.ViewModels.PatDiagModel
+﻿@model List<Diet.Models.ViewModels.MenuPatientModel>
 @using Diet.Models
 
 @{
@@ -11,37 +11,32 @@
     @await Html.PartialAsync("~/Views/Shared/Header.cshtml")
 </div>
 <link href="~/css/StyleSheet.css " rel="stylesheet" />
-<form class="needs-validation" name="mainForm" asp-action="DiagnosisPatient">
+<form class="needs-validation" name="mainForm" asp-action="MenuPat">
 
     <div class="container row w-75 bloc-center">
         <div class="col-12 m-3 text-style-grey">
             <h1 class="border-bottom  m-2 ">Список диагнозов</h1>
             @{
-                var diagn = Diagnosis.ReturnDiagnosis();
-                for (int i = 0; i < Model.diagnPat.Count; i++)
+                for (int i = 0; i < Model.Count; i++)
                 {
                     <div class="d-flex text-muted pt-3">
 
                         <div class="pb-3 mb-0 small lh-sm border-bottom w-100">
                             <div class="d-flex justify-content-between">
                                 <div class="form-check">
-                                    <label asp-for="diagnPat[i]" class="control-label text-style-grey">
-                                        @Html.CheckBoxFor(m => m.diagnPat[i], Model.diagnPat[i])
-                                        @diagn[i].NameDiagnosis
-                                        <label asp-for="idDiag[i]" class="control-label" style="visibility: hidden;"> </label>
-                                        <input asp-for="idDiag[i]" class="form-control" type="hidden" />
+                                    <label asp-for="@Model[i].dish" class="control-label text-style-grey">
+                                        @Html.CheckBoxFor(m => m[i].allowed, Model[i].allowed)
+                                        @Model[i].dish.Dish1
                                     </label>
-
-
+                                    <label asp-for="@Model[i].dish.IdDish" class="control-label" style="visibility: hidden;"> </label>
+                                    <input asp-for="@Model[i].dish.IdDish" class="form-control" type="hidden" />
                                 </div>
                             </div>
                         </div>
                     </div>
                 }
-                <label asp-for="@Model.idCard" class="control-label" style="visibility: hidden;"> </label>
-                <input asp-for="@Model.idCard" class="form-control" type="hidden" />
                 <div class="col-12" style="text-align:center">
-                    <button class="btn btn-lg btn-style w-50 m-1" asp-controller="NutritionistHome" asp-action="DiagnosisSave" style="color:black;"> Сохрнить </button>
+                    <button class="btn btn-lg btn-style w-50 m-1" asp-controller="NutritionistHome" asp-action="MenuPatDishes" style="color:black;"> Сохрнить </button>
                 </div>
             }
         </div>

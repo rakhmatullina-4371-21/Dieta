@@ -1,0 +1,44 @@
+﻿@model List<Diet.Models.ViewModels.MenuPatientModel>
+@using Diet.Models
+
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    ViewData["Title"] = "Список блюд";
+}
+
+<link href="~/css/StyleSheet.css " rel="stylesheet" />
+<div>
+    @await Html.PartialAsync("~/Views/Shared/Header.cshtml")
+</div>
+<link href="~/css/StyleSheet.css " rel="stylesheet" />
+<form class="needs-validation" name="mainForm" asp-action="MenuPat">
+
+    <div class="container row w-75 bloc-center">
+        <div class="col-12 m-3 text-style-grey">
+            <h1 class="border-bottom  m-2 ">Список диагнозов</h1>
+            @{
+                for (int i = 0; i < Model.Count; i++)
+                {
+                    <div class="d-flex text-muted pt-3">
+
+                        <div class="pb-3 mb-0 small lh-sm border-bottom w-100">
+                            <div class="d-flex justify-content-between">
+                                            <div class="form-check">
+                                                <label asp-for="@Model[i].prod" class="control-label text-style-grey">
+                                                    @Html.CheckBoxFor(m => m[i].allowed, Model[i].allowed)
+                                                    @Model[i].prod.Product1
+                                                </label>
+                                                <label asp-for="@Model[i].prod.IdProduct" class="control-label" style="visibility: hidden;"> </label>
+                                                <input asp-for="@Model[i].prod.IdProduct" class="form-control" type="hidden" />
+                                            </div>
+                            </div>
+                        </div>
+                    </div>
+                }
+                <div class="col-12" style="text-align:center">
+                    <button class="btn btn-lg btn-style w-50 m-1" asp-controller="NutritionistHome" asp-action="MenuPatDishes" style="color:black;"> Сохрнить </button>
+                </div>
+            }
+        </div>
+    </div>
+</form>

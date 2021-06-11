@@ -122,12 +122,18 @@ namespace Diet.Controllers.Nutritionist
         }
 
 
-        public async Task<IActionResult> MenuPat(int id)                            //Просмотр меню пациента
+        public async Task<IActionResult> MenuPat(int id)                            //Просмотр разрешенных продуктов пациента
         {
-            Patient patient = await Patient.SelectPatient(id);
-            if (patient == null) { patient = new Patient(); patient.IdPatient = await Patient.MaxIdPatient(); }
-            return View(patient);
+            return View( await MenuPatientModel.ProductPatientSelect(id,int.Parse(HttpContext.User.Identity.Name)));
         }
+
+
+        
+        public async Task<IActionResult> MenuPatDishes(List<MenuPatientModel> model)                            //Просмотр разрешенных блюд пациента
+        {
+            return View(await MenuPatientModel.DishPatientSelect(model));
+        }
+
     }
 
     

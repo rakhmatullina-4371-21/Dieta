@@ -14,7 +14,7 @@ namespace Diet.Models
     {
         public PatientCard()
         {
-            Meals = new HashSet<Meal>();
+            Menu = new HashSet<Menu>();
         }
 
         public int IdCard { get; set; }
@@ -45,7 +45,7 @@ namespace Diet.Models
         public virtual ActivityLevel IdActivityLevelsNavigation { get; set; }
         public virtual Employee IdEmployeeNavigation { get; set; }
         public virtual Patient IdPatientNavigation { get; set; }
-        public virtual ICollection<Meal> Meals { get; set; }
+        public virtual ICollection<Menu> Menu { get; set; }
 
 
         static DietDBContext db = new DietDBContext();
@@ -81,7 +81,6 @@ namespace Diet.Models
             {
                 t.IdEmployee = card.IdEmployee;
                 t.IdPatient = card.IdPatient;
-                t.Meals = card.Meals;
                 t.StartDiet = card.StartDiet;
                 t.FinishDiet = card.FinishDiet;
                 t.Activ = true;
@@ -90,7 +89,7 @@ namespace Diet.Models
                 t.DailyFats = card.DailyFats;
                 t.DailyProtein = card.DailyProtein;
                 t.IdActivityLevels = card.IdActivityLevels;
-                await SaveMenu(t.IdCard);
+                //await SaveMenu(t.IdCard);
 
                 db.PatientCards.Update(t);
                 card.IdCard = t.IdCard;

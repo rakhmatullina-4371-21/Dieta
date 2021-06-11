@@ -1564,11 +1564,9 @@ CREATE TABLE PATIENT_CARDS
 );
 
 
-CREATE TABLE MEALS
+CREATE TABLE MENU
 (
-
-         id_meals SERIAL PRIMARY KEY,
-         date DATE NOT NULL, 
+         id_position SERIAL PRIMARY KEY,
          id_card INT REFERENCES PATIENT_CARDS (id_card),
          dish TEXT NOT NULL,
          calories NUMERIC,
@@ -1577,7 +1575,13 @@ CREATE TABLE MEALS
          carbohydrates NUMERIC
 );
 
+CREATE TABLE MEALS
+(
 
+         id_meals SERIAL PRIMARY KEY,
+         date DATE NOT NULL, 
+         id_position INT REFERENCES MENU (id_position)
+);
 CREATE TABLE PATIENT_DIAGNOSES
 (
          id_card INT REFERENCES PATIENT_CARDS (id_card),

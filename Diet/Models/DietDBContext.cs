@@ -24,7 +24,9 @@ namespace Diet.Models
         public virtual DbSet<DishesProduct> DishesProducts { get; set; }
         public virtual DbSet<Employee> Employees { get; set; }
         public virtual DbSet<Indicator> Indicators { get; set; }
-        public virtual DbSet<Meal> Meals { get; set; }
+        public virtual DbSet<Meals> Meals { get; set; }
+        public virtual DbSet<Menu> Menu { get; set; }
+
         public virtual DbSet<Patient> Patients { get; set; }
         public virtual DbSet<PatientCard> PatientCards { get; set; }
         public virtual DbSet<PatientDiagnosis> PatientDiagnoses { get; set; }
@@ -223,7 +225,7 @@ namespace Diet.Models
                     .HasColumnName("name_indicator");
             });
 
-            modelBuilder.Entity<Meal>(entity =>
+            modelBuilder.Entity<Meals>(entity =>
             {
                 entity.HasKey(e => e.IdMeals)
                     .HasName("meals_pkey");
@@ -232,13 +234,26 @@ namespace Diet.Models
 
                 entity.Property(e => e.IdMeals).HasColumnName("id_meals");
 
+                entity.Property(e => e.IdPosition).HasColumnName("id_position");
+
+
+                entity.HasOne(d => d.IdPositionNavigation)
+                    .WithMany(p =>p.Meals)
+                    .HasForeignKey(d => d.IdPosition)
+                    .HasConstraintName("menu_id_position_fkey");
+            });
+            modelBuilder.Entity<Menu>(entity =>
+            {
+                entity.HasKey(e => e.IdPosition)
+                    .HasName("menu_pkey");
+
+                entity.ToTable("menu");
+
+                entity.Property(e => e.IdPosition).HasColumnName("id_position");
+
                 entity.Property(e => e.Calories).HasColumnName("calories");
 
                 entity.Property(e => e.Carbohydrates).HasColumnName("carbohydrates");
-
-                entity.Property(e => e.Date)
-                    .HasColumnType("date")
-                    .HasColumnName("date");
 
                 entity.Property(e => e.Dish)
                     .IsRequired()
@@ -251,13 +266,10 @@ namespace Diet.Models
                 entity.Property(e => e.Protein).HasColumnName("protein");
 
                 entity.HasOne(d => d.IdCardNavigation)
-                    .WithMany(p => p.Meals)
+                    .WithMany(p => p.Menu)
                     .HasForeignKey(d => d.IdCard)
-                    .HasConstraintName("meals_id_card_fkey");
+                    .HasConstraintName("menu_id_position_fkey");
             });
-            var g = modelBuilder.HasPostgresEnum(null, "gender", new[] { "Мужской", "ok", "Женский" })
-.HasAnnotation("Relational:Collation", "Russian_Russia.1251");
-
 
             modelBuilder.Entity<Patient>(entity =>
             {
