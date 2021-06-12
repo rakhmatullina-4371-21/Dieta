@@ -128,12 +128,17 @@ namespace Diet.Controllers.Nutritionist
         }
 
 
-        
+   
         public async Task<IActionResult> MenuPatDishes(List<MenuPatientModel> model)                            //Просмотр разрешенных блюд пациента
         {
-            return View(await MenuPatientModel.DishPatientSelect(model));
+            return View(await MenuDishPatientModel.DishPatientSelect(model));
         }
-
+   
+        public async Task<IActionResult> SaveMenuPat(List<MenuDishPatientModel> model)                            //Просмотр разрешенных блюд пациента
+        {
+            await MenuDishPatientModel.SaveMenu(model);
+            return Redirect("~/NutritionistHome/MenuNutritionist");
+        }
     }
 
     

@@ -8,10 +8,9 @@ namespace Diet.Models.ViewModels
     public class MenuPatientModel
     {
         public Product prod { get; set; }
-        public Dish dish { get; set; }
         public bool allowed { get; set; }
 
-
+        public int idCard { get; set; }
         public static async Task<List<MenuPatientModel>> ProductPatientSelect(int idPatient,int idEmp)
         {
             DietDBContext db = new DietDBContext();
@@ -28,52 +27,17 @@ namespace Diet.Models.ViewModels
             {
                 if (listProd.FirstOrDefault(p => p.IdProduct == t.IdProduct) != null)
                 {
-                    menuPatient.Add(new MenuPatientModel {prod=t, allowed=false});
+                    menuPatient.Add(new MenuPatientModel {prod=t, idCard=card.IdCard, allowed=false});
                 }
                 else
                 {
-                    menuPatient.Add(new MenuPatientModel { prod = t, allowed = true });
+                    menuPatient.Add(new MenuPatientModel { prod = t, idCard=card.IdCard, allowed = true });
                 }
             }
-            return menuPatient;
+            return menuPatient.OrderBy(p=>p.prod.Product1).ToList();
         }
         
-        public static async Task<List<MenuPatientModel>> DishPatientSelect(List<MenuPatientModel> model)
-        {
-            DietDBContext db = new DietDBContext();
-            List<int?> listProd = new List<int?>();
-            List<MenuPatientModel> menuPatient = new List<MenuPatientModel>();
-            foreach (var i in model)
-            {
-                if (i.allowed == false)
-                {
-                    listProd.Add(i.prod.IdProduct);
-                }
-            }
-
-            foreach(var i in db.Dishes)
-            {
-                menuPatient.Add(new MenuPatientModel { dish = i });
-            }
-            foreach(var i in menuPatient)
-            {
-                var prodInDish = db.DishesProducts.Where(p => p.IdDish == i.dish.IdDish).Select(p => p).ToList();
-                foreach (var j in prodInDish)
-                {
-                    if (listProd.Contains(j.IdProduct))
-                    {
-                        i.allowed = false;
-                        break;
-                    }
-                    else
-                    {
-                        i.allowed = true;
-
-                    }
-                }
-            }
-            return menuPatient;
-        }
+ 
         public static async Task SaveMenu(int idCard)
         {
             DietDBContext db = new DietDBContext();

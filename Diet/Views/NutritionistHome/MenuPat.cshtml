@@ -15,14 +15,14 @@
 
     <div class="container row w-75 bloc-center">
         <div class="col-12 m-3 text-style-grey">
-            <h1 class="border-bottom  m-2 ">Список диагнозов</h1>
+            <h1 class="border-bottom  m-2 ">Список разрешенных продуктов</h1>
             @{
                 for (int i = 0; i < Model.Count; i++)
                 {
                     <div class="d-flex text-muted pt-3">
 
                         <div class="pb-3 mb-0 small lh-sm border-bottom w-100">
-                            <div class="d-flex justify-content-between">
+                                        <div class="d-flex justify-content-between">
                                             <div class="form-check">
                                                 <label asp-for="@Model[i].prod" class="control-label text-style-grey">
                                                     @Html.CheckBoxFor(m => m[i].allowed, Model[i].allowed)
@@ -31,12 +31,14 @@
                                                 <label asp-for="@Model[i].prod.IdProduct" class="control-label" style="visibility: hidden;"> </label>
                                                 <input asp-for="@Model[i].prod.IdProduct" class="form-control" type="hidden" />
                                             </div>
-                            </div>
+                                            <label asp-for="@Model[i].idCard" class="control-label" style="visibility: hidden;"> </label>
+                                            <input asp-for="@Model[i].idCard" class="form-control" type="hidden" />
+                                        </div>
                         </div>
                     </div>
                 }
                 <div class="col-12" style="text-align:center">
-                    <button class="btn btn-lg btn-style w-50 m-1" asp-controller="NutritionistHome" asp-action="MenuPatDishes" style="color:black;"> Сохрнить </button>
+                    <button class="btn btn-lg btn-style w-50 m-1" asp-controller="NutritionistHome" asp-action="MenuPatDishes" style="color:black;"> Сохранить </button>
                 </div>
             }
         </div>
