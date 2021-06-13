@@ -88,11 +88,49 @@ namespace Diet.Models
             }
             else
             {
+                db.SaveChanges();
+                db = new DietDBContext();
                 db.Patients.Update(pat);
             }
             db.SaveChanges();
         }
 
+
+        public async Task DeletePatient(Patient patient)
+        {
+            Patient patt = await db.Patients.FirstOrDefaultAsync(p => p.IdPatient == patient.IdPatient);
+            List<PatientCard> cardsPat;
+
+            if (db.PatientCards.Where(p => p.IdPatient == patient.IdPatient).Count() != 0)
+            {
+                 cardsPat = await db.PatientCards.Where(p => p.IdPatient == patient.IdPatient).ToListAsync();
+                if (db.Menu.Where(p => p.IdCard == cardsPat.First().IdCard).Count() != 0)
+                {
+                    var menuPat = await db.Menu.Where(p => p.IdCard == cardsPat.First().IdCard).ToListAsync();
+                    db.Menu.RemoveRange(menuPat);
+                    if (db.Meals.Where(p => p.IdPosition == menuPat.First().IdPosition).Count() != 0)
+                    {
+                        var meals = await db.Meals.Where(p => p.IdPosition == menuPat.First().IdPosition).ToListAsync();
+                        db.Meals.RemoveRange(meals);
+
+                    }
+                }
+                if(db.PatientIndicators.Where(p => p.IdCard == cardsPat.First().IdCard).Count() != 0)
+                {
+                    var analysesPat = await db.PatientIndicators.Where(p => p.IdCard == cardsPat.First().IdCard).ToListAsync();
+                    db.PatientIndicators.RemoveRange(analysesPat);
+                }
+                if (db.PatientDiagnoses.Where(p => p.IdCard == cardsPat.First().IdCard).Count()!=0)
+                {
+                    var DiagPat = await db.PatientDiagnoses.Where(p => p.IdCard == cardsPat.First().IdCard).ToListAsync();
+                    db.PatientDiagnoses.RemoveRange(DiagPat);
+                }
+                db.PatientCards.RemoveRange(cardsPat);
+            }
+
+            db.Patients.RemoveRange(patt);
+            db.SaveChanges();
+        }
         public static  List<Patient> SelectPatients()
         {
             return  db.Patients.Select(p =>p).ToList();

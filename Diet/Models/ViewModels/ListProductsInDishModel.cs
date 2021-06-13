@@ -46,7 +46,7 @@ namespace Diet.Models.ViewModels
             ListProductsInDishModel ListProdDish = new ListProductsInDishModel();
             ListProdDish.OneDish = await Dish.SelectDish(idDish);
             if (ListProdDish.OneDish == null) { ListProdDish.OneDish = new Dish(); ListProdDish.OneDish.IdDish = await Dish.MaxIdDish(); }
-            ListProdDish.listProduct = ListProduct();
+            ListProdDish.listProduct = ListProduct().OrderBy(p=>p.Product1).ToList();
             ListProdDish.ProductInDish = ListProductItem(idDish);
             return ListProdDish;
         }

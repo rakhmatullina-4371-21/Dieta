@@ -49,26 +49,40 @@
             </div>
 
 
-        <div class="form-group bg-style-grey scroll w-100 m-3" style="height:150px;">
+            <div class="form-group bg-style-grey scroll w-100 m-3" style="height:150px;">
 
+                @{
+                    for (int i = 0; i < Model.listProduct.Count; i++)
+                    {
+                        <div class="form-check m-2">
+                            <label asp-for="@Model.ProductInDish" class="control-label">
+                                @Html.CheckBoxFor(m => m.ProductInDish[i],
+                               @Model.ProductInDish[i])
+                                @Model.listProduct[i].Product1
+                            </label>
+                        </div>
+
+                    }
+                }
+            </div>
             @{
-                for (int i=0;i<Model.listProduct.Count;i++)
+                if (Model.OneDish.Dish1 == null)
                 {
-                    <div class="form-check m-2">
-                        <label asp-for="@Model.ProductInDish" class="control-label">
-                            @Html.CheckBoxFor(m => m.ProductInDish[i],
-                           @Model.ProductInDish[i])
-                            @Model.listProduct[i].Product1
-                        </label>
+                    <div class="col-12" style="text-align:center">
+                        <button class="btn btn-lg btn-style w-50 m-1" asp-controller="AdminHome" asp-action="OneDish" style="color:black;"> Далее </button>
                     </div>
-
+                }
+                else
+                {
+                    <div class="col-6" style="text-align:center">
+                        <button class="btn btn-lg btn-style w-50 m-1" asp-controller="AdminHome" asp-action="DeleteOneDish" style="color:black;"> Удалить </button>
+                    </div>
+                    <div class="col-6" style="text-align:center">
+                        <button class="btn btn-lg btn-style w-50 m-1" asp-controller="AdminHome" asp-action="OneDish" style="color:black;"> Далее </button>
+                    </div>
                 }
             }
-        </div>
 
-            <div class="col-12" style="text-align:center">
-                <button class="btn btn-lg btn-style w-50 m-1" asp-controller="AdminHome" asp-action="OneDish" style="color:black;"> Далее </button>
-            </div>
         </div>
 
 

@@ -59,10 +59,20 @@ namespace Diet.Models
             }
             db.SaveChanges();
         }
-
+        public static async Task DelDish(Dish dish)
+        {
+            Dish di = await db.Dishes.FirstOrDefaultAsync(p => p.IdDish == dish.IdDish);
+            if (db.DishesProducts.Where(p => p.IdDish == dish.IdDish).Count() != 0)
+            {
+                var pd =await db.DishesProducts.Where(p => p.IdDish == di.IdDish).ToListAsync();
+                db.DishesProducts.RemoveRange(pd);
+            }
+            db.Dishes.Remove(di);
+            db.SaveChanges();
+        }
         public static List<Dish> SelectDishes()
         {
-            return db.Dishes.Select(p => p).ToList();
+            return db.Dishes.Select(p => p).OrderBy(p=>p.Dish1).ToList();
         }
 
 

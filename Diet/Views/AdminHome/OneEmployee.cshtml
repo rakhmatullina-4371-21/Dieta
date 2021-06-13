@@ -49,13 +49,28 @@
             <div class="form-group  col-sm-6 text-style-grey" id="select">
                 <div>
                     <label asp-for="IdPosition"> Должности</label>
-                    <select class="form-select" asp-for="IdPosition" asp-items="(IEnumerable<SelectListItem>)@ViewData["position"]" ></select>
+                    <select class="form-select" asp-for="IdPosition" asp-items="(IEnumerable<SelectListItem>)@ViewData["position"]"></select>
                 </div>
             </div>
+            @{
+                if (Model.Surname == null)
+                {
+                    <div class="col-6" style="text-align:center">
+                        <button class="btn btn-lg btn-style w-50 m-1" asp-controller="AdminHome" asp-action="DeleteOneEmployee" style="color:black;">Удалить </button>
+                    </div>
 
-            <div class="col-12" style="text-align:center">
-                <button class="btn btn-lg btn-style w-50 m-1" asp-controller="AdminHome" asp-action="OneEmployee" style="color:black;">Сохранить </button>
-            </div>
+                    <div class="col-6" style="text-align:center">
+                        <button class="btn btn-lg btn-style w-50 m-1" asp-controller="AdminHome" asp-action="OneEmployee" style="color:black;">Сохранить </button>
+                    </div>
+                }
+                else
+                {
+                    <div class="col-12" style="text-align:center">
+                        <button class="btn btn-lg btn-style w-50 m-1" asp-controller="AdminHome" asp-action="OneEmployee" style="color:black;">Сохранить </button>
+                    </div>
+                }
+            }
+
         </div>
 
 

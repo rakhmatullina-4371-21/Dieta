@@ -7,6 +7,8 @@ namespace Diet.Models
 {
     public partial class DiagnosesDish
     {
+        public int id { get; set; }
+
         public int? IdDiagnosis { get; set; }
         public int? IdProduct { get; set; }
         public bool? Allowed { get; set; }

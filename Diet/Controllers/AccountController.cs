@@ -8,7 +8,6 @@ using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Diet.Models;
-using Diet.Areas;
 
 
 namespace Diet.Controllers
@@ -36,7 +35,7 @@ namespace Diet.Controllers
                 Patient patient = await db.Patients.FirstOrDefaultAsync(u => u.Login == model.Email && u.Password == password);
                 if (patient != null)
                 {
-                    await Authenticate(patient.Login); // аутентификация
+                    await Authenticate(patient.IdPatient.ToString()); // аутентификация
                     return Redirect(urlstr ?? "PatientHome/MenuPatient/id?=" + patient.IdPatient);
                 }
                 else

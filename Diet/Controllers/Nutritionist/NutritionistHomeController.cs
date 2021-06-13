@@ -21,12 +21,12 @@ namespace Diet.Controllers.Nutritionist
         public IActionResult MenuNutritionist()                                 //Стартовое окно диетолога
         { 
             var id = HttpContext.User.Identity.Name;
-            var list = PatientCard.SelectPatientsNutr(int.Parse(id));
+            var list = PatientCard.SelectPatientsNutr(int.Parse(id)).OrderBy(p=>p.Surname).ToList();
             return View(list);
         }
         public IActionResult PatSelect()                                           //Список пациентов
         {
-            return View(Patient.SelectPatientCardNull(int.Parse(HttpContext.User.Identity.Name)));
+            return View(Patient.SelectPatientCardNull(int.Parse(HttpContext.User.Identity.Name)).OrderBy(p=>p.Surname).ToList());
         }
 
         public IActionResult MenuPatient(int id)
@@ -63,7 +63,7 @@ namespace Diet.Controllers.Nutritionist
             if (ModelState.IsValid )
             {
                 
-               var idCard= await PatientCard.SavePatCard(int.Parse(HttpContext.User.Identity.Name), card);
+                await PatientCard.SavePatCard(int.Parse(HttpContext.User.Identity.Name), card);
                 return Redirect("~/NutritionistHome/MenuNutritionist");
             }
             return View();

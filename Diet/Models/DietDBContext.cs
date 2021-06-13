@@ -73,7 +73,11 @@ namespace Diet.Models
 
             modelBuilder.Entity<DiagnosesDish>(entity =>
             {
-                entity.HasNoKey();
+
+                entity.HasKey(e => e.id)
+                         .HasName("id");
+                entity.ToTable("diagnoses_dishes");
+
 
                 entity.ToTable("diagnoses_dishes");
 

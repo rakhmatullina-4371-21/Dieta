@@ -4,19 +4,40 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Diet.Models;
+using Microsoft.AspNetCore.Mvc.Rendering;
 
-namespace Diet.Areas.Patient.Controllers
+namespace Diet.PatientHome.Controllers
 {
 
     [Authorize]
     public class PatientHomeController : Controller
     {
-        public IActionResult MenuPatient( int id)
+        public async Task<IActionResult> MenuPatient()
         {
-            return View();
+            return View(await Patient.SelectPatient(Convert.ToInt32(HttpContext.User.Identity.Name)));
         }
-        public IActionResult Card()
+        [HttpGet]
+        public IActionResult Card(int id)
         {
+            DietDBContext db = new DietDBContext();
+            ViewData["employee"] = db.Employees.Where(p => p.IdPositionNavigation.Position1 == "Диетолог").Select(r => new SelectListItem
+            {
+                Text =$"{r.Surname} {r.Name} {r.Lastname}",
+                Value = r.IdPosition.ToString()
+            });
+            PatientCard card = new PatientCard();
+            card.IdPatient = id;
+            return View(card);
+        }
+        [HttpPost]
+        public async Task<IActionResult> Card(PatientCard card)          //Сохрание карты пациента
+        {
+            if (ModelState.IsValid)
+            {
+                await PatientCard.SavePatCard(int.Parse(HttpContext.User.Identity.Name), card);
+                return Redirect("~/PatientHome/MenuPatient");
+            }
             return View();
         }
         public IActionResult Diary()

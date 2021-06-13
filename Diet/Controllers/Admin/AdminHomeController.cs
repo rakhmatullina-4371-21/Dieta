@@ -26,12 +26,12 @@ namespace Diet
         }
         public IActionResult PatSelect()
         {
-            return View(Patient.SelectPatients());
+            return View(Patient.SelectPatients().OrderBy(p=>p.Surname));
         }
 
         public IActionResult EmpSelect()
         {
-            return View(Employee.SelectEmployees(HttpContext.User.Identity.Name));
+            return View(Employee.SelectEmployees(HttpContext.User.Identity.Name).OrderBy(p=>p.Surname));
         }
 
         public IActionResult DishSelect()
@@ -43,24 +43,6 @@ namespace Diet
         {
             return View(DishesProduct.SelectDishProd(id));
         }
-
-
-
-
-        public IActionResult SaveProdInDish(IEnumerable<Product> product, int idDish)
-        {
-           
-            return View(Product.SelectProducts());
-        }
- 
-        public IActionResult ProdSelect(IEnumerable<Product> product,int idDish)
-        {
-            var t = product;
-            ViewBag.id = idDish;
-            return View(Product.SelectProducts());
-        }
-
-
         [HttpGet]
         public async Task<IActionResult> OnePatient(int id)
         {
@@ -75,14 +57,21 @@ namespace Diet
             {
 
                 await  patient.SavePatient(patient);
-                return Redirect("~/AdminHome/PatSelect");
+                return Redirect("~/AdminHome/MenuAdmin");
             }
             return View(patient);
         }
 
 
-
-
+        public async Task<IActionResult> DeleteOnePatient(Patient patient)
+        {
+            if (ModelState.IsValid)
+            {
+                await patient.DeletePatient(patient);
+                return Redirect("~/AdminHome/PatSelect");
+            }
+            return View(patient);
+        }
 
 
         [HttpGet]
@@ -109,12 +98,21 @@ namespace Diet
             {
                 
                 await employee.SaveEmployee(employee);
-                return Redirect("~/AdminHome/EmpSelect");
+                return Redirect("~/AdminHome/MenuAdmin");
             }
             return View(employee);
         }
 
-
+        
+        public async Task<IActionResult> DeleteOneEmployee(Employee employee)
+        {
+            if (ModelState.IsValid)
+            {
+                await employee.DeleteEmployee(employee);
+                return Redirect("~/AdminHome/EmpSelect");
+            }
+            return View(employee);
+        }
 
         [HttpGet]
         public async Task<IActionResult> OneDish(int id)
@@ -133,7 +131,7 @@ namespace Diet
                 Dish d = new Dish();
                 d = model.OneDish;
                 ListProductsInDishModel.SaveProductDish(model, d);
-                return Redirect("~/AdminHome/DishSelect");
+                return Redirect("~/AdminHome/MenuAdmin");
             }
             ModelState.AddModelError("", "Некорректные данные ");
             return View(model);
@@ -143,27 +141,42 @@ namespace Diet
         [HttpGet]
         public async Task<IActionResult> OneProduct(int id)
         {
-
+            ViewData["diag"] = db.Diagnoses.Select(r => new SelectListItem
+            {
+                Text = r.IdDiagnosis.ToString(),
+                Value = false.ToString()
+            });
             Product product = await Product.SelectOneProd(id);
             if (product == null) { product = new Product(); product.IdProduct = await Product.MaxIdProd(); }
-            return View(product);
+           AddProductModel model= await  AddProductModel.ProductInDish(product.IdProduct);
+            return View(model);
         }
         [HttpPost]
-        public async Task<IActionResult> OneProduct(Product product)
+        public async Task<IActionResult> OneProduct(AddProductModel product)
         {
             if (ModelState.IsValid)
             {
-                await product.SaveProd(product);
-                return Redirect("~/AdminHome/");
+                await Product.SaveProd(product);
+                return Redirect("~/AdminHome/MenuAdmin");
             }
             return View(product);
         }
+        public async Task<IActionResult> DeleteOneDish(ListProductsInDishModel model)
+        {
+            if (ModelState.IsValid)
+            {
 
+                await Dish.DelDish(new Dish {IdDish=model.OneDish.IdDish });
+                return Redirect("~/AdminHome/MenuAdmin");
+            }
+            return View(model);
+        }
+        
         public async Task<IActionResult> DeleteProduct(int id)
         {
 
             await Product.DelProd(id);
-            return Redirect("~/AdminHome/DishSelect");
+            return Redirect("~/AdminHome/MenuAdmin");
 
         }
 

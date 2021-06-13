@@ -58,13 +58,27 @@
                 </div>
                 <div class="form-check text-style-grey">
                     <label asp-for="Woman" class="control-label">  @Html.RadioButtonFor(m => m.Woman, false) Мужской </label>
-                    
+
                 </div>
             </div>
+            @{
+                if (Model.Surname== null)
+                {
+                    <div class="col-6" style="text-align:center">
+                        <button class="btn btn-lg btn-style w-50 m-1" asp-controller="AdminHome" asp-action="DeleteOnePatient" style="color:black;"> Удалить </button>
+                    </div>
+                    <div class="col-6" style="text-align:center">
+                        <button class="btn btn-lg btn-style w-50 m-1" asp-controller="AdminHome" asp-action="OnePatient" style="color:black;">Сохранить </button>
+                    </div>
+                }
+                else
+                {
+                    <div class="col-12" style="text-align:center">
+                        <button class="btn btn-lg btn-style w-50 m-1" asp-controller="AdminHome" asp-action="OnePatient" style="color:black;">Сохранить </button>
+                    </div>
+                }
+            }
 
-            <div class="col-12" style="text-align:center" >
-                <button class="btn btn-lg btn-style w-50 m-1" asp-controller="AdminHome" asp-action="OnePatient" style="color:black;">Сохранить </button>
-            </div>
         </div>
 
 

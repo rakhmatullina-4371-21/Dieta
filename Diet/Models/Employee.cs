@@ -80,11 +80,30 @@ namespace Diet.Models
             }
             else
             {
+                db.SaveChanges();
+                db = new DietDBContext();
                  db.Employees.Update(newEmp);
             }
             db.SaveChanges();
         }
 
+        public async Task DeleteEmployee(Employee employee)
+        {
+            Employee empl = await db.Employees.FirstOrDefaultAsync(p => p.IdEmployee == employee.IdEmployee);
+            if (db.PatientCards.Where(p => p.IdEmployee == employee.IdEmployee).Count() != 0 && db.Employees.Count()!=0)
+            {
+                var card = await db.PatientCards.Where(p => p.IdEmployee == employee.IdEmployee).ToListAsync();
+                foreach(var t in card)
+                {
+                    t.IdEmployee = Convert.ToInt32(db.Employees.OrderBy(p => p.IdEmployee).Select(p=>p.IdEmployee).FirstAsync());
+                    db.Employees.Remove(empl);
+                }
+            }else if (db.Employees.Count() != 0)
+            {
+                db.Employees.Remove(empl);
+            }
+            db.SaveChanges();
+        }
         public static List<Employee> SelectEmployees(string id)
         {
             return DB.Employees.Where(p=>p.IdEmployee!=int.Parse(id)).Select(p=>p).ToList();

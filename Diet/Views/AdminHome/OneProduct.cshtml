@@ -1,4 +1,4 @@
-﻿@model Diet.Models.Product
+﻿@model Diet.Models.ViewModels.AddProductModel
 @using Diet.Models
 @{
     Layout = "~/Views/Shared/_Layout.cshtml";
@@ -18,18 +18,48 @@
             <label asp-for="IdProduct" class="control-label" style="visibility: hidden;"> </label>
             <input asp-for="IdProduct" class="form-control" type="hidden" />
             <span asp-validation-for="IdProduct" class="text-danger text-black-50"></span>
-            <h1 class="mb-2 text-style-grey">Блюдо</h1>
+            <h1 class="mb-2 text-style-grey">Продукт</h1>
         </div>
         <div class="row g-3 ">
             <div class="form-group col-12 text-style-grey">
-                <label asp-for="Product1" class="control-label"> Название блюда </label>
+                <label asp-for="Product1" class="control-label"> Название продукта </label>
                 <input asp-for="Product1" class="form-control" />
                 <span asp-validation-for="Product1" class="text-danger text-black-50"></span>
             </div>
-            <div class="col-12" style="text-align:center">
-                <button class="btn btn-lg btn-style w-25 m-1" asp-controller="AdminHome" asp-action="DeleteProduct" asp-route-id="@Model.IdProduct" style="color:black;"> Удалить </button>
-                <button class="btn btn-lg btn-style w-25 m-1" asp-controller="AdminHome" asp-action="OneProduct" asp-route-id="@Model.IdProduct" style="color:black;"> Сохранить </button>
+            <div class="form-group bg-style-grey scroll w-100 m-3" style="height:150px;">
+
+                @{
+                    for (int i = 0; i <Model.diagnoses.Count(); i++)
+                    {
+                        <div class="form-check m-2">
+                            <label asp-for="@Model.diagProd" class="control-label">
+                                @Html.CheckBoxFor(m => m.diagProd[i],
+                               @Model.diagProd[i])
+                                @Model.diagnoses[i].NameDiagnosis
+                            </label>
+                        </div>
+
+                    }
+                }
             </div>
+            @{
+                if (Model.Product1 == null)
+                {
+                    <div class="col-12" style="text-align:center">
+                        <button class="btn btn-lg btn-style w-25 m-1" asp-controller="AdminHome" asp-action="OneProduct" asp-route-id="@Model.IdProduct" style="color:black;"> Сохранить </button>
+                    </div>
+                }
+                else
+                {
+                    <div class="col-6" style="text-align:center">
+                        <button class="btn btn-lg btn-style w-75 m-1" asp-controller="AdminHome" asp-action="DeleteProduct" asp-route-id="@Model.IdProduct" style="color:black;"> Удалить </button>
+                    </div>
+                    <div class="col-6" style="text-align:center">
+                        <button class="btn btn-lg btn-style w-75 m-1" asp-controller="AdminHome" asp-action="OneProduct" asp-route-id="@Model.IdProduct" style="color:black;"> Сохранить </button>
+                    </div>
+                }
+            }
+
         </div>
 
 
