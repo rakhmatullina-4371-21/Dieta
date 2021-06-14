@@ -18,7 +18,7 @@
     <div class="col-12 m-3 text-style-grey">
         <h1 class="border-bottom  m-3 p-1"> Список анализов пациента </h1>
         <div class="pb-3 mb-0 small lh-sm border-bottom w-100">
-            <a class="text-style-grey" asp-action="OneIndicatorPatient" asp-route-id="@ViewBag.idCard" asp-controller="NutritionistHome"><font style="vertical-align: inherit;   display: block; text-align: right;"><font style="vertical-align: inherit;">Добавить</font></font></a>
+            <a class="text-style-grey" asp-action="OneIndicatorPatient" asp-route-id="@ViewBag.id" asp-controller="NutritionistHome"><font style="vertical-align: inherit;   display: block; text-align: right;"><font style="vertical-align: inherit;">Добавить</font></font></a>
         </div>
         @{
             foreach (var item in Model)
@@ -28,10 +28,12 @@
                     <div class="pb-3 mb-0 small lh-sm border-bottom w-100">
                         <div class="d-flex justify-content-between">
                             <strong class="text-style-grey"> Анализ за @Html.DisplayFor(modelItem => item.DateIndicator) число  </strong>
-                            <a class="text-style-grey" asp-action="OneIndicatorPatient" asp-controller="NutritionistHome" asp-route-date="@item.DateIndicator" asp-route-id="@item.IdCard">Подробнее</a>
-                        </div>
-                    </div>
-                </div>
+                            <a class="text-style-grey" asp-action="OneIndicatorPatient" asp-controller="NutritionistHome" asp-route-date="@item.DateIndicator" asp-route-id="@ViewBag.id">Подробнее</a>
+</div>
+
+</div>
+
+</div>
 
             }
 

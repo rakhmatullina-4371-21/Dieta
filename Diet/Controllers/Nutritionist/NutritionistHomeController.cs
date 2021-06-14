@@ -21,7 +21,7 @@ namespace Diet.Controllers.Nutritionist
         public IActionResult MenuNutritionist()                                 //Стартовое окно диетолога
         { 
             var id = HttpContext.User.Identity.Name;
-            var list = PatientCard.SelectPatientsNutr(int.Parse(id)).OrderBy(p=>p.Surname).ToList();
+            var list = PatientCard.SelectPatientsNutr(int.Parse(id));
             return View(list);
         }
         public IActionResult PatSelect()                                           //Список пациентов
@@ -95,7 +95,8 @@ namespace Diet.Controllers.Nutritionist
         public async Task<IActionResult> IndicatorPatient(int id)             //Страница показателей одного пациента
         {
             var list = await PatientIndicator.listPatIndicators(id);
-            ViewBag.idCard = id;
+            var patientCard = await PatientCard.SelectPatientCard(id, Convert.ToInt32(HttpContext.User.Identity.Name));
+            ViewBag.id = patientCard.IdCard;
             return View(list);
         }
 
@@ -106,7 +107,7 @@ namespace Diet.Controllers.Nutritionist
         public IActionResult OneIndicatorPatient(int id, string date)     // Добавить значения показателей (анализ)
         {
             var list = AnalysisModel.SelectIndicatorsValue(id, date);
-            ViewBag.idCard = id;
+            ViewBag.id = id;
             return View(list);
         }
         [HttpPost]
@@ -114,7 +115,8 @@ namespace Diet.Controllers.Nutritionist
         {
             if (ModelState.IsValid)
             {
-                await PatientIndicator.SaveAnalysisAsync(patIndicator, id);
+
+                ViewBag.idCard= await PatientIndicator.SaveAnalysisAsync(patIndicator, id);
                 return Redirect("~/NutritionistHome/MenuNutritionist");
             }
             ViewBag.idCard = id;

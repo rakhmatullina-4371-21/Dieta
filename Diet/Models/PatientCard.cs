@@ -120,16 +120,31 @@ namespace Diet.Models
 
         public static async Task<PatientCard> DailyCCPF( PatientCard card)
         {
+            decimal height = 0;
+            decimal weight = 0;
             var patient = await db.Patients.FirstOrDefaultAsync(p=>p.IdPatient==card.IdPatient);
-            var activity = db.ActivityLevels.Where(p => p.IdActivityLevels == card.IdActivityLevels).Select(p => p.Value).First();
-            var dateAnalyses = db.PatientIndicators.Max(p => p.DateIndicator);
-            decimal height =Convert.ToDecimal(db.Indicators.Join(db.PatientIndicators, p => p.IdIndicator, t => t.IdIndicator, (p, t) => new { t.ValueIndicator, p.NameIndicator, t.IdCard, t.DateIndicator }).FirstOrDefault(p => p.NameIndicator == "Рост" && p.IdCard==card.IdCard && p.DateIndicator==dateAnalyses).ValueIndicator);
-            decimal weight =Convert.ToDecimal(db.Indicators.Join(db.PatientIndicators, p => p.IdIndicator, t => t.IdIndicator, (p, t) => new { t.ValueIndicator, p.NameIndicator , t.IdCard, t.DateIndicator }).FirstOrDefault(p => p.NameIndicator == "Вес" && p.IdCard == card.IdCard && p.DateIndicator == dateAnalyses).ValueIndicator);
-            var age = DateTime.Now.Year - patient.DateOfBirth.Value.Year;
-            if (DateTime.Now.DayOfYear < patient.DateOfBirth.Value.DayOfYear)
+            if (card.IdActivityLevels == null)
             {
-                age--;
+                card.IdActivityLevels = db.ActivityLevels.Select(p => p.IdActivityLevels).First();
             }
+            var activity = db.ActivityLevels.Where(p => p.IdActivityLevels == card.IdActivityLevels).Select(p => p.Value).First();
+            if (db.PatientIndicators.Where(p => p.IdCard==card.IdCard) != null && patient.DateOfBirth!=null)
+            {
+                var dateAnalyses = db.PatientIndicators.Max(p => p.DateIndicator);
+                 height = Convert.ToDecimal(db.Indicators.Join(db.PatientIndicators, p => p.IdIndicator, t => t.IdIndicator, (p, t) => new { t.ValueIndicator, p.NameIndicator, t.IdCard, t.DateIndicator }).FirstOrDefault(p => p.NameIndicator == "Рост" && p.IdCard == card.IdCard && p.DateIndicator == dateAnalyses).ValueIndicator);
+                 weight = Convert.ToDecimal(db.Indicators.Join(db.PatientIndicators, p => p.IdIndicator, t => t.IdIndicator, (p, t) => new { t.ValueIndicator, p.NameIndicator, t.IdCard, t.DateIndicator }).FirstOrDefault(p => p.NameIndicator == "Вес" && p.IdCard == card.IdCard && p.DateIndicator == dateAnalyses).ValueIndicator);
+            }
+            var age=25;
+            if (patient.DateOfBirth != null)
+            {
+                age = DateTime.Now.Year - patient.DateOfBirth.Value.Year;
+                if (DateTime.Now.DayOfYear < patient.DateOfBirth.Value.DayOfYear)
+                {
+                    age--;
+                }
+            }
+             
+
             if (patient.Woman == true)
             {
                 if(height==0 || weight == 0)

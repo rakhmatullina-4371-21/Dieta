@@ -41,7 +41,7 @@ namespace Diet.Models
             }
             return dist;
         }
-        public static async Task<int?> SaveAnalysisAsync(List<AnalysisModel> patIndicator, int id)
+        public static async Task<int?> SaveAnalysisAsync(List<AnalysisModel> patIndicator, int idCard)
         {
             List<PatientIndicator> _patientIndicators = new List<PatientIndicator>();
             var update = new List<PatientIndicator>();
@@ -58,7 +58,7 @@ namespace Diet.Models
                     }
                 }
 
-                PatientIndicator patientIndicator = new PatientIndicator() { IdCard = id, IdIndicator = item.IdIndicator, /*IdIndicatorNavigation = db.Indicators.FirstOrDefault(p => p.IdIndicator == item.IdIndicator),*/ ValueIndicator = item.Value.ToString(), DateIndicator = DateTime.Now, Result = result };
+                PatientIndicator patientIndicator = new PatientIndicator() { IdCard = idCard, IdIndicator = item.IdIndicator, /*IdIndicatorNavigation = db.Indicators.FirstOrDefault(p => p.IdIndicator == item.IdIndicator),*/ ValueIndicator = item.Value.ToString(), DateIndicator = DateTime.Now, Result = result };
  
                 var tmp = db.PatientIndicators.Where(p => p.IdCard == patientIndicator.IdCard && p.DateIndicator== item.dateIndicator).ToList();
                 //foreach(var i in tmp)
@@ -83,6 +83,7 @@ namespace Diet.Models
                     update.Add(patientIndicator);
                 }
             }
+            db.SaveChanges();
             foreach (var t in add)
             {
                 DietDBContext DB = new DietDBContext();
@@ -105,7 +106,7 @@ namespace Diet.Models
 
 
 
-            var d = db.PatientCards.First(p => p.IdCard == id).IdPatient;
+            var d = db.PatientCards.First(p => p.IdCard == idCard).IdPatient;
             return d;
         }
     }

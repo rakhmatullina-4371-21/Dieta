@@ -26,7 +26,13 @@
                 <div class="row" style="margin-top:20px; margin-bottom: 10px;">
                     <div class="col-12 ">
                         <p class="text-style-grey font-weight-bold" style="font-size:40px;">@patient.Surname @patient.Name @patient.Lastname</p>
-                        <p class="lead  text-style-grey"> Дата рождения : @DateTime.Parse(patient.DateOfBirth.ToString()).ToString("D")</p>
+                        @{
+                            if (patient.DateOfBirth != null)
+                            {
+                                <p class="lead  text-style-grey"> Дата рождения : @DateTime.Parse(patient.DateOfBirth.ToString()).ToString("D")</p>
+
+                            }
+                        }
                         <p class="lead  fw-bold text-style-grey">
                             Пол: @{ if (patient.Woman == true)
                                 {<label>Женский</label>}

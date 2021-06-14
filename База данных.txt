@@ -1577,7 +1577,6 @@ CREATE TABLE MENU
 
 CREATE TABLE MEALS
 (
-
          id_meals SERIAL PRIMARY KEY,
          date DATE NOT NULL, 
          id_position INT REFERENCES MENU (id_position)

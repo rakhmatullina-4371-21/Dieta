@@ -31,7 +31,12 @@
                                         <strong class="text-style-grey">  @Html.DisplayFor(modelItem => item.Surname) @Html.DisplayFor(modelItem => item.Name) @Html.DisplayFor(modelItem => item.Lastname) </strong>
                                     </div>
                                     <div class="col-md-3">
-                                        <span class="d-block text-style-grey">Дата рождения: @DateTime.Parse(item.DateOfBirth.ToString()).ToString("D")</span>
+                                        @{
+                                            if (item.DateOfBirth != null)
+                                            {
+                                                <span class="d-block text-style-grey">Дата рождения: @DateTime.Parse(item.DateOfBirth.ToString()).ToString("D")</span>
+                                            }
+                                        }
 
                                     </div>
                                     <div class="col-md-2">
