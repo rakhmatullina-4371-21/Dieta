@@ -158,9 +158,9 @@ namespace Diet.Models
 
         }
 
-        public static async Task<bool> LoginContains( string login)
+        public static async Task<bool> LoginContains( string login, int id)
         {
-            if (await db.Patients.FirstOrDefaultAsync(p => p.Login == login) != null || await db.Employees.FirstOrDefaultAsync(p => p.Login == login) != null)
+            if ((await db.Patients.FirstOrDefaultAsync(p => p.Login == login && p.IdPatient!=id) != null || await db.Employees.FirstOrDefaultAsync(p => p.Login == login) != null))
             {
                 return  false;
             }

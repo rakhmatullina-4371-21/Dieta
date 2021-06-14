@@ -119,6 +119,17 @@ namespace Diet.Models
         {
             return DB.Positions.Select(p => p).ToList();
         }
+
+
+        public static async Task<bool> LoginContains(string login, int id)
+        {
+            DietDBContext db = new DietDBContext();
+            if ((await db.Patients.FirstOrDefaultAsync(p => p.Login == login) != null || await db.Employees.FirstOrDefaultAsync(p => p.Login == login && p.IdEmployee != id) != null))
+            {
+                return false;
+            }
+            else return true;
+        }
     }
 
 }

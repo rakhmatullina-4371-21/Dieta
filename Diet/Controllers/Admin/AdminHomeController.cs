@@ -53,13 +53,16 @@ namespace Diet
         [HttpPost]
         public async Task<IActionResult> OnePatient(Patient patient)
         {
-            if (ModelState.IsValid)
+            if (ModelState.IsValid && await Patient.LoginContains(patient.Login, patient.IdPatient))
             {
-
                 await  patient.SavePatient(patient);
                 return Redirect("~/AdminHome/MenuAdmin");
             }
-            return View(patient);
+            else
+            {
+                ModelState.AddModelError("", "Такой логин уже существует");
+                return View(patient);
+            }
         }
 
 
@@ -94,13 +97,16 @@ namespace Diet
                 Text = r.Position1,
                 Value = r.IdPosition.ToString()
             });
-            if (ModelState.IsValid)
+            if (ModelState.IsValid && await Employee.LoginContains(employee.Login, employee.IdEmployee))
             {
-                
                 await employee.SaveEmployee(employee);
                 return Redirect("~/AdminHome/MenuAdmin");
             }
-            return View(employee);
+            else
+            {
+                ModelState.AddModelError("", "Такой логин уже существует");
+                return View(employee);
+            }
         }
 
         

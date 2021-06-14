@@ -24,36 +24,75 @@
 
 
 
-            <div class="col-12">
-                <h1 class="text-style-grey m-2 " style="text-align:center">Карта пациента</h1>
-                <div class="row" style="margin-top:20px; margin-bottom: 10px;">
-                    <div class="col-10">
-                        <p class="text-style-grey font-weight-bold" style="font-size:40px;">@patient.Surname @patient.Name @patient.Lastname</p>
-                        <p class="lead  text-style-grey"> Дата рождения : @DateTime.Parse(patient.DateOfBirth.ToString()).ToString("D")</p>
-                        <p class="lead  fw-bold text-style-grey">
-                            Пол: @{ if (patient.Woman == true)
-                                {<label>Женский</label>}
-                                else
-                                { <label>Мужской</label>} }
-                        </p>
-                    </div>
-                </div>
-            </div>
-            <div class="form-group  col-12 text-style-grey" id="select">
-                <div>
-                    <label asp-for="IdEmployee" class="text-style-grey font-weight-bold"> Врач </label>
-                    <select class="form-select" asp-for="IdEmployee" asp-items="(IEnumerable<SelectListItem>)@ViewData["employee"]"></select>
-                </div>
-            </div>
-            <div class="form-group">
-                <label asp-for="@Model.IdPatient" class="control-label" style="visibility: hidden;"> </label>
-                <input asp-for="@Model.IdPatient" class="form-control" type="hidden" />
-                <span asp-validation-for="@Model.IdPatient" class="text-danger text-black-50"></span>
-            </div>
-            <div class="col-12" style="text-align:center">
-                <button class="btn btn-lg btn-style w-50 m-1" asp-controller="PatientHome" asp-action="Card" style="color:black;">Сохранить </button>
-            </div>
-        </div>
+            <div class="col-12"  >
+                <h1 class="text-style-grey m-2" style="text-align:center">Карта пациента</h1>
+                @{
+                    if (Model.IdCard != 0)
+                    {
+                        <div class="row" style="margin-top:20px; margin-bottom: 10px;">
+                            <div class="col-10">
+                                <p class="text-style-grey font-weight-bold" style="font-size:40px;">@patient.Surname @patient.Name @patient.Lastname</p>
+                                <p class="lead  text-style-grey"> Дата рождения : @DateTime.Parse(patient.DateOfBirth.ToString()).ToString("D")</p>
+                                <div>
+                                    <p class="lead  fw-bold text-style-grey ">
+                                        Пол: @{ if (patient.Woman == true)
+                                            {<label>Женский</label>}
+                                            else
+                                            { <label>Мужской</label>} }
+                                    </p>
+                                </div>
+                                <div>
+                                    <label asp-for="@Model.DailyCalories" class="control-label lead  text-style-grey"> Дневная норма калорий: @Model.DailyCalories </label>
+                                </div>
+                                <div>
+                                    <label asp-for="@Model.DailyProtein" class="control-label lead  text-style-grey"> Дневная норма белка: @Model.DailyProtein </label>
+                                </div>
+                                <div>
+                                    <label asp-for="@Model.DailyFats" class="control-label lead  text-style-grey"> Дневная норма жиров: @Model.DailyFats </label>
+                                </div>
+                                <div>
+                                    <label asp-for="@Model.DailyCarbohydrates" class="control-label lead  text-style-grey">Дневная норма углеводов:  @Model.DailyCarbohydrates </label>
+                                </div>
+                                <div>
+                                    <label asp-for="@Model.StartDiet" class="control-label lead  text-style-grey"> Начало диеты:@DateTime.Parse(Model.StartDiet.ToString()).ToString("D") </label>
+                                </div>
 
+                                @{ if (Model.FinishDiet != null)
+                                    {
+                                                                <label asp-for="@Model.FinishDiet" class="control-label lead  text-style-grey"> Конец диеты: @DateTime.Parse(Model.FinishDiet.ToString()).ToString("D") </label>
+                                    }
+                                }
+
+                            </div>
+                        </div>
+
+                        <div class="form-group  col-12 text-style-grey" id="select">
+                            <div>
+                                <label asp-for="IdEmployee" class="text-style-grey font-weight-bold"> Врач </label>
+                                <select class="form-select" asp-for="IdEmployee" asp-items="(IEnumerable<SelectListItem>)@ViewData["employee"]"></select>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label asp-for="@Model.IdPatient" class="control-label" style="visibility: hidden;"> </label>
+                            <input asp-for="@Model.IdPatient" class="form-control" type="hidden" />
+                            <span asp-validation-for="@Model.IdPatient" class="text-danger text-black-50"></span>
+                        </div>
+                        <div class="col-12" style="text-align:center">
+                            <button class="btn btn-lg btn-style w-50 m-1" asp-controller="PatientHome" asp-action="Card" style="color:black;">Сохранить </button>
+                        </div>
+                    }
+                    else
+                    {
+            <div class="col-12" style="height: 400px;text-align:center">
+                <strong class="text-style-grey center m-2">У Вас еще нет активных карт! </strong>
+            </div>
+                        <div class="col-12 m-2" style="text-align:center">
+                            <button class="btn btn-lg btn-style w-25 m-1" asp-controller="PatientHome" asp-action="MenuPatient" asp-route-id="@Model.IdPatient" style="color:black;">Назад</button>
+                        </div>
+                    }
+                }
+
+            </div>
+            </div>
     </form>
 </div>

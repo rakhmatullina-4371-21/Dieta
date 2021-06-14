@@ -43,11 +43,14 @@
                         </div>
                    </div>
              </div>
-                <div class="form-group">
-                    <label asp-for="@Model.IdPatient" class="control-label" style="visibility: hidden;"> </label>
-                    <input asp-for="@Model.IdPatient" class="form-control" type="hidden" />
-                    <span asp-validation-for="@Model.IdPatient" class="text-danger text-black-50"></span>
-                </div>
+            <div class="form-group">
+                <label asp-for="@Model.IdPatient" class="control-label" style="visibility: hidden;"> </label>
+                <input asp-for="@Model.IdPatient" class="form-control" type="hidden" />
+                <span asp-validation-for="@Model.IdPatient" class="text-danger text-black-50"></span>
+                <label asp-for="@Model.IdCard" class="control-label" style="visibility: hidden;"> </label>
+                <input asp-for="@Model.IdCard" class="form-control" type="hidden" />
+                <span asp-validation-for="@Model.IdCard" class="text-danger text-black-50"></span>
+            </div>
                 <div class="col-12" style="text-align:center">
                     <button class="btn btn-lg btn-style w-50 m-1" asp-controller="NutritionistHome" asp-action="CardPatient" style="color:black;">Добавить </button>
                 </div>

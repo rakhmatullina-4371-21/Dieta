@@ -74,23 +74,32 @@ namespace Diet.Models
             if (t==null)
             {
                 card.Activ = true;
+               card.StartDiet = patientCard.StartDiet;
+                card.FinishDiet = patientCard.FinishDiet;
+                card.Activ = true;
+                card.DailyCalories = patientCard.DailyCalories;
+                card.DailyCarbohydrates = patientCard.DailyCarbohydrates;
+                card.DailyFats = patientCard.DailyFats;
+                card.DailyProtein = patientCard.DailyProtein;
                 db = new DietDBContext();
                  db.PatientCards.Add(card);
                 
             } else
             {
                 t.IdEmployee = card.IdEmployee;
-                t.IdPatient = card.IdPatient;
-                t.StartDiet = card.StartDiet;
-                t.FinishDiet = card.FinishDiet;
+                t.IdPatient = patientCard.IdPatient;
+                t.StartDiet = patientCard.StartDiet;
+                t.FinishDiet = patientCard.FinishDiet;
                 t.Activ = true;
-                t.DailyCalories = card.DailyCalories;
-                t.DailyCarbohydrates = card.DailyCarbohydrates;
-                t.DailyFats = card.DailyFats;
-                t.DailyProtein = card.DailyProtein;
-                t.IdActivityLevels = card.IdActivityLevels;
-                //await SaveMenu(t.IdCard);
-
+                t.DailyCalories =null;
+                t.DailyCalories = patientCard.DailyCalories;
+                t.DailyCarbohydrates = null;
+                t.DailyCarbohydrates = patientCard.DailyCarbohydrates;
+                t.DailyFats = null;
+                t.DailyFats = patientCard.DailyFats;
+                t.DailyProtein = null;
+                t.DailyProtein = patientCard.DailyProtein;
+                t.IdActivityLevels = patientCard.IdActivityLevels;
                 db.PatientCards.Update(t);
                 card.IdCard = t.IdCard;
             }
@@ -128,7 +137,7 @@ namespace Diet.Models
                 card.IdActivityLevels = db.ActivityLevels.Select(p => p.IdActivityLevels).First();
             }
             var activity = db.ActivityLevels.Where(p => p.IdActivityLevels == card.IdActivityLevels).Select(p => p.Value).First();
-            if (db.PatientIndicators.Where(p => p.IdCard==card.IdCard) != null && patient.DateOfBirth!=null)
+            if (db.PatientIndicators.Where(p => p.IdCard==card.IdCard) != null && patient.DateOfBirth!=null && db.PatientIndicators.Where(p=>p.IdCard==card.IdCard).Count()!=0)
             {
                 var dateAnalyses = db.PatientIndicators.Max(p => p.DateIndicator);
                  height = Convert.ToDecimal(db.Indicators.Join(db.PatientIndicators, p => p.IdIndicator, t => t.IdIndicator, (p, t) => new { t.ValueIndicator, p.NameIndicator, t.IdCard, t.DateIndicator }).FirstOrDefault(p => p.NameIndicator == "Рост" && p.IdCard == card.IdCard && p.DateIndicator == dateAnalyses).ValueIndicator);

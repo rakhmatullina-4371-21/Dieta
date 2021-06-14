@@ -26,8 +26,13 @@ namespace Diet.PatientHome.Controllers
                 Text =$"{r.Surname} {r.Name} {r.Lastname}",
                 Value = r.IdPosition.ToString()
             });
-            PatientCard card = new PatientCard();
-            card.IdPatient = id;
+            PatientCard card;
+            if (db.PatientCards.Where(p => p.IdPatient == id && p.Activ == true).Count() != 0)
+            {
+                 card= db.PatientCards.OrderBy(p=>p.IdCard).Select(p=>p).Where(p => p.IdPatient == id && p.Activ == true).Last();
+            }
+            else card = new PatientCard();
+            
             return View(card);
         }
         [HttpPost]

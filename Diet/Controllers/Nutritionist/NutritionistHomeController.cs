@@ -62,7 +62,11 @@ namespace Diet.Controllers.Nutritionist
         {
             if (ModelState.IsValid )
             {
-                
+                DietDBContext db = new DietDBContext();
+                if(db.PatientCards.OrderBy(p => p.IdCard).Select(p => p).Where(p => p.IdPatient == card.IdPatient && p.IdEmployee == int.Parse(HttpContext.User.Identity.Name)).Count() != 0)
+                {
+                    card.IdCard = db.PatientCards.OrderBy(p => p.IdCard).Select(p => p).Where(p => p.IdPatient == card.IdPatient && p.IdEmployee == int.Parse(HttpContext.User.Identity.Name)).Last().IdCard;
+                }
                 await PatientCard.SavePatCard(int.Parse(HttpContext.User.Identity.Name), card);
                 return Redirect("~/NutritionistHome/MenuNutritionist");
             }
@@ -81,7 +85,7 @@ namespace Diet.Controllers.Nutritionist
         {
             if (ModelState.IsValid)
             {
-                if (await Patient.LoginContains(patient.Login))
+                if (await Patient.LoginContains(patient.Login, patient.IdPatient))
                 {
                     await patient.SavePatient(patient);
                    return Redirect("~/NutritionistHome/PatSelect");
@@ -115,7 +119,6 @@ namespace Diet.Controllers.Nutritionist
         {
             if (ModelState.IsValid)
             {
-
                 ViewBag.idCard= await PatientIndicator.SaveAnalysisAsync(patIndicator, id);
                 return Redirect("~/NutritionistHome/MenuNutritionist");
             }
