@@ -128,9 +128,6 @@ h1 {
 .__select__input {
     display: none;
     &:checked + label
-
-{
-    background-color: #dedede;
 }
 
 a:disabled + label {
@@ -148,17 +145,14 @@ a:disabled + label {
     padding: 0 16px;
     transition: all 0.2s ease-out;
     cursor: pointer;
-    & + input + &
-
-{
-    border-top: 1px solid #C7CCD160;
 }
+
 
 a:hover {
     background-color: #D8093A !important;
     color: #ffffff;
 }
-}
+
 
 
 .bloc-center {
@@ -188,4 +182,24 @@ div.displayed {
     position: relative;
     left: 50%;
     transform: translate(-50%, 0);
+}
+
+body {
+    margin: 0;
+    font-family: var(--bs-font-sans-serif);
+    font-size: 1rem;
+    font-weight: 400;
+    line-height: 1.5;
+    color: #212529;
+    background-color: #fff;
+    -webkit-text-size-adjust: 100%;
+    -webkit-tap-highlight-color: transparent;
+}
+
+.container, .container-fluid, .container-lg, .container-md, .container-sm, .container-xl, .container-xxl {
+    width: 100%;
+    padding-right: var(--bs-gutter-x,.75rem);
+    padding-left: var(--bs-gutter-x,.75rem);
+    margin-right: auto;
+    margin-left: auto;
 }
