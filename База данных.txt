@@ -96,7 +96,6 @@ CREATE TABLE  INDICATORS
 (
         id_indicator SERIAL PRIMARY KEY,
 	name_indicator TEXT UNIQUE  NOT NULL,
-        laboratory BOOLEAN DEFAULT TRUE,
         min TEXT,
         max TEXT
 );
@@ -142,11 +141,11 @@ VALUES ('Альфа-амилаза', '28','100');
 INSERT INTO INDICATORS(name_indicator, min,max)   
 VALUES ('Липаза', '0','190'); 
 
-INSERT INTO INDICATORS(name_indicator, laboratory)   
-VALUES ('Вес', 'false'); 
+INSERT INTO INDICATORS(name_indicator)   
+VALUES ('Вес'); 
 
-INSERT INTO INDICATORS(name_indicator, laboratory)   
-VALUES ('Рост', 'false'); 
+INSERT INTO INDICATORS(name_indicator)   
+VALUES ('Рост'); 
 
 
 
@@ -1559,28 +1558,27 @@ CREATE TABLE PATIENT_CARDS
          daily_carbohydrates NUMERIC,
          start_diet DATE,
          finish_diet DATE,
+         meal_count INT, 
          id_activity_levels INT REFERENCES ACTIVITY_LEVELS (id_activity_levels)
-         activ boolean default false ;
+         activ boolean default false;
 );
 
 
 CREATE TABLE MENU
 (
-         id_position SERIAL PRIMARY KEY,
+         id_menu SERIAL PRIMARY KEY, 
          id_card INT REFERENCES PATIENT_CARDS (id_card),
-         dish TEXT NOT NULL,
-         calories NUMERIC,
-         protein NUMERIC,
-         fats NUMERIC,
-         carbohydrates NUMERIC
+         id_dish INT REFERENCES DISHES (id_dish)
 );
 
 CREATE TABLE MEALS
 (
-         id_meals SERIAL PRIMARY KEY,
+         id_meal SERIAL PRIMARY KEY,
          date DATE NOT NULL, 
-         id_position INT REFERENCES MENU (id_position)
+         id_menu INT REFERENCES MENU (id_menu)
 );
+
+
 CREATE TABLE PATIENT_DIAGNOSES
 (
          id_card INT REFERENCES PATIENT_CARDS (id_card),

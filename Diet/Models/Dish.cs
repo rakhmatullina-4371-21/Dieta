@@ -28,6 +28,9 @@ namespace Diet.Models
         [RegularExpression(@"[0-9]*\,?[0-9][0-9]", ErrorMessage = "Некорректные данные")]
         public decimal Carbohydrates { get; set; }
 
+        public virtual ICollection<Menu> Menu { get; set; }
+
+
         static DietDBContext db = new DietDBContext();
         public static async Task<Dish> SelectDish(int id)
         {

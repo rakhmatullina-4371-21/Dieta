@@ -10,21 +10,16 @@ namespace Diet.Models
     {
         public Menu()
         {
-            Meals = new HashSet<Meals>();
+            Meals = new HashSet<Meal>();
         }
-        public int IdPosition { get; set; }
+
+        public int IdMenu { get; set; }
         public int? IdCard { get; set; }
-        public string Dish { get; set; }
-        public decimal? Calories { get; set; }
+        public int? IdDish { get; set; }
 
-        public decimal? Protein { get; set; }
-        public decimal? Fats { get; set; }
-        public decimal? Carbohydrates { get; set; }
         public virtual PatientCard IdCardNavigation { get; set; }
-        public virtual ICollection<Meals> Meals { get; set; }
-
-
-
+        public virtual Dish IdDishNavigation { get; set; }
+        public virtual ICollection<Meal> Meals { get; set; }
         public static List<Menu> list()
         {
             DietDBContext db = new DietDBContext();

@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Diet.Models;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using Diet.Models.ViewModels;
 
 namespace Diet.PatientHome.Controllers
 {
@@ -45,9 +46,15 @@ namespace Diet.PatientHome.Controllers
             }
             return View();
         }
-        public IActionResult Diary()
+        public async Task<IActionResult> Diary()
         {
-            return View();
+           var model= await DiaryModel.listMeal(int.Parse(HttpContext.User.Identity.Name));
+            return View(model);
+        }
+        public async Task<IActionResult> Menu(int id)
+        {
+            var model = await DiaryModel.selectMenu(id);
+            return View(model);
         }
     }
 }

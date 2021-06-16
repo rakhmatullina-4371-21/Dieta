@@ -19,6 +19,7 @@ namespace Diet.Models
 
         public int IdCard { get; set; }
         public int? IdPatient { get; set; }
+        public int MealCount { get; set; }
         public int? IdEmployee { get; set; }
         [RegularExpression(@"[0-9]*\,?[0-9][0-9]", ErrorMessage = "Некорректные данные")]
         public decimal? DailyCalories { get; set; }
@@ -56,7 +57,7 @@ namespace Diet.Models
             var countCards = await db.PatientCards.CountAsync();
             card.IdPatient = patientCard.IdPatient;
             card.IdEmployee = idEmployee;
-
+            card.MealCount = patientCard.MealCount;
             card.IdActivityLevels = patientCard.IdActivityLevels;
             if (countCards == 0)
             {
@@ -74,13 +75,14 @@ namespace Diet.Models
             if (t==null)
             {
                 card.Activ = true;
-               card.StartDiet = patientCard.StartDiet;
+                card.StartDiet = patientCard.StartDiet;
                 card.FinishDiet = patientCard.FinishDiet;
                 card.Activ = true;
                 card.DailyCalories = patientCard.DailyCalories;
                 card.DailyCarbohydrates = patientCard.DailyCarbohydrates;
                 card.DailyFats = patientCard.DailyFats;
                 card.DailyProtein = patientCard.DailyProtein;
+                card.MealCount = patientCard.MealCount;
                 db = new DietDBContext();
                  db.PatientCards.Add(card);
                 
@@ -99,6 +101,7 @@ namespace Diet.Models
                 t.DailyFats = patientCard.DailyFats;
                 t.DailyProtein = null;
                 t.DailyProtein = patientCard.DailyProtein;
+                t.MealCount = patientCard.MealCount;
                 t.IdActivityLevels = patientCard.IdActivityLevels;
                 db.PatientCards.Update(t);
                 card.IdCard = t.IdCard;
@@ -123,6 +126,7 @@ namespace Diet.Models
             {
                 c.StartDiet = DateTime.Now;
             }
+               
                 c =await DailyCCPF(c);
             return c;
         }

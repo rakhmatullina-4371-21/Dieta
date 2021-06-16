@@ -91,7 +91,6 @@ h1 {
     margin: 0 auto;
     overflow: hidden;
     border-radius: 5px;
-    border: solid 1px #c7ccd1;
 }
 
 .__select__content {
@@ -109,17 +108,14 @@ h1 {
     padding: 8px 16px;
     margin: 0 auto;
     margin-bottom: 10px;
-    border: solid 1px #c7ccd1;
     border-radius: 5px;
     transition: all 0.2s ease-out;
     cursor: pointer;
     font-weight: bold;
     background-color: #ffffff;
-    color: #333333;
     &:hover
 
 {
-    background-color: #D8093A;
     color: #ffffff;
 }
 
@@ -149,7 +145,6 @@ a:disabled + label {
 
 
 a:hover {
-    background-color: #D8093A !important;
     color: #ffffff;
 }
 

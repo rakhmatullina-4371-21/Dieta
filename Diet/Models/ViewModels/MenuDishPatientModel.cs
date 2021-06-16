@@ -12,6 +12,7 @@ namespace Diet.Models.ViewModels
         public bool allow { get; set; }
 
         public int idCard { get; set; }
+
         public static async Task<List<MenuDishPatientModel>> DishPatientSelect(List<MenuPatientModel> model)
         {
             DietDBContext db = new DietDBContext();
@@ -46,19 +47,36 @@ namespace Diet.Models.ViewModels
                     }
                 }
             }
-            var t = db.Menu.Where(p => p.IdCard == model.ElementAt(0).idCard);
-            db.Menu.RemoveRange(t);
-            db.SaveChanges();
+            
             return menuPatient;
         }
-        public static async Task SaveMenu(List<MenuDishPatientModel> model)
+        public static  void DelMenu(List<MenuDishPatientModel> model)
         {
             DietDBContext db = new DietDBContext();
+            if(db.Menu.Where(p => p.IdCard == model.ElementAt(0).idCard).Count() != 0)
+            {
+                var t = db.Menu.Where(p => p.IdCard == model.ElementAt(0).idCard).ToList();
+                List<Meal> listM = new List<Meal>();
+                foreach (var u in t)
+                {
+                    listM.AddRange(db.Meals.Where(p => p.IdMenu == u.IdMenu));
+                }
+                db.Meals.RemoveRange(listM);
+                db.SaveChanges();
+                db.Menu.RemoveRange(t);
+                db.SaveChanges();
+            }
+           
+        }
+            public static async Task SaveMenu(List<MenuDishPatientModel> model)
+        {
+            DietDBContext db = new DietDBContext();
+           
             List<Menu> menu = new List<Menu>();
             var id = 1;
             if (db.Menu.Count() != 0)
             {
-                 id = db.Menu.Max(p => p.IdPosition) + 1;
+                 id = db.Menu.Max(p => p.IdMenu) + 1;
             }
             foreach (var i in model)
             {
@@ -67,11 +85,11 @@ namespace Diet.Models.ViewModels
                     i.dish = db.Dishes.FirstOrDefault(p => p.IdDish == i.dish.IdDish);
                     if (db.Menu.Count() == 0)
                     {
-                        menu.Add(new Menu { IdPosition = id, IdCard = i.idCard, Calories = i.dish.Calories, Carbohydrates = i.dish.Carbohydrates, Dish = i.dish.Dish1, Fats = i.dish.Fats, Protein = i.dish.Protein });
+                        menu.Add(new Menu { IdMenu = id, IdCard = i.idCard, IdDish = Convert.ToInt32(i.dish.IdDish)});
                     }
                     else
                     {
-                        menu.Add(new Menu { IdPosition = id, IdCard = i.idCard, Calories = i.dish.Calories, Carbohydrates = i.dish.Carbohydrates, Dish = i.dish.Dish1, Fats = i.dish.Fats, Protein = i.dish.Protein });
+                        menu.Add(new Menu { IdMenu = id, IdCard = i.idCard, IdDish = Convert.ToInt32(i.dish.IdDish)});
                     }
                     id++;
                 }

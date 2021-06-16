@@ -108,9 +108,9 @@ namespace Diet.Models
                 {
                     var menuPat = await db.Menu.Where(p => p.IdCard == cardsPat.First().IdCard).ToListAsync();
                     db.Menu.RemoveRange(menuPat);
-                    if (db.Meals.Where(p => p.IdPosition == menuPat.First().IdPosition).Count() != 0)
+                    if (db.Meals.Where(p => p.IdMenu == menuPat.First().IdMenu).Count() != 0)
                     {
-                        var meals = await db.Meals.Where(p => p.IdPosition == menuPat.First().IdPosition).ToListAsync();
+                        var meals = await db.Meals.Where(p => p.IdMenu == menuPat.First().IdMenu).ToListAsync();
                         db.Meals.RemoveRange(meals);
 
                     }

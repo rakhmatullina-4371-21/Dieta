@@ -6,6 +6,7 @@ using Diet.Models;
 using Diet.Models.ViewModels;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 
 namespace Diet.Controllers.Nutritionist
 {
@@ -16,6 +17,11 @@ namespace Diet.Controllers.Nutritionist
         public async Task<IActionResult> CardOnePat( int id)                              //Просмотр карты пациента
         {
             var card =await PatientCard.SelectPatientCard(id, int.Parse(HttpContext.User.Identity.Name));
+                List<int> count = new List<int>();
+                count.Add(3);
+                count.Add(4);
+                count.Add(5);
+            ViewBag.countMeals = new SelectList(count);
             return View(card);
         }
         public IActionResult MenuNutritionist()                                 //Стартовое окно диетолога
@@ -136,11 +142,13 @@ namespace Diet.Controllers.Nutritionist
    
         public async Task<IActionResult> MenuPatDishes(List<MenuPatientModel> model)                            //Просмотр разрешенных блюд пациента
         {
+
             return View(await MenuDishPatientModel.DishPatientSelect(model));
         }
    
         public async Task<IActionResult> SaveMenuPat(List<MenuDishPatientModel> model)                            //Просмотр разрешенных блюд пациента
         {
+            MenuDishPatientModel.DelMenu(model);
             await MenuDishPatientModel.SaveMenu(model);
             return Redirect("~/NutritionistHome/MenuNutritionist");
         }

@@ -10,7 +10,6 @@ namespace Diet.Models
     {
         public int IdIndicator { get; set; }
         public string NameIndicator { get; set; }
-        public bool? Laboratory { get; set; }
         public string Min { get; set; }
         public string Max { get; set; }
      

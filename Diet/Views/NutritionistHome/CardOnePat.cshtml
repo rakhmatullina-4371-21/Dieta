@@ -73,9 +73,14 @@
                     <input asp-for="@Model.FinishDiet" class="form-control" />
                     <span asp-validation-for="@Model.FinishDiet" class="text-danger text-black-50"></span>
                 </div>
+                <div class="form-group  col-sm-6 text-style-grey" id="select">
+                    <div>
+                        <label asp-for="@Model.MealCount"> Количество приемов пищи </label>
+                        <select class="form-select" asp-for="MealCount" asp-items="ViewBag.countMeals"></select>
+                    </div>
+                </div>
 
-
-                <div class="form-group  col-12 text-style-grey" id="select">
+                <div class="form-group  col-sm-6 text-style-grey" id="select">
                     <div>
                         <label asp-for="@Model.IdActivityLevels"> Уровень активности </label>
                         <select class="form-select" asp-for="IdActivityLevels" asp-items="(IEnumerable<SelectListItem>)ActivityLevel.SelectLevelsAct()"></select>

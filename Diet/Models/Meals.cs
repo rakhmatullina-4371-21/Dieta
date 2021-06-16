@@ -5,13 +5,13 @@ using System.Collections.Generic;
 
 namespace Diet.Models
 {
-    public partial class Meals
+    public partial class Meal
     {
 
-        public int IdMeals { get; set; }
+        public int IdMeal { get; set; }
         public DateTime Date { get; set; }
-        public int? IdPosition { get; set; }
-        public virtual Menu IdPositionNavigation { get; set; }
+        public int? IdMenu { get; set; }
+        public virtual Menu IdMenuNavigation { get; set; }
 
     }
 }
