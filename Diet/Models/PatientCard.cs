@@ -56,7 +56,12 @@ namespace Diet.Models
             var listCard = db.PatientCards.Where(p => p.IdPatient == patientCard.IdPatient && p.IdEmployee == idEmployee).Select(p => p);
             var countCards = await db.PatientCards.CountAsync();
             card.IdPatient = patientCard.IdPatient;
-            card.IdEmployee = idEmployee;
+            if (patientCard.IdEmployee == null)
+            {
+                card.IdEmployee = idEmployee;
+
+            }
+            else card.IdEmployee = patientCard.IdEmployee;
             card.MealCount = patientCard.MealCount;
             card.IdActivityLevels = patientCard.IdActivityLevels;
             if (countCards == 0)
@@ -88,21 +93,29 @@ namespace Diet.Models
                 
             } else
             {
-                t.IdEmployee = card.IdEmployee;
-                t.IdPatient = patientCard.IdPatient;
-                t.StartDiet = patientCard.StartDiet;
-                t.FinishDiet = patientCard.FinishDiet;
-                t.Activ = true;
-                t.DailyCalories =null;
-                t.DailyCalories = patientCard.DailyCalories;
-                t.DailyCarbohydrates = null;
-                t.DailyCarbohydrates = patientCard.DailyCarbohydrates;
-                t.DailyFats = null;
-                t.DailyFats = patientCard.DailyFats;
-                t.DailyProtein = null;
-                t.DailyProtein = patientCard.DailyProtein;
-                t.MealCount = patientCard.MealCount;
-                t.IdActivityLevels = patientCard.IdActivityLevels;
+                if (patientCard.IdEmployee != null)
+                {
+                    t.IdEmployee = patientCard.IdEmployee;
+                }
+                if (t.IdEmployee == idEmployee)
+                {
+                    t.IdPatient = patientCard.IdPatient;
+                    t.StartDiet = patientCard.StartDiet;
+                    t.FinishDiet = patientCard.FinishDiet;
+                    t.Activ = true;
+                    t.DailyCalories = null;
+                    t.DailyCalories = patientCard.DailyCalories;
+                    t.DailyCarbohydrates = null;
+                    t.DailyCarbohydrates = patientCard.DailyCarbohydrates;
+                    t.DailyFats = null;
+                    t.DailyFats = patientCard.DailyFats;
+                    t.DailyProtein = null;
+                    t.DailyProtein = patientCard.DailyProtein;
+                    t.MealCount = patientCard.MealCount;
+                    t.IdActivityLevels = patientCard.IdActivityLevels;
+                }
+
+         
                 db.PatientCards.Update(t);
                 card.IdCard = t.IdCard;
             }

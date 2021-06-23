@@ -30,40 +30,43 @@
                     if (Model.IdCard != 0)
                     {
                         <div class="row" style="margin-top:20px; margin-bottom: 10px;">
-                            <div class="col-10">
-                                <p class="text-style-grey font-weight-bold" style="font-size:40px;">@patient.Surname @patient.Name @patient.Lastname</p>
-                                <p class="lead  text-style-grey"> Дата рождения : @DateTime.Parse(patient.DateOfBirth.ToString()).ToString("D")</p>
-                                <div>
-                                    <p class="lead  fw-bold text-style-grey ">
-                                        Пол: @{ if (patient.Woman == true)
-                                            {<label>Женский</label>}
-                                            else
-                                            { <label>Мужской</label>} }
-                                    </p>
-                                </div>
-                                <div>
-                                    <label asp-for="@Model.DailyCalories" class="control-label lead  text-style-grey"> Дневная норма калорий: @Model.DailyCalories </label>
-                                </div>
-                                <div>
-                                    <label asp-for="@Model.DailyProtein" class="control-label lead  text-style-grey"> Дневная норма белка: @Model.DailyProtein </label>
-                                </div>
-                                <div>
-                                    <label asp-for="@Model.DailyFats" class="control-label lead  text-style-grey"> Дневная норма жиров: @Model.DailyFats </label>
-                                </div>
-                                <div>
-                                    <label asp-for="@Model.DailyCarbohydrates" class="control-label lead  text-style-grey">Дневная норма углеводов:  @Model.DailyCarbohydrates </label>
-                                </div>
-                                <div>
-                                    <label asp-for="@Model.StartDiet" class="control-label lead  text-style-grey"> Начало диеты:@DateTime.Parse(Model.StartDiet.ToString()).ToString("D") </label>
-                                </div>
+                                            <div class="col-10">
+                                                <p class="text-style-grey font-weight-bold" style="font-size:40px;">@patient.Surname @patient.Name @patient.Lastname</p>
+                                                <p class="lead  text-style-grey"> Дата рождения : @DateTime.Parse(patient.DateOfBirth.ToString()).ToString("D")</p>
+                                                <div>
+                                                    <p class="lead  fw-bold text-style-grey ">
+                                                        Пол: @{ if (patient.Woman == true)
+                                                            {<label>Женский</label>}
+                                                            else
+                                                            { <label>Мужской</label>} }
+                                                    </p>
+                                                </div>
+                                                <div>
+                                                    <label asp-for="@Model.DailyCalories" class="control-label lead  text-style-grey"> Дневная норма калорий: @Model.DailyCalories </label>
+                                                </div>
+                                                <div>
+                                                    <label asp-for="@Model.DailyProtein" class="control-label lead  text-style-grey"> Дневная норма белка: @Model.DailyProtein </label>
+                                                </div>
+                                                <div>
+                                                    <label asp-for="@Model.DailyFats" class="control-label lead  text-style-grey"> Дневная норма жиров: @Model.DailyFats </label>
+                                                </div>
+                                                <div>
+                                                    <label asp-for="@Model.DailyCarbohydrates" class="control-label lead  text-style-grey">Дневная норма углеводов:  @Model.DailyCarbohydrates </label>
+                                                </div>
+                                                @{
+                                                    if (Model.StartDiet != null)
+                                                    {
+                                                        <label asp-for="@Model.StartDiet" class="control-label lead  text-style-grey"> Начало диеты:@DateTime.Parse(Model.StartDiet.ToString()).ToString("D") </label>
+                                                    }
+                                                }
 
-                                @{ if (Model.FinishDiet != null)
-                                    {
-                                                                <label asp-for="@Model.FinishDiet" class="control-label lead  text-style-grey"> Конец диеты: @DateTime.Parse(Model.FinishDiet.ToString()).ToString("D") </label>
-                                    }
-                                }
+                                                @{ if (Model.FinishDiet != null)
+                                                    {
+                                                        <label asp-for="@Model.FinishDiet" class="control-label lead  text-style-grey"> Конец диеты: @DateTime.Parse(Model.FinishDiet.ToString()).ToString("D") </label>
+                                                    }
+                                                }
 
-                            </div>
+                                            </div>
                         </div>
 
                         <div class="form-group  col-12 text-style-grey" id="select">

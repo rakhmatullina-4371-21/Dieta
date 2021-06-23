@@ -1,18 +1,14 @@
-﻿@model Diet.Models.Patient
-@{
+﻿   @model Diet.Models.Patient
+   @{
     Layout = "~/Views/Shared/_Layout.cshtml";
     ViewData["Title"] = "Пациент";
-}
-
-<link href="~/css/StyleSheet.css " rel="stylesheet" />
-<div>
-    @await Html.PartialAsync("~/Views/Shared/Header.cshtml")
-</div>
-
-<div class="col-md-7 col-lg-8 center">
+    }
+    <link href="~/css/StyleSheet.css " rel="stylesheet" />
+    <div>
+       @await Html.PartialAsync("~/Views/Shared/Header.cshtml")
+    </div>
+  <div class="col-md-7 col-lg-8 center">
     <form class="needs-validation" asp-action="OnePatient">
-
-
         <div class="form-group">
             <h1 class="mb-2 text-style-grey"> Аккаунт пациентна</h1>
             <label asp-for="IdPatient" class="control-label" style="visibility: hidden;"> </label>

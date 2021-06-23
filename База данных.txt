@@ -24,7 +24,7 @@ CREATE TABLE EMPLOYEE
 	lastname TEXT,
         login text UNIQUE NOT NULL,
         password TEXT NOT NULL,
-	id_position INT REFERENCES POSITIONS(id_position),
+	id_position INT REFERENCES POSITIONS(id_position)
 );
 INSERT INTO EMPLOYEE(surname,name,login,password, id_position)
 VALUES ('Юсупов','Рамис','admin@mail.com','gnzLDuqKcGxMNKFokfhOew==',1);
@@ -59,7 +59,7 @@ CREATE TABLE  PATIENT
 INSERT INTO PATIENT(surname,name,lastname,login,password, date_of_birth)   
 VALUES ('Рябинин','Сергей','Александрович','pat@mail.com','Ac/NT2uHcP6/tAy5BnFYIg==','1976-07-23'); 
 
-INSERT INTO PATIENT(surname,name,login,password, gender, date_of_birth)   
+INSERT INTO PATIENT(surname,name,login,password, date_of_birth)   
 VALUES ('Кукушкин','Федор','pat2@mail.com','Ac/NT2uHcP6/tAy5BnFYIg==', '1956-12-03');
 
 INSERT INTO PATIENT(surname,name,lastname,login,password,date_of_birth,gender_woman )   

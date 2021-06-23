@@ -70,6 +70,22 @@ namespace Diet.Models
                 var pd =await db.DishesProducts.Where(p => p.IdDish == di.IdDish).ToListAsync();
                 db.DishesProducts.RemoveRange(pd);
             }
+            if (db.Menu.Where(p => p.IdDish == dish.IdDish).Count()!= 0)
+            {
+                var menu = await db.Menu.Where(p => p.IdDish == dish.IdDish).ToListAsync();
+                var meals = new List<Meal>();
+                foreach(var meal in menu)
+                {
+
+                    if (db.Meals.Where(p => p.IdMenu == meal.IdMenu).Count() != 0)
+                    {
+                        db.Meals.Remove(db.Meals.First(p => p.IdMenu == meal.IdMenu));
+                        db.SaveChanges();
+                    }
+                    db.Menu.Remove(meal);
+                    db.SaveChanges();
+                }
+            }
             db.Dishes.Remove(di);
             db.SaveChanges();
         }
